@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "617190394411",
+    "project_id": "pet-hub-e2aae",
+    "storage_bucket": "pet-hub-e2aae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617190394411:android:103f9e6a310615c1e8786e",
+        "android_client_info": {
+          "package_name": "comp5216.sydney.edu.au.pethub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvLlqZE_x_Z8i6jMlZ00KEvltzTijhlxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
