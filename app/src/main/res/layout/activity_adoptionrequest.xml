@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f5f5f5">
+
+    <!-- Top Bar with Menu and Pet Profile -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#a3aa7f"
+        android:padding="16dp">
+
+        <!-- Menu Icon -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu"
+            android:contentDescription="Menu"
+            android:layout_gravity="start" />
+    </LinearLayout>
+
+    <!-- Pet Profile Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="#ffffff">
+
+        <!-- Pet Image -->
+        <ImageView
+            android:id="@+id/pet_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_pet_image"
+            android:contentDescription="Pet Image"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Pet Info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pet_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daisy"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pet_breed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cavalier King Charles Spaniel"
+                android:textSize="14sp"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/pet_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 Years"
+                android:textSize="14sp"
+                android:textColor="#888888" />
+        </LinearLayout>
+
+        <!-- Gender Icon -->
+        <ImageView
+            android:id="@+id/gender_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_gender_female"
+            android:contentDescription="Pet Gender"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <!-- Messages from Adopters -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Message Item 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="#ffffff"
+            android:layout_marginBottom="8dp">
+
+            <!-- Adopter Profile Image -->
+            <ImageView
+                android:id="@+id/adopter_image_1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_profile_jimmy"
+                android:contentDescription="Adopter Profile Image"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp" />
+
+            <!-- Adopter Info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/adopter_name_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jimmy Zhang"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/adopter_message_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hi, I want to adopt Daisy"
+                    android:textSize="14sp"
+                    android:textColor="#888888" />
+            </LinearLayout>
+
+            <!-- Message Timestamp -->
+            <TextView
+                android:id="@+id/message_time_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18:01"
+                android:textSize="14sp"
+                android:textColor="#888888"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <!-- Message Item 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="#ffffff"
+            android:layout_marginBottom="8dp">
+
+            <!-- Adopter Profile Image -->
+            <ImageView
+                android:id="@+id/adopter_image_2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_profile_darina"
+                android:contentDescription="Adopter Profile Image"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp" />
+
+            <!-- Adopter Info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/adopter_name_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Darina"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/adopter_message_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hi, I want to adopt Daisy"
+                    android:textSize="14sp"
+                    android:textColor="#888888" />
+            </LinearLayout>
+
+            <!-- Message Timestamp -->
+            <TextView
+                android:id="@+id/message_time_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15:01"
+                android:textSize="14sp"
+                android:textColor="#888888"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#a3aa7f"
+        android:padding="16dp">
+
+        <!-- Home Button -->
+        <Button
+            android:id="@+id/btn_home"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_home"
+            android:text="Home"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent" />
+
+        <!-- Search Button -->
+        <Button
+            android:id="@+id/btn_search_bottom"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_search"
+            android:text="Search"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent" />
+
+        <!-- Post Button -->
+        <Button
+            android:id="@+id/btn_post"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_post"
+            android:text="Post"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent" />
+
+        <!-- Blog Button -->
+        <Button
+            android:id="@+id/btn_blog"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_blog"
+            android:text="Blog"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent" />
+
+        <!-- Account Button -->
+        <Button
+            android:id="@+id/btn_account"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_account"
+            android:text="Account"
+            android:textColor="#ffffff"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+
+</LinearLayout>
