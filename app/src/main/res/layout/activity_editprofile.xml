@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d4d8aa"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Back"
+            android:layout_gravity="start" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:paddingBottom="16dp" />
+
+        <!-- Profile Picture -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/profile_picture"
+            android:contentDescription="Profile Picture"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_background"
+            android:padding="4dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Change Profile Picture Button -->
+        <Button
+            android:id="@+id/btn_change_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Profile Picture"
+            android:textColor="#000000"
+            android:backgroundTint="#ffffff"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Name Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mathew Parry"
+            android:backgroundTint="#d4d8aa"
+            android:drawableEnd="@drawable/ic_edit"
+            android:textColor="#000000"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Email Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edit_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="mathewperry0001@gmail.com"
+            android:backgroundTint="#d4d8aa"
+            android:drawableEnd="@drawable/ic_edit"
+            android:textColor="#000000"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Location Dropdowns -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select your location"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- State Dropdown -->
+        <Spinner
+            android:id="@+id/spinner_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:layout_marginBottom="8dp" />
+
+        <!-- City Dropdown -->
+        <Spinner
+            android:id="@+id/spinner_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Suburb Dropdown -->
+        <Spinner
+            android:id="@+id/spinner_suburb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Save Changes Button -->
+        <Button
+            android:id="@+id/btn_save_changes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Changes"
+            android:backgroundTint="#a3aa7f"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f5f5f5">
+
+    <!-- Top Bar with Back Button and User Info -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#a3aa7f"
+        android:padding="16dp"
+        android:gravity="center">
+
+        <!-- User Image -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_profile"
+            android:contentDescription="Profile Image"
+            android:layout_gravity="center" />
+
+        <!-- User Name -->
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jimmy Zhang"
+            android:textSize="24sp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="8dp" />
+
+        <!-- User Location -->
+        <TextView
+            android:id="@+id/user_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sydney NSW"
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- Form Fields for Contact Information -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Email Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="pethub@Gmail.com"
+            android:backgroundTint="#d4d8aa"
+            android:padding="8dp"
+            android:textColor="#000000"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Phone Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone:"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0466123455"
+            android:backgroundTint="#d4d8aa"
+            android:padding="8dp"
+            android:textColor="#000000"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Address Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address:"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="160 city Road, Darlington NSW 2008, Sydney"
+            android:backgroundTint="#d4d8aa"
+            android:padding="8dp"
+            android:textColor="#000000"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Message to Owner Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message to owner/ something about you:"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="I'm a responsible, caring individual who loves animals. I have a stable home and plenty of time to give a pet love and attention."
+            android:backgroundTint="#d4d8aa"
+            android:padding="8dp"
+            android:textColor="#000000"
+            android:minLines="4"
+            android:gravity="top"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+
+    <!-- Disclaimer Text -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your information may be shared with the owner. If selected, they can contact you directly via email or phone."
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:padding="16dp"
+        android:gravity="center" />
+
+    <!-- Send to Owner Button -->
+    <Button
+        android:id="@+id/send_to_owner_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send to the owner"
+        android:backgroundTint="#a3aa7f"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:padding="16dp"
+        android:layout_gravity="bottom" />
+</LinearLayout>

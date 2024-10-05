@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f5f5f5">
+
+    <!-- Top Bar with Back Button and Title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#a3aa7f"
+        android:padding="16dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Back"
+            android:layout_gravity="start" />
+
+        <!-- Page Title -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Share your story ~"
+            android:textSize="24sp"
+            android:textColor="#ffffff"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Pet Selection Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Select Pet Dropdown -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Your Pet"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/select_pet_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Pet Image Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Pet Image -->
+            <ImageView
+                android:id="@+id/pet_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_pet_image"
+                android:contentDescription="Pet Image"
+                android:layout_marginEnd="16dp" />
+
+            <!-- Add Image Button -->
+            <ImageView
+                android:id="@+id/add_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_add_image"
+                android:contentDescription="Add Image"
+                android:background="@drawable/gray_square"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Story Section -->
+        <EditText
+            android:id="@+id/story_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Story Title"
+            android:text="Daisy's happy day !!!"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:backgroundTint="#d4d8aa"
+            android:padding="8dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/story_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write your story..."
+            android:text="Daisy made a new friend at the dog park today, they rolled around and play with each other. Daisy enjoyed herself on running after the ball, she didn’t want to go home at all!!!"
+            android:backgroundTint="#d4d8aa"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:padding="8dp"
+            android:minLines="4"
+            android:gravity="top"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+    <!-- Location Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Location Icon -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_location"
+            android:contentDescription="Location Icon"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Location Text -->
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Burwood, Sydney"
+            android:textSize="16sp"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <!-- Post Blog Button -->
+    <Button
+        android:id="@+id/post_blog_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post New Blog"
+        android:backgroundTint="#a3aa7f"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:padding="16dp"
+        android:layout_gravity="center"
+        android:layout_margin="16dp" />
+
+</LinearLayout>
