@@ -193,7 +193,8 @@
         android:text="Daisy was abandoned after six months by his owner because he consumed more food than they expected him to eat. She still cuddles around them, even despite being chased. Now she is fed by my sister-in-law but she deserves a loving family."
         android:textSize="14sp"
         android:textColor="#000000"
-        android:lineSpacingExtra="4dp" />
+        android:lineSpacingExtra="4dp"
+        android:layout_weight="1" />
 
     <!-- Adoption Button -->
     <Button
@@ -207,4 +208,5 @@
         android:padding="16dp"
         android:layout_gravity="center"
         android:layout_margin="16dp" />
+
 </LinearLayout>
