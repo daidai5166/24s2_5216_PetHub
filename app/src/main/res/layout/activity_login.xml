@@ -1,117 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#d4d8aa"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center">
 
+    <!-- Top Empty Section to Adapt to Screen -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Main Section with Welcome Message and Dog Image -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginBottom="16dp"
+        android:background="#a3aa7f"
         android:gravity="center"
-        android:padding="16dp">
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="24dp">
 
-        <!-- Top Section with Welcome Message and Dog Image -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="#a3aa7f"
-            android:paddingBottom="24dp"
-            android:layout_marginBottom="16dp">
-
-            <!-- Welcome Text -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hi Welcome Back"
-                android:textSize="24sp"
-                android:textColor="#ffffff"
-                android:fontFamily="sans-serif"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:gravity="center" />
-
-            <!-- Dog Image -->
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/ic_dog_image"
-                android:contentDescription="Dog Image"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <!-- Email Field -->
+        <!-- Welcome Text -->
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:textColor="#74875e"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp" />
-
-        <EditText
-            android:id="@+id/edit_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="mathewperry0001@gmail.com"
-            android:backgroundTint="#a3aa7f"
-            android:textColor="#000000"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Password Field -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            android:textColor="#74875e"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp" />
-
-        <EditText
-            android:id="@+id/edit_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:backgroundTint="#a3aa7f"
-            android:inputType="textPassword"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Forgot Password -->
-        <TextView
-            android:id="@+id/txt_forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forgot Password?"
-            android:textColor="#74875e"
-            android:layout_gravity="end"
-            android:textSize="14sp"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Sign In Button -->
-        <Button
-            android:id="@+id/btn_sign_in"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign in"
-            android:backgroundTint="#a3aa7f"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="Hi Welcome Back"
             android:textColor="#ffffff"
-            android:textAllCaps="false"
-            android:layout_marginBottom="16dp" />
+            android:textSize="24sp" />
 
-        <!-- Sign Up Button -->
-        <Button
-            android:id="@+id/btn_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign up"
-            android:backgroundTint="#e0e0e0"
-            android:textColor="#999999"
-            android:textAllCaps="false" />
-
+        <!-- Dog Image -->
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:contentDescription="Dog Image"
+            android:src="@drawable/ic_dog_image" />
     </LinearLayout>
-</ScrollView>
+
+    <!-- Email Field -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textColor="#74875e"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="mathewperry0001@gmail.com"
+        android:backgroundTint="#a3aa7f"
+        android:textColor="#000000"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Password Field -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:textColor="#74875e"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:backgroundTint="#a3aa7f"
+        android:inputType="textPassword"
+        android:textColor="#000000"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Forgot Password -->
+    <TextView
+        android:id="@+id/txt_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot Password?"
+        android:textColor="#74875e"
+        android:layout_gravity="end"
+        android:textSize="14sp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Sign In Button -->
+    <Button
+        android:id="@+id/btn_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign in"
+        android:backgroundTint="#a3aa7f"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Sign Up Button -->
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:backgroundTint="#e0e0e0"
+        android:textColor="#999999"
+        android:textAllCaps="false" />
+
+    <!-- Bottom Empty Section to Adapt to Screen -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
