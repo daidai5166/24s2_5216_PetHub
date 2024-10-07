@@ -15,6 +15,7 @@
         android:layout_marginBottom="16dp" />
 
     <!-- Carousel Dots (Indicator) -->
+    <!--  1234  -->
     <LinearLayout
         android:id="@+id/indicator_layout"
         android:layout_width="wrap_content"
