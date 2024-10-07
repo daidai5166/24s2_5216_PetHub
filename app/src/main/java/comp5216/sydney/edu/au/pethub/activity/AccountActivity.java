@@ -24,7 +24,7 @@ public class AccountActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // 设置 account界面 Edit Profile 的点击事件监听器
+        // 设置 account界面 Edit Profile 的点击事件监听
         findViewById(R.id.tv_edit_profile).setOnClickListener(v -> {
             Intent intent = new Intent(AccountActivity.this, EditProfileActivity.class);
             startActivity(intent);
