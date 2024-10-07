@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/gray_square">
 
-        <!-- 上传图标 -->
+        <!-- upload icon -->
         <ImageView
             android:id="@+id/upload_icon"
             android:layout_width="48dp"
