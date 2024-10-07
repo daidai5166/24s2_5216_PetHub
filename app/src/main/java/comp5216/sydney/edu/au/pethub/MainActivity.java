@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.content.Intent;
+import comp5216.sydney.edu.au.pethub.activity.AccountActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        // 获取 Account 按钮并设置点击事件
+        findViewById(R.id.btn_account).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            startActivity(intent);
         });
     }
 }
