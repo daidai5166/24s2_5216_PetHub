@@ -22,11 +22,12 @@
             android:layout_alignParentTop="true" />
 
         <!-- Pet Image -->
+        <!-- android:src="@drawable/ic_pet_image" -->
         <ImageView
             android:id="@+id/pet_image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:src="@drawable/ic_pet_image"
+
             android:contentDescription="Pet Image"
             android:scaleType="centerCrop"
             android:layout_centerInParent="true"
@@ -125,9 +126,9 @@
         <!-- Gender -->
         <ImageView
             android:id="@+id/gender_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_gender_male"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_gender_female"
             android:contentDescription="Pet Gender"
             android:layout_gravity="center_vertical" />
     </LinearLayout>
@@ -141,11 +142,12 @@
         android:padding="16dp">
 
         <!-- Owner Profile Picture -->
+        <!-- android:src="@drawable/ic_owner_profile" -->
         <ImageView
             android:id="@+id/owner_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_owner_profile"
+
             android:contentDescription="Owner Profile Picture"
             android:layout_marginEnd="16dp" />
 
