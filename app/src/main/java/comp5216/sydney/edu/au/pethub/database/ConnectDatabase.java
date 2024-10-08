@@ -341,4 +341,22 @@ public class ConnectDatabase {
                 .get()
                 .addOnSuccessListener(successListener);
     }
+
+    // 获取博客 - 通过博客标题 (blogTitle) 获取
+    public void getBlogsByTitle(String blogTitle, OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
+        db.collection("Blog")
+                .whereEqualTo("blogTitle", blogTitle)  // 按标题查询
+                .get()
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+
+    // 获取博客 - 通过宠物名字 (petName) 获取
+    public void getBlogsByPetName(String petName, OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
+        db.collection("Blog")
+                .whereEqualTo("petName", petName)  // 按宠物名字查询
+                .get()
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
 }
