@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/abeezeeitalic</item> <!--  Android 8.0 version and above -->
+        <item name="fontFamily">@font/abeezeeitalic</item> <!-- old version -->
+    </style>
+</resources>

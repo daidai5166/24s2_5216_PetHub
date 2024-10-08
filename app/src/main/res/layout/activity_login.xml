@@ -41,7 +41,7 @@
             android:layout_height="150dp"
             android:layout_gravity="center"
             android:contentDescription="Dog Image"
-            android:src="@drawable/ic_dog_image" />
+            android:src="@drawable/ic_dog" />
     </LinearLayout>
 
     <!-- Email Field -->
