@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#f5f5f5">
+    android:background="#f5f5f5"
+    tools:context=".activity.MypetsActivity">
 
     <!-- Top Bar with Back Button and Title -->
     <LinearLayout
@@ -214,28 +217,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btn_add_new_pet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add New Pet"
-            android:backgroundTint="#a3aa7f"
-            android:textColor="#ffffff"
-            android:textAllCaps="false"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp" />
-
-        <Button
-            android:id="@+id/btn_post_new_blog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Post New Blog"
-            android:backgroundTint="#a3aa7f"
-            android:textColor="#ffffff"
-            android:textAllCaps="false"
-            android:padding="16dp" />
-    </LinearLayout>
+        android:gravity="center"/>
 
 </LinearLayout>

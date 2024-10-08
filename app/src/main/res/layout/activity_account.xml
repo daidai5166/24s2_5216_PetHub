@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#f5f5f5"
-
     tools:context=".activity.AccountActivity">
 
     <!-- Top Bar with Settings Title and Profile Picture -->
@@ -67,6 +66,7 @@
     <!-- List of Settings Options -->
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/ll_list"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_above="@id/bottom_navigation_bar"
@@ -136,15 +136,39 @@
 
             <ImageView
                 android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_myblog"
-                android:contentDescription="My Blog" />
+                android:layout_height="wrap_content"
+                android:contentDescription="My Blog"
+                android:src="@drawable/ic_myblog" />
 
             <TextView
                 android:id="@+id/tv_my_blog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Blog"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:paddingStart="16dp" />
+        </LinearLayout>
+
+        <!-- My Message Option -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="My Message"
+                android:src="@drawable/ic_myblog" />
+
+            <TextView
+                android:id="@+id/tv_my_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Message"
                 android:textSize="18sp"
                 android:textColor="#000000"
                 android:paddingStart="16dp" />
@@ -199,6 +223,14 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+    </LinearLayout>
+
     <!-- Bottom Navigation Bar -->
     <LinearLayout
         android:id="@+id/bottom_navigation_bar"
@@ -208,7 +240,8 @@
         android:background="#a3aa7f"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:layout_marginBottom="16dp">
 
         <!-- Home Button -->
         <Button
