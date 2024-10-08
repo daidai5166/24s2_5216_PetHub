@@ -13,10 +13,10 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".activity.NewActivity"
+            android:name=".activity.MyBlogsActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.MyBlogsActivity"
+            android:name=".activity.NewActivity"
             android:exported="false" />
         <!--
              Before you run your application, you need a Google Maps API key.

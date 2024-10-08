@@ -34,5 +34,10 @@ public class AccountActivity extends AppCompatActivity {
             Intent intent = new Intent(AccountActivity.this, MyPetsActivity.class);
             startActivity(intent);
         });
+        // 设置 account界面 My Blog 的点击事件监听器
+        findViewById(R.id.tv_my_blog).setOnClickListener(v -> {
+            Intent intent = new Intent(AccountActivity.this, MyBlogsActivity.class);
+            startActivity(intent);
+        });
     }
 }
