@@ -47,10 +47,12 @@
         android:gravity="center_vertical">
 
         <!-- Pet Image -->
+        <!-- android:src="@drawable/Daisy_pet_image" -->
+
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/Daisy_pet_image"
+
             android:scaleType="centerCrop"
             android:layout_marginEnd="16dp" />
 
@@ -112,10 +114,12 @@
             android:gravity="center_vertical">
 
             <!-- Sender Image -->
+            <!-- android:src="@drawable/sample_user_image" -->
+
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/sample_user_image"
+
                 android:scaleType="centerCrop"
                 android:layout_marginEnd="16dp" />
 
@@ -163,10 +167,11 @@
             android:gravity="center_vertical">
 
             <!-- Sender Image -->
+            <!-- android:src="@drawable/sample_user_image" -->
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/sample_user_image"
+
                 android:scaleType="centerCrop"
                 android:layout_marginEnd="16dp" />
 
