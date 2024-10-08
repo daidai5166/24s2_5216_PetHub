@@ -8,13 +8,13 @@
     >
 
     <!-- ViewPager for Image Carousel -->
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginBottom="16dp"
         android:layout_weight="1"
-        android:background="@drawable/ic_welcome1" />
+         />
 
     <!-- Carousel Dots (Indicator) -->
     <LinearLayout
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Adopting instead of buying"
-        android:textSize="22sp"
+        android:textSize="27sp"
         android:textColor="#ffffff"
         android:layout_gravity="center"
         android:fontFamily="sans-serif-medium"
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="We will help you to choose your lovely pet. Save a life. Adopt a pet."
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textColor="#f0f0f0"
         android:layout_gravity="center"
         android:fontFamily="sans-serif"
