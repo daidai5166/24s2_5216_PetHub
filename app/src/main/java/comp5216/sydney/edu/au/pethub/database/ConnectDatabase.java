@@ -154,6 +154,33 @@
  *     private void deleteBlogExample(String blogId) {
  *         db.deleteBlog(blogId);
  *     }
+ *
+ *     // 示例 11: 上传用户头像
+ *         uploadUserAvatarBtn.setOnClickListener(v -> {
+ *             if (imageUri != null) {
+ *                 connectDatabase.uploadUserAvatar(userName, imageUri,
+ *                         uri -> Log.d("UploadImageActivity", "Avatar uploaded, URL: " + uri.toString()),
+ *                         e -> Log.e("UploadImageActivity", "Failed to upload avatar", e));
+ *             }
+ *         });
+ *
+ *     // 示例 12: 上传宠物图片
+ *         uploadPetImageBtn.setOnClickListener(v -> {
+ *             if (imageUri != null) {
+ *                 connectDatabase.uploadPetImage(petName, imageUri,
+ *                         uri -> Log.d("UploadImageActivity", "Pet image uploaded, URL: " + uri.toString()),
+ *                         e -> Log.e("UploadImageActivity", "Failed to upload pet image", e));
+ *             }
+ *         });
+ *
+ *     // 示例 13: 上传博客图片
+ *         uploadBlogImageBtn.setOnClickListener(v -> {
+ *             if (imageUri != null) {
+ *                 connectDatabase.uploadBlogImage(blogTitle, imageUri,
+ *                         uri -> Log.d("UploadImageActivity", "Blog image uploaded, URL: " + uri.toString()),
+ *                         e -> Log.e("UploadImageActivity", "Failed to upload blog image", e));
+ *             }
+ *         });
  * }
  * */
 
@@ -165,10 +192,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import android.util.Log;
-import java.util.List;
+import android.net.Uri;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -177,10 +208,13 @@ import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
 public class ConnectDatabase {
     private FirebaseFirestore db;
-    private static final String TAG = "FirestoreDatabase";
+    private FirebaseStorage storage;
+    private static final String TAG_FIRESTORE = "FirestoreDatabase";
+    private static final String TAG_STORAGE = "FirebaseStorage";
 
     public ConnectDatabase() {
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
     }
 
     // CRUD for Pet Adoption Post (宠物领养贴)
@@ -211,19 +245,19 @@ public class ConnectDatabase {
         pet.put("interestedUserIds", interestedUserIds);
         pet.put("blogTitles", blogTitles);
 
-        pets.add(pet).addOnSuccessListener(documentReference -> Log.d(TAG, "Pet Adoption Post added with ID: " + documentReference.getId()));
+        pets.add(pet).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Pet Adoption Post added with ID: " + documentReference.getId()));
     }
 
     public void deletePetAdoptionPost(String postId) {
         db.collection("PetAdoptionPost").document(postId)
                 .delete()
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Pet Adoption Post deleted successfully"));
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Pet Adoption Post deleted successfully"));
     }
 
     public void updatePetAdoptionPost(String postId, Map<String, Object> updates) {
         db.collection("PetAdoptionPost").document(postId)
                 .update(updates)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Pet Adoption Post updated successfully"));
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Pet Adoption Post updated successfully"));
     }
 
     public void getPetAdoptionPosts(OnSuccessListener<QuerySnapshot> successListener) {
@@ -248,7 +282,7 @@ public class ConnectDatabase {
         user.put("address", address);
         user.put("avatarPath", avatarPath);
 
-        users.add(user).addOnSuccessListener(documentReference -> Log.d(TAG, "User added with ID: " + documentReference.getId()));
+        users.add(user).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "User added with ID: " + documentReference.getId()));
     }
 
     public void getUserByEmail(String email, OnSuccessListener<User> successListener, OnFailureListener failureListener) {
@@ -282,13 +316,13 @@ public class ConnectDatabase {
     public void deleteUser(String userId) {
         db.collection("Users").document(userId)
                 .delete()
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "User deleted successfully"));
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "User deleted successfully"));
     }
 
     public void updateUser(String userId, Map<String, Object> updates) {
         db.collection("Users").document(userId)
                 .update(updates)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "User updated successfully"));
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "User updated successfully"));
     }
 
     public void getUsers(OnSuccessListener<QuerySnapshot> successListener) {
@@ -321,19 +355,19 @@ public class ConnectDatabase {
         blog.put("likedUsers", likedUsers);
         blog.put("photoPath", photoPath);
 
-        blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG, "Blog added with ID: " + documentReference.getId()));
+        blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Blog added with ID: " + documentReference.getId()));
     }
 
     public void deleteBlog(String blogId) {
         db.collection("Blog").document(blogId)
                 .delete()
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Blog deleted successfully"));
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Blog deleted successfully"));
     }
 
     public void updateBlog(String blogId, Map<String, Object> updates) {
         db.collection("Blog").document(blogId)
                 .update(updates)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Blog updated successfully"));
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Blog updated successfully"));
     }
 
     public void getBlogs(OnSuccessListener<QuerySnapshot> successListener) {
@@ -358,5 +392,41 @@ public class ConnectDatabase {
                 .get()
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
+    }
+
+    // 上传用户头像
+    public void uploadUserAvatar(String userName, Uri avatarUri, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+        StorageReference storageRef = storage.getReference();
+        StorageReference avatarRef = storageRef.child("Users/" + userName + "/avatar.jpg");
+
+        UploadTask uploadTask = avatarRef.putFile(avatarUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            avatarRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
+            Log.d(TAG_STORAGE, "User avatar uploaded for: " + userName);
+        }).addOnFailureListener(failureListener);
+    }
+
+    // 上传宠物图片
+    public void uploadPetImage(String petName, Uri petImageUri, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+        StorageReference storageRef = storage.getReference();
+        StorageReference petImageRef = storageRef.child("Pets/" + petName + "/image.jpg");
+
+        UploadTask uploadTask = petImageRef.putFile(petImageUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            petImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
+            Log.d(TAG_STORAGE, "Pet image uploaded for: " + petName);
+        }).addOnFailureListener(failureListener);
+    }
+
+    // 上传博客图片
+    public void uploadBlogImage(String blogTitle, Uri blogImageUri, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+        StorageReference storageRef = storage.getReference();
+        StorageReference blogImageRef = storageRef.child("Blogs/" + blogTitle + "/image.jpg");
+
+        UploadTask uploadTask = blogImageRef.putFile(blogImageUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            blogImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
+            Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogTitle);
+        }).addOnFailureListener(failureListener);
     }
 }
