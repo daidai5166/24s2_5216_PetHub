@@ -13,14 +13,15 @@
         android:background="#a3aa7f"
         android:padding="16dp">
 
-        <!-- Back Button -->
-        <ImageView
+        <!-- Back Button  -->
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
+            android:background="@android:color/transparent"
             android:contentDescription="Back"
             android:layout_gravity="start" />
-
+        <!-- android:src="@drawable/ic_back"-->
         <!-- Page Title -->
         <TextView
             android:layout_width="0dp"
@@ -62,20 +63,22 @@
             android:gravity="center">
 
             <!-- Pet Image -->
+            <!-- android:src="@drawable/ic_add_image"-->
             <ImageView
                 android:id="@+id/pet_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/ic_pet_image"
+
                 android:contentDescription="Pet Image"
                 android:layout_marginEnd="16dp" />
 
             <!-- Add Image Button -->
+            <!-- android:src="@drawable/ic_add_image"-->
             <ImageView
                 android:id="@+id/add_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/ic_add_image"
+
                 android:contentDescription="Add Image"
                 android:background="@drawable/gray_square"
                 android:gravity="center" />
@@ -120,11 +123,11 @@
 
         <!-- Location Icon -->
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:contentDescription="Location Icon"
-            android:layout_marginEnd="8dp" />
+            android:src="@drawable/ic_location" />
 
         <!-- Location Text -->
         <TextView
