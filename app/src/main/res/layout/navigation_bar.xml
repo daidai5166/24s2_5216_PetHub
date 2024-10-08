@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="#a3aa7f"
+    android:padding="16dp"
+    >
+
+    <!-- Home Button -->
+    <android.widget.Button
+        android:id="@+id/btn_home"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_home"
+        android:text="Home"
+        android:textColor="#ffffff" />
+
+    <!-- Search Button -->
+    <android.widget.Button
+        android:id="@+id/btn_search_bottom"
+        android:layout_width="1dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_search"
+        android:text="Search"
+        android:textColor="#ffffff"
+        android:background="@android:color/transparent" />
+
+    <!-- Post Button -->
+    <android.widget.Button
+        android:id="@+id/btn_post"
+        android:layout_width="1dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_post"
+        android:text="Post"
+        android:textColor="#ffffff"
+        android:background="@android:color/transparent" />
+
+    <!-- Blog Button -->
+    <android.widget.Button
+        android:id="@+id/btn_blog"
+        android:layout_width="1dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_blog"
+        android:text="Blog"
+        android:textColor="#ffffff"
+        android:background="@android:color/transparent" />
+
+    <!-- Account Button -->
+    <android.widget.Button
+        android:id="@+id/btn_account"
+        android:layout_width="1dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_account"
+        android:text="Account"
+        android:textColor="#ffffff"
+        android:background="@android:color/transparent" />
+</LinearLayout>
