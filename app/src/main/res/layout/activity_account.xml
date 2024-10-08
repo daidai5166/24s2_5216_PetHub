@@ -42,6 +42,7 @@
             android:padding="8dp">
         <!-- Title -->
             <TextView
+                android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -51,6 +52,7 @@
                 android:gravity="center"
                 android:layout_marginBottom="10dp"/>
             <TextView
+                android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"

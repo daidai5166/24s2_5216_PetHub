@@ -159,9 +159,10 @@
 
 package comp5216.sydney.edu.au.pethub.database;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -170,6 +171,9 @@ import java.util.List;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import comp5216.sydney.edu.au.pethub.model.User;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
 public class ConnectDatabase {
     private FirebaseFirestore db;
@@ -245,6 +249,34 @@ public class ConnectDatabase {
         user.put("avatarPath", avatarPath);
 
         users.add(user).addOnSuccessListener(documentReference -> Log.d(TAG, "User added with ID: " + documentReference.getId()));
+    }
+
+    public void getUserByEmail(String email, OnSuccessListener<User> successListener, OnFailureListener failureListener) {
+        db.collection("Users")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+
+                        // 按需提取字段
+                        String username = documentSnapshot.getString("userName");
+                        String emailFromDb = documentSnapshot.getString("email");
+                        String gender = documentSnapshot.getString("gender");
+                        int phone = Math.toIntExact(documentSnapshot.getLong("phone"));
+                        String address = documentSnapshot.getString("address");
+                        String avatarPath = documentSnapshot.getString("avatarPath");
+
+                        // 创建 User 对象
+                        User user = new User(username, emailFromDb, gender, phone, address, avatarPath);
+
+                        // 调用回调函数传递 User 对象
+                        successListener.onSuccess(user);
+                    } else {
+                        successListener.onSuccess(null);  // 查询结果为空时
+                    }
+                })
+                .addOnFailureListener(failureListener);
     }
 
     public void deleteUser(String userId) {

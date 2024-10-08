@@ -9,14 +9,25 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import comp5216.sydney.edu.au.pethub.MainActivity;
 import comp5216.sydney.edu.au.pethub.R;
+import comp5216.sydney.edu.au.pethub.model.User;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
+
 
 public class AccountActivity extends AppCompatActivity {
+    private FirebaseUser user;
+    private User myUser;
+
+    private TextView usernameField;
+    private TextView emailField;
+
+    private MyApp myApp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +38,27 @@ public class AccountActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        myApp = (MyApp) getApplication();
+        myUser = myApp.getUser();
+
+        usernameField = findViewById(R.id.tv_user_name);
+        emailField = findViewById(R.id.tv_email);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (myUser != null) {
+            // User is signed in
+            usernameField.setText(myUser.getUsername());
+            emailField.setText("Email: " + myUser.getEmail());
+        } else {
+            // No user is signed in
+            Intent intent = new Intent(AccountActivity.this, SignInActivity.class);
+            startActivity(intent);
+        };
         // 设置 account界面 Edit Profile 的点击事件监听
         findViewById(R.id.tv_edit_profile).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, EditprofileActivity.class);
-            startActivity(intent);
-        });
+                    Intent intent = new Intent(AccountActivity.this, EditprofileActivity.class);
+                    startActivity(intent);
+                });
         // 设置 account界面 My Pet 的点击事件监听器
         findViewById(R.id.tv_my_pet).setOnClickListener(v -> {
             Intent intent = new Intent(AccountActivity.this, MypetsActivity.class);

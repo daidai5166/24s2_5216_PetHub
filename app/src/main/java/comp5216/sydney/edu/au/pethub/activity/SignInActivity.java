@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import comp5216.sydney.edu.au.pethub.R;
+import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
 public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -29,6 +31,7 @@ public class SignInActivity extends AppCompatActivity {
     private Button mSignUpButton;
     private String email;
     private String password;
+    private ConnectDatabase connectDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class SignInActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        connectDatabase = new ConnectDatabase();
     }
 
     public void onSignInClick(View v) {
@@ -65,14 +69,28 @@ public class SignInActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("Firebase Auth", "signInWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(SignInActivity.this, "Authentication success.",
-                                Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SignInActivity.this, AccountActivity.class);
-                        startActivity(intent);
-                        finish();
+                        // 设置全局User对象
+                        MyApp app = (MyApp) getApplication();
+
+                        connectDatabase.getUserByEmail(email, user -> {
+                            if (user != null) {
+                                Log.d("User Info", "User found: " + user.getUsername());
+                                app.setUser(user);
+                            } else {
+                                Log.d("User Info", "User not found.");
+                            }
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("Firebase Auth", "signInWithEmail:success");
+                            Toast.makeText(SignInActivity.this, "Authentication success.",
+                                    Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignInActivity.this, AccountActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }, e -> {
+                            Log.e("Error", "Error fetching user");
+                            Toast.makeText(SignInActivity.this, "Incorrect email or password.",
+                                    Toast.LENGTH_SHORT).show();
+                        });
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("Firebase Auth", "signInWithEmail:failure", task.getException());
@@ -85,7 +103,6 @@ public class SignInActivity extends AppCompatActivity {
     public void onSignUpClick(View v) {
         Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void onForgotPasswordClick(View v) {
