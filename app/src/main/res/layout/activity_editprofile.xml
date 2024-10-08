@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#d4d8aa"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".activity.EditprofileActivity">
 
     <!-- Top Empty Space to Adjust Layout -->
     <Space
@@ -40,13 +43,14 @@
             android:paddingBottom="16dp" />
 
         <!-- Profile Picture -->
+        <!-- android:background="@drawable/circle_background"-->
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/profile_picture"
+            android:src="@drawable/ic_dog"
             android:contentDescription="Profile Picture"
             android:layout_gravity="center"
-            android:background="@drawable/circle_background"
+
             android:padding="4dp"
             android:layout_marginBottom="16dp" />
 

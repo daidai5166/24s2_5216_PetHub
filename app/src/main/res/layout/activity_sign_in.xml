@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:background="#d4d8aa"
     android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:id="@+id/main">
 
     <!-- Top Empty Section to Adapt to Screen -->
     <Space
@@ -41,7 +42,7 @@
             android:layout_height="150dp"
             android:layout_gravity="center"
             android:contentDescription="Dog Image"
-            android:src="@drawable/ic_dog_image" />
+            android:src="@drawable/ic_dog" />
     </LinearLayout>
 
     <!-- Email Field -->
@@ -90,7 +91,8 @@
         android:textColor="#74875e"
         android:layout_gravity="end"
         android:textSize="14sp"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="24dp"
+        android:onClick="onForgotPasswordClick" />
 
     <!-- Sign In Button -->
     <Button
@@ -101,7 +103,8 @@
         android:backgroundTint="#a3aa7f"
         android:textColor="#ffffff"
         android:textAllCaps="false"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:onClick="onSignInClick"/>
 
     <!-- Sign Up Button -->
     <Button
@@ -111,7 +114,8 @@
         android:text="Sign up"
         android:backgroundTint="#e0e0e0"
         android:textColor="#999999"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:onClick="onSignUpClick"/>
 
     <!-- Bottom Empty Section to Adapt to Screen -->
     <Space
