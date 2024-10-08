@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".singleton.MyApp"
         android:theme="@style/AppTheme"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,7 +14,37 @@
         android:supportsRtl="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.PetdetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PetblogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PostpetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MypetsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.FindpetsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.EditprofileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MyMessageList"
+            android:exported="false" />
+        <activity
             android:name=".activity.MyBlogsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AccountActivity"
             android:exported="false" />
 
         <!--
@@ -30,6 +61,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAeTkzTFkUB7D0evgPCAzSxFfdx_2ksA6I" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

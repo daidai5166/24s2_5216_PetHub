@@ -8,6 +8,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import comp5216.sydney.edu.au.pethub.activity.AccountActivity;
+import comp5216.sydney.edu.au.pethub.activity.FindpetsActivity;
+import comp5216.sydney.edu.au.pethub.activity.PetblogActivity;
+import comp5216.sydney.edu.au.pethub.activity.PetdetailsActivity;
+import comp5216.sydney.edu.au.pethub.activity.PostpetActivity;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,22 +36,22 @@ public class MainActivity extends AppCompatActivity {
         });
         // Main page 获取 Blog 按钮并设置点击事件
         findViewById(R.id.btn_blog).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, PetBlogActivity.class);
+            Intent intent = new Intent(MainActivity.this, PetblogActivity.class);
             startActivity(intent);
         });
         // Main page 获取 Post 按钮并设置点击事件
         findViewById(R.id.btn_post).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, PostPetActivity.class);
+            Intent intent = new Intent(MainActivity.this, PostpetActivity.class);
             startActivity(intent);
         });
         // Main page 获取 Search bottom 按钮并设置点击事件
         findViewById(R.id.btn_search_bottom).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, FindPetsActivity.class);
+            Intent intent = new Intent(MainActivity.this, FindpetsActivity.class);
             startActivity(intent);
         });
         // Main page 获取另一个顶部的 Search 按钮并设置点击事件
         findViewById(R.id.btn_search).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, FindPetsActivity.class);
+            Intent intent = new Intent(MainActivity.this, FindpetsActivity.class);
             startActivity(intent);
         });
         // Main page 获取 GridView 并设置点击事件
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, PetDetailsActivity.class);
+                Intent intent = new Intent(MainActivity.this, PetdetailsActivity.class);
                 // 可根据点击的项传递宠物的相关数据
                 startActivity(intent);
             }

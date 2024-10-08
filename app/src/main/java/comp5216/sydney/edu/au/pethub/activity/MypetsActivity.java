@@ -14,13 +14,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 import comp5216.sydney.edu.au.pethub.R;
 
-public class MyBlogsActivity extends AppCompatActivity {
-
+public class MypetsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_my_blogs);
+        setContentView(R.layout.activity_mypets);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -32,7 +31,7 @@ public class MyBlogsActivity extends AppCompatActivity {
             // User is signed in
         } else {
             // No user is signed in
-            Intent intent = new Intent(MyBlogsActivity.this, SignInActivity.class);
+            Intent intent = new Intent(MypetsActivity.this, SignInActivity.class);
             startActivity(intent);
         }
     }
