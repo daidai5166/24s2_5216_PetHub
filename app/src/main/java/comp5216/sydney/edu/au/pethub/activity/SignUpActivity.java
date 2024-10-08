@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mEmailField;
     private EditText mPasswordField;
     private EditText mRetypePasswordField;
-    private Button mSignUpButton;
+    private ImageButton mSignUpButton;
 
     private String firstName;
     private String lastName;
