@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu"
+            android:src="@drawable/ic_back"
             android:contentDescription="Menu"
             android:layout_gravity="start" />
 
@@ -124,16 +124,16 @@
                     <!-- Male Gender -->
                     <ImageView
                         android:id="@+id/gender_male"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_gender_male"
                         android:contentDescription="Male" />
 
                     <!-- Female Gender -->
                     <ImageView
                         android:id="@+id/gender_female"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_gender_female"
                         android:contentDescription="Female"
                         android:layout_marginStart="16dp" />
