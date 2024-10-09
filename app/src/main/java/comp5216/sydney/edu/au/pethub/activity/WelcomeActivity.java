@@ -1,5 +1,6 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -13,11 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import comp5216.sydney.edu.au.pethub.MainActivity;
 import comp5216.sydney.edu.au.pethub.R;
 
-public class welcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
+    private android.widget.Button getStartedButton;
     private TextView titleText, descriptionText;
     private Handler handler = new Handler();
 
@@ -46,6 +49,15 @@ public class welcomeActivity extends AppCompatActivity {
 
         // 自动滑动
         autoScrollViewPager();
+        
+        // 获取开始按钮
+        getStartedButton = findViewById(R.id.get_started);
+        getStartedButton.setOnClickListener(v -> {
+            // 跳转到登录页面
+            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     // 自动滑动的函数
