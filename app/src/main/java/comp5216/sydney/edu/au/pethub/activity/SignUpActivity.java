@@ -1,17 +1,20 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.drawable.BitmapDrawable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,18 +23,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
@@ -47,9 +45,10 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mPasswordField;
     private EditText mRetypePasswordField;
     private ImageButton mSignUpButton;
+    private FrameLayout ivPreview;
     private ImageView genderMale, genderFemale;
 
-    private String selectedGender ; // 用来存储选择的性别
+    private String selectedGender = "" ; // 用来存储选择的性别
     private String firstName;
     private String lastName;
     private String email;
@@ -57,6 +56,11 @@ public class SignUpActivity extends AppCompatActivity {
     private String retypePassword;
 
     ConnectDatabase connectDatabase;
+
+    Uri avatarUri;
+    Bitmap scaledAvatar;
+
+    private static final int MY_PERMISSIONS_REQUEST_READ_PHOTOS = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +83,9 @@ public class SignUpActivity extends AppCompatActivity {
         genderFemale = findViewById(R.id.gender_female);
 
         // gender click
-        setGenderSelection(genderMale, genderFemale, "1", "male");
-        setGenderSelection(genderFemale, genderMale, "0", "female");
+        setGenderSelection(genderMale, genderFemale, "M", "male");
+        setGenderSelection(genderFemale, genderMale, "F", "female");
+        ivPreview = findViewById(R.id.upload_button);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -88,6 +93,10 @@ public class SignUpActivity extends AppCompatActivity {
         storageReference = mFirebaseStorage.getReference();
 
         connectDatabase = new ConnectDatabase();
+
+        ivPreview.setOnClickListener(v -> {
+            selectAvatarImage();
+        });
     }
 
 
@@ -95,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
      * 封装性别选择逻辑，包括背景切换和性别值的设置
      * @param selectedView 当前点击的 ImageView（性别图标）
      * @param otherView 另一个性别的 ImageView（需重置背景）
-     * @param genderValue 性别的值，"1" 表示男性，"0" 表示女性
+     * @param genderValue 性别的值，"F" 表示男性，"M" 表示女性
      * @param genderType 性别类型，用于切换背景的标识
      */
     private void setGenderSelection(ImageView selectedView, ImageView otherView, String genderValue, String genderType) {
@@ -131,25 +140,51 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
+        if(selectedGender.isEmpty()) {
+            Toast.makeText(SignUpActivity.this, "Please select your gender.",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (!checkPasswordMatch(password, retypePassword)) {
             return;
         }
 
+        mSignUpButton.setEnabled(false);
+
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
-                    uploadAvatarToFirebase();
-
-                    // TODO: Wait for front-end to finish Gender component
+                    selectAvatarImage();
                     connectDatabase.addUser(
                             firstName + " " + lastName,
                             selectedGender,
                             email,
                             0,
-                            " ",
-                            " ");
-                    // Sign in success, update UI with the signed-in user's information
+                            "",
+                            "", id -> {
+                                // 使用返回的ID作为文件名上传
+                                connectDatabase.uploadUserAvatar(id, scaledAvatar, uri -> {
+                                        Log.d("Firebase", "Avatar uploaded");
+                                    }, e -> {
+                                        Log.e("Error", "Error updating avatar");
+                                    });
+                                }, e -> {
+                                    Log.e("Error", "Error adding user");
+                                });
+
+                    // Sign up success, update UI with the signed-in user's information
                     Log.d("Firebase", "createUserWithEmail:success");
+
+                    Toast.makeText(SignUpActivity.this, "Sign up successfully, " +
+                                    "please sign in your account.",
+                            Toast.LENGTH_SHORT).show();
+                    try {
+                        Thread.sleep(2000); // 等待2秒 (2000毫秒)让用户读完提示信息
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mSignUpButton.setEnabled(true);
                     Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                     startActivity(intent);
                     finish();
@@ -159,6 +194,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Sign up failed, " +
                                     "please try again.",
                             Toast.LENGTH_SHORT).show();
+                    mSignUpButton.setEnabled(true);
                 }
             });
     }
@@ -214,46 +250,42 @@ public class SignUpActivity extends AppCompatActivity {
         return true;
     }
 
-    public void uploadAvatarToFirebase() {
-        // TODO: Wait for Liu to finish the database operation
-//        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-//            // Create a storage reference from our app
-//            StorageReference storageRef = storageReference.child(
-//                    "avatar/" + cityName + "/" + file.getName()
-//            );
-//            // Upload file to Firebase Storage
-//            storageRef.putFile(Uri.fromFile(file))
-//                    .addOnSuccessListener(taskSnapshot -> {
-//                        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-//                            // add to the database
-//                            mediaItemDao.insert(mediaItem);
-//                        });
-//                        try {
-//                            future.get();
-//                        } catch (ExecutionException | InterruptedException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                        // Get a URL to the uploaded content
-//                        Toast.makeText(MainActivity.this, "Upload successful",
-//                                Toast.LENGTH_SHORT).show();
-//                        Log.d("Firebase", "Upload successful");
-//                    })
-//                    .addOnFailureListener(exception -> {
-//                        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-//                            // add to the database
-//                            mediaItem.setBackup(false);
-//                            mediaItemDao.insert(mediaItem);
-//                        });
-//                        try {
-//                            future.get();
-//                        } catch (ExecutionException | InterruptedException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                        // Handle unsuccessful uploads
-//                        Toast.makeText(MainActivity.this,
-//                                "Upload failed", Toast.LENGTH_SHORT).show();
-//                        Log.d("Firebase", "Upload failed");
-//                    });
-//        });
+    public void selectAvatarImage() {
+        // Create intent for picking a photo from the gallery
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // Bring up gallery to select a photo
+        startActivityForResult(intent, MY_PERMISSIONS_REQUEST_READ_PHOTOS);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_PHOTOS) {
+            // Load the selected image into a preview
+            if (resultCode == RESULT_OK) {
+                avatarUri = data.getData();
+                Bitmap selectedImage;
+                try {
+                    selectedImage = MediaStore.Images.Media.getBitmap(
+                            this.getContentResolver(), avatarUri);
+
+                    // Get the width and height of ivPreview
+                    int targetWidth = ivPreview.getWidth();
+                    int targetHeight = ivPreview.getHeight();
+
+                    // Scale the bitmap to the size of ivPreview
+                    scaledAvatar = Bitmap.createScaledBitmap(
+                            selectedImage, targetWidth, targetHeight, true);
+
+                    // Set the scaled image as background of ivPreview
+                    ivPreview.setBackground(new BitmapDrawable(getResources(), scaledAvatar));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
