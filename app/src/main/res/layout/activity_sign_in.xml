@@ -38,8 +38,8 @@
 
     <!-- White Rounded Corner Box -->
     <LinearLayout
-        android:layout_width="379dp"
-        android:layout_height="663dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="2dp"
         android:background="@drawable/rounded_background"
         android:elevation="4dp"
@@ -83,7 +83,7 @@
 
         <!-- Forgot Password Text -->
         <TextView
-            android:id="@+id/tv_forgot_password"
+            android:id="@+id/txt_forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -100,7 +100,8 @@
             android:backgroundTint="#a3aa7f"
             android:padding="12dp"
             android:text="Sign in"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:onClick="onSignInClick"/>
 
         <!-- Sign Up Button -->
         <Button
@@ -111,7 +112,8 @@
             android:backgroundTint="#E0E0E0"
             android:padding="12dp"
             android:text="Sign up"
-            android:textColor="#808080" />
+            android:textColor="#808080"
+            android:onClick="onSignUpClick"/>
     </LinearLayout>
 
 </LinearLayout>

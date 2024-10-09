@@ -53,6 +53,7 @@ public class SignInActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         connectDatabase = new ConnectDatabase();
+
     }
 
     public void onSignInClick(View v) {
