@@ -196,9 +196,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.net.Uri;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -268,11 +270,14 @@ public class ConnectDatabase {
 
     // CRUD for User (用户)
     public void addUser(String userName,
-                        String gender,
-                        String email,
-                        int phone,
-                        String address,
-                        String avatarPath) {
+                          String gender,
+                          String email,
+                          int phone,
+                          String address,
+                          String avatarPath,
+                          OnSuccessListener<String> successListener,
+                          OnFailureListener failureListener) {
+        String userId = "";
         CollectionReference users = db.collection("Users");
         Map<String, Object> user = new HashMap<>();
         user.put("userName", userName);
@@ -282,7 +287,11 @@ public class ConnectDatabase {
         user.put("address", address);
         user.put("avatarPath", avatarPath);
 
-        users.add(user).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "User added with ID: " + documentReference.getId()));
+        users.add(user).addOnSuccessListener(documentReference -> {
+            Log.d(TAG_FIRESTORE, "User added with ID: " + documentReference.getId());
+            successListener.onSuccess(documentReference.getId());
+        });
+
     }
 
     public void getUserByEmail(String email, OnSuccessListener<User> successListener, OnFailureListener failureListener) {
@@ -395,14 +404,18 @@ public class ConnectDatabase {
     }
 
     // 上传用户头像
-    public void uploadUserAvatar(String userName, Uri avatarUri, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+    public void uploadUserAvatar(String userId, Bitmap avatarBitmap, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();
-        StorageReference avatarRef = storageRef.child("Users/" + userName + "/avatar.jpg");
+        StorageReference avatarRef = storageRef.child("Users/" + userId + "/avatar.jpg");
 
-        UploadTask uploadTask = avatarRef.putFile(avatarUri);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        avatarBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = avatarRef.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> {
             avatarRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
-            Log.d(TAG_STORAGE, "User avatar uploaded for: " + userName);
+            Log.d(TAG_STORAGE, "User avatar uploaded for: " + userId);
         }).addOnFailureListener(failureListener);
     }
 
