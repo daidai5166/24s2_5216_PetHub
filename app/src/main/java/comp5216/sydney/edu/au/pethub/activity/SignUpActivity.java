@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +47,9 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mPasswordField;
     private EditText mRetypePasswordField;
     private ImageButton mSignUpButton;
+    private ImageView genderMale, genderFemale;
 
+    private String selectedGender ; // 用来存储选择的性别
     private String firstName;
     private String lastName;
     private String email;
@@ -71,6 +75,12 @@ public class SignUpActivity extends AppCompatActivity {
         mPasswordField = findViewById(R.id.password);
         mRetypePasswordField = findViewById(R.id.retype_password);
         mSignUpButton = findViewById(R.id.btn_sign_up);
+        genderMale = findViewById(R.id.gender_male);
+        genderFemale = findViewById(R.id.gender_female);
+
+        // gender click
+        setGenderSelection(genderMale, genderFemale, "1", "male");
+        setGenderSelection(genderFemale, genderMale, "0", "female");
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -78,6 +88,28 @@ public class SignUpActivity extends AppCompatActivity {
         storageReference = mFirebaseStorage.getReference();
 
         connectDatabase = new ConnectDatabase();
+    }
+
+
+    /**
+     * 封装性别选择逻辑，包括背景切换和性别值的设置
+     * @param selectedView 当前点击的 ImageView（性别图标）
+     * @param otherView 另一个性别的 ImageView（需重置背景）
+     * @param genderValue 性别的值，"1" 表示男性，"0" 表示女性
+     * @param genderType 性别类型，用于切换背景的标识
+     */
+    private void setGenderSelection(ImageView selectedView, ImageView otherView, String genderValue, String genderType) {
+        // 为当前点击的 ImageView 设置点击事件
+        selectedView.setOnClickListener(v -> {
+            selectedGender = genderValue; // 设置当前选择的性别
+
+            // 修改当前点击的 ImageView 背景为选中状态
+            selectedView.setBackgroundColor(Color.parseColor("#9FE716"));
+
+            // 重置另一个 ImageView 的背景为默认状态
+            otherView.setBackgroundColor(Color.TRANSPARENT);
+            // System.out.println(selectedGender);
+        });
     }
 
     public void onSignUpClick(View v) {
@@ -111,7 +143,7 @@ public class SignUpActivity extends AppCompatActivity {
                     // TODO: Wait for front-end to finish Gender component
                     connectDatabase.addUser(
                             firstName + " " + lastName,
-                            "O",
+                            selectedGender,
                             email,
                             0,
                             " ",
