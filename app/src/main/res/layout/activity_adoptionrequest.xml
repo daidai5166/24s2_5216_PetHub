@@ -14,6 +14,7 @@
         android:padding="16dp">
 
         <!-- Menu Icon -->
+        <!--   1234     -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -207,68 +208,11 @@
     </LinearLayout>
 
     <!-- Bottom Navigation Bar -->
-    <LinearLayout
+    <!--  remember set id to use  -->
+    <include
+        layout="@layout/navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="#a3aa7f"
-        android:padding="16dp">
-
-        <!-- Home Button -->
-        <Button
-            android:id="@+id/btn_home"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_home"
-            android:text="Home"
-            android:textColor="#ffffff"
-            android:background="@android:color/transparent" />
-
-        <!-- Search Button -->
-        <Button
-            android:id="@+id/btn_search_bottom"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_search"
-            android:text="Search"
-            android:textColor="#ffffff"
-            android:background="@android:color/transparent" />
-
-        <!-- Post Button -->
-        <Button
-            android:id="@+id/btn_post"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_post"
-            android:text="Post"
-            android:textColor="#ffffff"
-            android:background="@android:color/transparent" />
-
-        <!-- Blog Button -->
-        <Button
-            android:id="@+id/btn_blog"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_blog"
-            android:text="Blog"
-            android:textColor="#ffffff"
-            android:background="@android:color/transparent" />
-
-        <!-- Account Button -->
-        <Button
-            android:id="@+id/btn_account"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_account"
-            android:text="Account"
-            android:textColor="#ffffff"
-            android:background="@android:color/transparent" />
-    </LinearLayout>
+        />
 
 </LinearLayout>
