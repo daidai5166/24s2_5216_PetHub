@@ -17,45 +17,45 @@
          />
 
     <!-- Carousel Dots (Indicator) -->
-    <LinearLayout
-        android:id="@+id/indicator_layout"
-        android:layout_width="45dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/indicator_layout"-->
+<!--        android:layout_width="45dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:gravity="center"-->
+<!--        android:orientation="horizontal">-->
 
-        <!-- Three Dots for Three Images -->
-        <ImageView
-            android:id="@+id/dot1"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_margin="4dp"
-            />
+<!--        &lt;!&ndash; Three Dots for Three Images &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/dot1"-->
+<!--            android:layout_width="8dp"-->
+<!--            android:layout_height="8dp"-->
+<!--            android:layout_margin="4dp"-->
+<!--            />-->
 
-        <ImageView
-            android:id="@+id/dot2"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_margin="4dp"
-             />
+<!--        <ImageView-->
+<!--            android:id="@+id/dot2"-->
+<!--            android:layout_width="8dp"-->
+<!--            android:layout_height="8dp"-->
+<!--            android:layout_margin="4dp"-->
+<!--             />-->
 
-        <ImageView
-            android:id="@+id/dot3"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_margin="4dp"
-             />
-    </LinearLayout>
+<!--        <ImageView-->
+<!--            android:id="@+id/dot3"-->
+<!--            android:layout_width="8dp"-->
+<!--            android:layout_height="8dp"-->
+<!--            android:layout_margin="4dp"-->
+<!--             />-->
+<!--    </LinearLayout>-->
 
     <!-- Text Content Below the Images -->
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adopting instead of buying"
-        android:textSize="27sp"
+        android:text="@string/welcome_title1"
+        android:textSize="30sp"
         android:textColor="#ffffff"
         android:layout_gravity="center"
         android:fontFamily="sans-serif-medium"
@@ -65,8 +65,8 @@
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="We will help you to choose your lovely pet. Save a life. Adopt a pet."
-        android:textSize="18sp"
+        android:text="@string/description1"
+        android:textSize="21sp"
         android:textColor="#f0f0f0"
         android:layout_gravity="center"
         android:fontFamily="sans-serif"
@@ -85,6 +85,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
         android:text="Get Started"
+        android:textSize="24sp"
         android:textAllCaps="false"
         android:textColor="#667446"
         android:background="@drawable/welcome_start_button" />

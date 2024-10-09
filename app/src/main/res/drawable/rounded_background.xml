@@ -1,0 +1,10 @@
+<!-- res/drawable/rounded_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF"/> <!-- 白色背景 -->
+    <corners android:radius="20dp"/> <!-- 设置圆角半径 -->
+    <padding
+        android:left="16dp"
+        android:right="16dp"
+        android:top="16dp"
+        android:bottom="16dp"/>
+</shape>
