@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#f5f5f5"
-    android:padding="16dp"
     android:id="@+id/main">
 
     <!-- Welcome Text and Image Section -->
@@ -40,7 +39,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="-12dp"
         android:background="@drawable/rounded_background"
         android:elevation="4dp"
         android:orientation="vertical"

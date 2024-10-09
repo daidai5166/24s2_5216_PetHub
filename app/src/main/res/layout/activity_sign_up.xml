@@ -13,8 +13,8 @@
         android:orientation="vertical"
         android:gravity="center"
         android:background="#a3aa7f"
-        android:paddingBottom="24dp"
-        android:layout_weight="1">
+        android:padding="16dp"
+        >
 
         <!-- Welcome Text -->
         <TextView
@@ -47,7 +47,15 @@
             android:src="@drawable/ic_dog" />
 
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-59dp"
+        android:background="@drawable/rounded_background"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_weight="1">
     <!-- First and Last Name Fields -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -198,5 +206,5 @@
         android:background="@android:color/transparent"
         android:src="@drawable/sign_up"
         android:onClick="onSignUpClick"/>
-
+    </LinearLayout>
 </LinearLayout>
