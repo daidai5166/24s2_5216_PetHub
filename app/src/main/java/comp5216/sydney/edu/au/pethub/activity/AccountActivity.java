@@ -19,7 +19,6 @@ import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.model.User;
 import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
-
 public class AccountActivity extends AppCompatActivity {
     private FirebaseUser user;
     private User myUser;
@@ -74,24 +73,20 @@ public class AccountActivity extends AppCompatActivity {
             Intent intent = new Intent(AccountActivity.this, MyMessageList.class);
             startActivity(intent);
         });
-        // 设置 account界面 Home 的点击事件监听器
-        findViewById(R.id.btn_home).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+
+        // Main page 获取 Blog 按钮并设置点击事件
+        findViewById(R.id.btn_blog).setOnClickListener(v -> {
+            Intent intent = new Intent(AccountActivity.this, PetblogActivity.class);
             startActivity(intent);
         });
-        // 设置 account界面 search 的点击事件监听器
-        findViewById(R.id.btn_search_bottom).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, FindpetsActivity.class);
-            startActivity(intent);
-        });
-        // 设置 account界面 post 的点击事件监听器
+        // Main page 获取 Post 按钮并设置点击事件
         findViewById(R.id.btn_post).setOnClickListener(v -> {
             Intent intent = new Intent(AccountActivity.this, PostpetActivity.class);
             startActivity(intent);
         });
-        // 设置 account界面 blog 的点击事件监听器
-        findViewById(R.id.btn_blog).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, PetblogActivity.class);
+        // Main page 获取 Search bottom 按钮并设置点击事件
+        findViewById(R.id.btn_search_bottom).setOnClickListener(v -> {
+            Intent intent = new Intent(AccountActivity.this, FindpetsActivity.class);
             startActivity(intent);
         });
 
