@@ -53,42 +53,10 @@ public class AccountActivity extends AppCompatActivity {
             Intent intent = new Intent(AccountActivity.this, SignInActivity.class);
             startActivity(intent);
         };
-        // 设置 account界面 Edit Profile 的点击事件监听
-        findViewById(R.id.tv_edit_profile).setOnClickListener(v -> {
-                    Intent intent = new Intent(AccountActivity.this, EditprofileActivity.class);
-                    startActivity(intent);
-                });
-        // 设置 account界面 My Pet 的点击事件监听器
-        findViewById(R.id.tv_my_pet).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, MypetsActivity.class);
-            startActivity(intent);
-        });
-        // 设置 account界面 My Blog 的点击事件监听器
-        findViewById(R.id.tv_my_blog).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, MyBlogsActivity.class);
-            startActivity(intent);
-        });
-        // 设置 account界面 My Message 的点击事件监听器
-        findViewById(R.id.tv_my_message).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, MyMessageList.class);
-            startActivity(intent);
-        });
 
-        // Main page 获取 Blog 按钮并设置点击事件
-        findViewById(R.id.btn_blog).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, PetblogActivity.class);
-            startActivity(intent);
-        });
-        // Main page 获取 Post 按钮并设置点击事件
-        findViewById(R.id.btn_post).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, PostpetActivity.class);
-            startActivity(intent);
-        });
-        // Main page 获取 Search bottom 按钮并设置点击事件
-        findViewById(R.id.btn_search_bottom).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, FindpetsActivity.class);
-            startActivity(intent);
-        });
+        // 初始化导航栏
+        NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
+        navigationBarActivity.setupNavigationBar();
 
         //没登录的话跳转到登录功能
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
