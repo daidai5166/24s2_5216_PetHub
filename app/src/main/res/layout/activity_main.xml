@@ -57,7 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="Search your favourite pet"
+                android:hint="@string/Search_pet"
                 android:backgroundTint="#ffffff"
                 android:textColor="#000000"
                 android:padding="8dp"
@@ -68,14 +68,14 @@
                 android:id="@+id/btn_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Search"
+                android:text="@string/Search"
                 android:backgroundTint="#74875e"
                 android:textColor="#ffffff"
                 android:textAllCaps="false" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Pet Categories -->
+<!--     Pet Categories -->
 <!--    <HorizontalScrollView-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
@@ -89,8 +89,7 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            >
+            android:paddingRight="16dp" >
 
             <!-- Category Buttons -->
             <android.widget.Button
@@ -101,8 +100,7 @@
                 android:drawableTop="@drawable/ic_dog_category"
                 android:textColor="#000000"
                 android:background="@android:color/transparent"
-                android:layout_marginEnd="16dp"
-                />
+                android:layout_marginEnd="16dp" />
 
             <android.widget.Button
                 android:id="@+id/btn_cats"
@@ -112,8 +110,7 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/ic_cat_category"
                 android:text="Cats"
-                android:textColor="#000000"
-                />
+                android:textColor="#000000" />
 
             <android.widget.Button
                 android:id="@+id/btn_birds"
@@ -164,7 +161,6 @@
     <include
         layout="@layout/navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

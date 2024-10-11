@@ -270,13 +270,13 @@ public class ConnectDatabase {
 
     // CRUD for User (用户)
     public void addUser(String userName,
-                          String gender,
-                          String email,
-                          int phone,
-                          String address,
-                          String avatarPath,
-                          OnSuccessListener<String> successListener,
-                          OnFailureListener failureListener) {
+                        String gender,
+                        String email,
+                        int phone,
+                        String address,
+                        String avatarPath,
+                        OnSuccessListener<String> successListener,
+                        OnFailureListener failureListener) {
         String userId = "";
         CollectionReference users = db.collection("Users");
         Map<String, Object> user = new HashMap<>();
@@ -291,7 +291,6 @@ public class ConnectDatabase {
             Log.d(TAG_FIRESTORE, "User added with ID: " + documentReference.getId());
             successListener.onSuccess(documentReference.getId());
         });
-
     }
 
     public void getUserByEmail(String email, OnSuccessListener<User> successListener, OnFailureListener failureListener) {

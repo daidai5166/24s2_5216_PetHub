@@ -12,6 +12,7 @@ import comp5216.sydney.edu.au.pethub.activity.FindpetsActivity;
 import comp5216.sydney.edu.au.pethub.activity.PetblogActivity;
 import comp5216.sydney.edu.au.pethub.activity.PetdetailsActivity;
 import comp5216.sydney.edu.au.pethub.activity.PostpetActivity;
+import comp5216.sydney.edu.au.pethub.activity.NavigationBarActivity;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,31 +30,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // Main page 获取 Account 按钮并设置点击事件
-        findViewById(R.id.btn_account).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-            startActivity(intent);
-        });
-        // Main page 获取 Blog 按钮并设置点击事件
-        findViewById(R.id.btn_blog).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, PetblogActivity.class);
-            startActivity(intent);
-        });
-        // Main page 获取 Post 按钮并设置点击事件
-        findViewById(R.id.btn_post).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, PostpetActivity.class);
-            startActivity(intent);
-        });
-        // Main page 获取 Search bottom 按钮并设置点击事件
-        findViewById(R.id.btn_search_bottom).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, FindpetsActivity.class);
-            startActivity(intent);
-        });
-        // Main page 获取另一个顶部的 Search 按钮并设置点击事件
-        findViewById(R.id.btn_search).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, FindpetsActivity.class);
-            startActivity(intent);
-        });
+
+        // 初始化导航栏
+        NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
+        navigationBarActivity.setupNavigationBar();
+
         // Main page 获取 GridView 并设置点击事件
         GridView gridView = findViewById(R.id.grid_pets);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
