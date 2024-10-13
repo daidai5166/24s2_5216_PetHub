@@ -62,11 +62,5 @@ public class NavigationBarActivity {
             Intent intent = new Intent(activity, AccountActivity.class);
             activity.startActivity(intent);
         });
-
-        // Another top search button (if applicable)
-        activity.findViewById(R.id.btn_search).setOnClickListener(v -> {
-            Intent intent = new Intent(activity, FindpetsActivity.class);
-            activity.startActivity(intent);
-        });
     }
 }
