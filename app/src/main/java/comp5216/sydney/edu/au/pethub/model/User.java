@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.pethub.model;
 
 public class User {
+    private String firebaseId;
     private String username;
     private String email;
     private String gender;
@@ -13,7 +14,8 @@ public class User {
     }
 
     // 带参数的构造方法
-    public User(String username, String email, String gender, int phone, String address, String avatarPath) {
+    public User(String firebaseId, String username, String email, String gender, int phone, String address, String avatarPath) {
+        this.firebaseId = firebaseId;
         this.username = username;
         this.email = email;
         this.gender = gender;
@@ -23,6 +25,13 @@ public class User {
     }
 
     // Getter 和 Setter 方法
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
     public String getUsername() {
         return username;
     }

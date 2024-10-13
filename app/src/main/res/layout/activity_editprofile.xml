@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="#d4d8aa"
     android:padding="16dp"
-    tools:context=".activity.EditprofileActivity">
+    tools:context=".activity.EditProfileActivity">
 
     <!-- Top Empty Space to Adjust Layout -->
     <Space
@@ -25,6 +25,7 @@
 
         <!-- Back Button -->
         <ImageView
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
@@ -47,10 +48,10 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_dog"
+            android:background="@drawable/ic_dog"
             android:contentDescription="Profile Picture"
             android:layout_gravity="center"
-
+            android:id="@+id/user_avatar"
             android:padding="4dp"
             android:layout_marginBottom="16dp" />
 
@@ -85,18 +86,35 @@
             android:layout_marginBottom="16dp" />
 
         <!-- Email Field -->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Email"-->
+<!--            android:textColor="#000000"-->
+<!--            android:textSize="16sp" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/edit_email"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="mathewperry0001@gmail.com"-->
+<!--            android:backgroundTint="#d4d8aa"-->
+<!--            android:drawableEnd="@drawable/ic_edit"-->
+<!--            android:textColor="#000000"-->
+<!--            android:layout_marginBottom="16dp" />-->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
+            android:text="Phone"
             android:textColor="#000000"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/edit_email"
+            android:id="@+id/edit_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="mathewperry0001@gmail.com"
+            android:hint="Enter your phone number"
             android:backgroundTint="#d4d8aa"
             android:drawableEnd="@drawable/ic_edit"
             android:textColor="#000000"
@@ -112,28 +130,63 @@
             android:layout_marginBottom="8dp" />
 
         <!-- State Dropdown -->
-        <Spinner
-            android:id="@+id/spinner_state"
+        <EditText
+            android:hint="First Row"
+            android:id="@+id/location_first_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#ffffff"
             android:layout_marginBottom="8dp" />
 
         <!-- City Dropdown -->
-        <Spinner
-            android:id="@+id/spinner_city"
+        <EditText
+            android:hint="Second Row"
+            android:id="@+id/location_second_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#ffffff"
             android:layout_marginBottom="8dp" />
 
         <!-- Suburb Dropdown -->
-        <Spinner
-            android:id="@+id/spinner_suburb"
+        <EditText
+            android:hint="Third Row"
+            android:id="@+id/location_third_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#ffffff"
             android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Male Gender -->
+            <ImageView
+                android:id="@+id/gender_male"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_gender_male"
+                android:contentDescription="Male" />
+
+            <!-- Female Gender -->
+            <ImageView
+                android:id="@+id/gender_female"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_gender_female"
+                android:contentDescription="Female"
+                android:layout_marginStart="16dp" />
+        </LinearLayout>
 
         <!-- Save Changes Button -->
         <Button
