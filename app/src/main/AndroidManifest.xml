@@ -49,7 +49,7 @@
             android:name=".activity.FindpetsActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.EditprofileActivity"
+            android:name=".activity.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MyMessageList"
