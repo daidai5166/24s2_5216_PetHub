@@ -186,6 +186,8 @@
 
 package comp5216.sydney.edu.au.pethub.database;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -196,11 +198,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.net.Uri;
+import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -302,6 +313,7 @@ public class ConnectDatabase {
                         DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
 
                         // 按需提取字段
+                        String firebaseId = documentSnapshot.getId();
                         String username = documentSnapshot.getString("userName");
                         String emailFromDb = documentSnapshot.getString("email");
                         String gender = documentSnapshot.getString("gender");
@@ -310,7 +322,7 @@ public class ConnectDatabase {
                         String avatarPath = documentSnapshot.getString("avatarPath");
 
                         // 创建 User 对象
-                        User user = new User(username, emailFromDb, gender, phone, address, avatarPath);
+                        User user = new User(firebaseId, username, emailFromDb, gender, phone, address, avatarPath);
 
                         // 调用回调函数传递 User 对象
                         successListener.onSuccess(user);
@@ -327,7 +339,7 @@ public class ConnectDatabase {
                 .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "User deleted successfully"));
     }
 
-    public void updateUser(String userId, Map<String, Object> updates) {
+    public void updateUser(String userId, Map<String, Object> updates, OnSuccessListener<QuerySnapshot> successListener) {
         db.collection("Users").document(userId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "User updated successfully"));
@@ -440,5 +452,89 @@ public class ConnectDatabase {
             blogImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
             Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogTitle);
         }).addOnFailureListener(failureListener);
+    }
+
+
+    // 从Firebase Storage加载图片到ImageView 参数: this, imageView, 路径
+    // 例如: loadImageFromFirebaseStorageToImageView(this, imageView, "Users/user123/avatar.jpg");
+    public static void loadImageFromFirebaseStorageToImageView(
+            Context context,
+            ImageView imageView,
+            String imagePath
+    ) {
+        Log.i("Load Image", "Loading image from " + imagePath + " from storage");
+
+        if (imagePath != null && !imagePath.isEmpty()) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                Log.i("Firebase Storage", "Image found in storage");
+                Glide.with(context).load(uri).into(imageView);
+            }).addOnFailureListener(e -> {
+                Log.e("Load Image", "Failed to load image from storage");
+            });
+        }
+    }
+
+    // 不使用cache加载图片到ImageView 参数: this, imageView, 路径
+    // 会清除Glide的内存缓存
+    // 目前感觉没起作用
+//    public static void noCacheLoadImageFromFirebaseStorageToImageView(
+//            Context context,
+//            ImageView imageView,
+//            String imagePath
+//    ) {
+//        Log.i("Load Image", "Loading image from " + imagePath + " from storage");
+//        // 清除 Glide 的内存缓存
+//        Glide.get(context).clearMemory();
+//        if (imagePath != null && !imagePath.isEmpty()) {
+//            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
+//            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+//                Log.i("Firebase Storage", "Image found in storage");
+//                Glide.with(context)
+//                        .load(uri)
+//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                        .skipMemoryCache(true)
+//                        .into(imageView);
+//            }).addOnFailureListener(e -> {
+//                Log.e("Load Image", "Failed to load image from storage");
+//            });
+//        }
+//    }
+    public static void noCacheLoadImageFromFirebaseStorageToImageView(
+            Context context,
+            ImageView imageView,
+            String imagePath
+    ) {
+        Log.i("Load Image", "Loading image from " + imagePath + " from storage");
+
+        if (imagePath != null && !imagePath.isEmpty()) {
+            // 获取 Firebase Storage 图片的下载 URL
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                Log.i("Firebase Storage", "Image found in storage");
+                // 使用 HttpURLConnection 下载图片并加载到 ImageView
+                new Thread(() -> {
+                    try {
+                        URL url = new URL(uri.toString());
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setDoInput(true);
+                        connection.connect();
+                        InputStream input = connection.getInputStream();
+                        Bitmap bitmap = BitmapFactory.decodeStream(input);
+
+                        // 更新 UI 要在主线程中执行
+                        ((Activity) context).runOnUiThread(() -> {
+                            imageView.setImageBitmap(bitmap);
+//                            imageView.setBackground(new BitmapDrawable());
+                        });
+
+                    } catch (IOException e) {
+                        Log.e("Load Image", "Failed to load image from URL", e);
+                    }
+                }).start();
+            }).addOnFailureListener(e -> {
+                Log.e("Load Image", "Failed to load image from storage", e);
+            });
+        }
     }
 }
