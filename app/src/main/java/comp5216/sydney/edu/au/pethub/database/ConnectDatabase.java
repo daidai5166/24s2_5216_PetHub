@@ -235,30 +235,40 @@ public class ConnectDatabase {
                                    int age,
                                    boolean gender,
                                    String description,
-                                   String photoPath,
                                    String category,
+                                   String address,
                                    double longitude,
                                    double latitude,
                                    String ownerId,
                                    String adopterId,
                                    List<String> interestedUserIds,  // 多个人可能想要领养同一个宠物
-                                   List<String> blogTitles) {
+                                   List<String> uriStringList,      // uri的string格式的list 照片路径
+                                   List<String> blogTitles,
+                                   OnSuccessListener<String> successListener,
+                                   OnFailureListener failureListener) {
         CollectionReference pets = db.collection("PetAdoptionPost");
         Map<String, Object> pet = new HashMap<>();
         pet.put("petName", petName);
         pet.put("age", age);
         pet.put("gender", gender);  // 0: 雌性, 1: 雄性
         pet.put("description", description);
-        pet.put("photoPath", photoPath);
         pet.put("category", category); // 狗, 猫, 鸟等
+        pet.put("address", address);
         pet.put("longitude", longitude);
         pet.put("latitude", latitude);
         pet.put("ownerId", ownerId);
         pet.put("adopterId", adopterId);
         pet.put("interestedUserIds", interestedUserIds);
+        pet.put("uriStringList", uriStringList);
         pet.put("blogTitles", blogTitles);
 
-        pets.add(pet).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Pet Adoption Post added with ID: " + documentReference.getId()));
+        pets.add(pet)
+                .addOnSuccessListener(documentReference -> {
+                            Log.d(TAG_FIRESTORE, "Pet Adoption Post added with ID: " + documentReference.getId());
+                            successListener.onSuccess(documentReference.getId());
+                        }
+                ).addOnFailureListener(failureListener);
+
     }
 
     public void deletePetAdoptionPost(String postId) {
@@ -431,9 +441,9 @@ public class ConnectDatabase {
     }
 
     // 上传宠物图片
-    public void uploadPetImage(String petName, Uri petImageUri, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+    public void uploadPetImage(String petName, Uri petImageUri,String photoName ,OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();
-        StorageReference petImageRef = storageRef.child("Pets/" + petName + "/image.jpg");
+        StorageReference petImageRef = storageRef.child("Pets/" + petName + photoName);
 
         UploadTask uploadTask = petImageRef.putFile(petImageUri);
         uploadTask.addOnSuccessListener(taskSnapshot -> {

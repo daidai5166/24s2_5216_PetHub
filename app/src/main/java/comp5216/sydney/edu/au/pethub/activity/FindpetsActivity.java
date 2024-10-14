@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import comp5216.sydney.edu.au.pethub.R;
+import comp5216.sydney.edu.au.pethub.activity.NavigationBarActivity;
 
 public class FindpetsActivity extends AppCompatActivity {
     @Override
@@ -16,6 +17,11 @@ public class FindpetsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_findpets);
+
+        // 初始化导航栏
+        NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
+        navigationBarActivity.setupNavigationBar();
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
