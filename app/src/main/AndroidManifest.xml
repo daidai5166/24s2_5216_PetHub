@@ -2,10 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <queries>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+        <!-- Gallery -->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+        </intent>
+    </queries>
 
     <application
         android:name=".singleton.MyApp"
+        android:theme="@style/AppTheme"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,26 +34,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         tools:targetApi="31">
-        <activity
-            android:name=".activity.SharepetstoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SendtoownerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SelectnewownerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SelectnewownerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.BlogdetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.AdoptionrequestActivity"
-            android:exported="false" />
         <activity
             android:name=".activity.PetdetailsActivity"
             android:exported="false" />
@@ -41,7 +43,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.PostpetActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activity.MypetsActivity"
             android:exported="false" />
@@ -50,7 +52,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.EditProfileActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activity.MyMessageList"
             android:exported="false" />
@@ -69,6 +71,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
         <!--
              Before you run your application, you need a Google Maps API key.
 
@@ -83,7 +86,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAeTkzTFkUB7D0evgPCAzSxFfdx_2ksA6I" />
-
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="comp5216.sydney.edu.au.pethub.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <activity
             android:name=".activity.WelcomeActivity"
             android:exported="true">

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.viewpager2.widget.ViewPager2;
-
+import comp5216.sydney.edu.au.pethub.util.MarshmallowPermission;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,12 +23,14 @@ public class WelcomeActivity extends AppCompatActivity {
     private android.widget.Button getStartedButton;
     private TextView titleText, descriptionText;
     private Handler handler = new Handler();
+    MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);  // 绑定布局文件
-
+        if (!marshmallowPermission.checkPermissionForLocation()) {
+            marshmallowPermission.requestPermissionForLocation();}
         // 绑定 ViewPager2
         viewPager = findViewById(R.id.viewPager);
         titleText = findViewById(R.id.title);
@@ -58,6 +60,8 @@ public class WelcomeActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+
     }
 
     // 自动滑动的函数
