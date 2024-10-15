@@ -12,4 +12,8 @@
 
     <string name="Search_pet">Search your favourite pet</string>
     <string name="Search">Search</string>
+
+    <string name="inputAddress">Please enter your address below</string>
+    <string name="petEmptyDescription">This pet has not been introduced yet! 😢</string>
+    <string name="selectPetCategoryWarn">Please select the pet category!</string>
 </resources>
