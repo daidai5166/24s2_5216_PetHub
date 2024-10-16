@@ -57,7 +57,7 @@ public class AccountActivity extends AppCompatActivity {
             emailField.setText("Email: " + myUser.getEmail());
             if(myUser.getGender().equals("F")) {
                 genderField.setImageResource(R.drawable.ic_gender_female);
-            }else{
+            } else {
                 genderField.setImageResource(R.drawable.ic_gender_male);
             }
         } else {

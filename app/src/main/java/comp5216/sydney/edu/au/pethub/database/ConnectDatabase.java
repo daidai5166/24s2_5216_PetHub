@@ -488,28 +488,28 @@ public class ConnectDatabase {
     // 不使用cache加载图片到ImageView 参数: this, imageView, 路径
     // 会清除Glide的内存缓存
     // 目前感觉没起作用
-//    public static void noCacheLoadImageFromFirebaseStorageToImageView(
-//            Context context,
-//            ImageView imageView,
-//            String imagePath
-//    ) {
-//        Log.i("Load Image", "Loading image from " + imagePath + " from storage");
-//        // 清除 Glide 的内存缓存
-//        Glide.get(context).clearMemory();
-//        if (imagePath != null && !imagePath.isEmpty()) {
-//            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
-//            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-//                Log.i("Firebase Storage", "Image found in storage");
-//                Glide.with(context)
-//                        .load(uri)
-//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                        .skipMemoryCache(true)
-//                        .into(imageView);
-//            }).addOnFailureListener(e -> {
-//                Log.e("Load Image", "Failed to load image from storage");
-//            });
-//        }
-//    }
+    /*public static void noCacheLoadImageFromFirebaseStorageToImageView(
+            Context context,
+            ImageView imageView,
+            String imagePath
+    ) {
+        Log.i("Load Image", "Loading image from " + imagePath + " from storage");
+        // 清除 Glide 的内存缓存
+        Glide.get(context).clearMemory();
+        if (imagePath != null && !imagePath.isEmpty()) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                Log.i("Firebase Storage", "Image found in storage");
+                Glide.with(context)
+                        .load(uri)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageView);
+            }).addOnFailureListener(e -> {
+                Log.e("Load Image", "Failed to load image from storage");
+            });
+        }
+    }*/
     public static void noCacheLoadImageFromFirebaseStorageToImageView(
             Context context,
             ImageView imageView,
