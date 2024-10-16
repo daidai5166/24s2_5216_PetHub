@@ -193,6 +193,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                             myApp.setUser(user);
                                         });
 
+        // TODO: 需要刷新页面才能够替换头像
         if (avatarChanged) {
             connectDatabase.uploadUserAvatar(user.getFirebaseId(), scaledAvatar, uri -> {
                 Log.d("Firebase", "Avatar uploaded");

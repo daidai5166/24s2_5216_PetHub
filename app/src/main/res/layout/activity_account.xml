@@ -18,12 +18,12 @@
         android:background="#a3aa7f"
 
         android:padding="16dp">
+
         <!-- Profile Picture -->
         <ImageView
             android:id="@+id/user_avatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_dog"
             android:contentDescription="Profile Picture"
 
             android:layout_gravity="end" />

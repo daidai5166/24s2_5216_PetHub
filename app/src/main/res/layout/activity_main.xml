@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center" >
 
             <!-- PetHub Title -->
             <TextView
@@ -74,14 +74,6 @@
                 android:textAllCaps="false" />
         </LinearLayout>
     </LinearLayout>
-
-<!--     Pet Categories -->
-<!--    <HorizontalScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingTop="16dp"-->
-<!--        android:paddingBottom="8dp"-->
-<!--        android:background="#ffffff">-->
 
         <LinearLayout
             android:layout_width="wrap_content"
