@@ -60,12 +60,7 @@ public class AccountActivity extends AppCompatActivity {
             } else {
                 genderField.setImageResource(R.drawable.ic_gender_male);
             }
-        } else {
-            // No user is signed in
-            Intent intent = new Intent(AccountActivity.this, SignInActivity.class);
-            startActivity(intent);
-            finish();
-        };
+        }
 
         noCacheLoadImageFromFirebaseStorageToImageView(AccountActivity.this, avatarField, "Users/"+myUser.getFirebaseId()+"/avatar.jpg");
 
