@@ -1,7 +1,5 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
-
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
