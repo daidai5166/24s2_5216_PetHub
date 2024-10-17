@@ -372,7 +372,8 @@ public class ConnectDatabase {
                         String postTime,
                         String userEmail,
                         List<String> likedUsers,
-                        String photoPath) {
+                        String photoPath,
+                        OnFailureListener failureListener) {
         CollectionReference blogs = db.collection("Blog");
         Map<String, Object> blog = new HashMap<>();
         blog.put("blogTitle", blogTitle);
