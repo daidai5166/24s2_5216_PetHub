@@ -366,25 +366,22 @@ public class ConnectDatabase {
     public void addBlog(String blogTitle,
                         String content,
                         String petName,
-                        int age,
-                        boolean gender,
                         String category,
                         String postTime,
-                        String userEmail,
-                        List<String> likedUsers,
-                        String petID) {
-        CollectionReference blogs = db.collection("Blogs");
+                        String ownerId,
+                        String petID,
+                        OnSuccessListener<String> successListener, //从宠物领养贴找到 blogTitle.
+                        OnFailureListener failureListener) {
+        CollectionReference blogs = db.collection("Blog");
         Map<String, Object> blog = new HashMap<>();
         blog.put("blogTitle", blogTitle);
         blog.put("content", content);
         blog.put("petName", petName);
-        blog.put("age", age);
-        blog.put("gender", gender);  // 0: 雌性, 1: 雄性
         blog.put("category", category);
         blog.put("postTime", postTime);
-        blog.put("userEmail", userEmail);
-        blog.put("likedUsers", likedUsers);
-
+        blog.put("userEmail", ownerId);
+        blog.put("likedUsers", new String[] {});
+        blog.put("petID", petID);
         blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Blog added with ID: " + documentReference.getId()));
     }
 

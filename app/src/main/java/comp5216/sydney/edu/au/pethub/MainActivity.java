@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
                             // 构造 Pet 对象
                             Pet pet = new Pet(petID, petName, age, gender, description, category, address, longitude, latitude, ownerId, adopterId, interestedUserIds, uriStringList, uploadTime);
-
+                          
                             // 添加到列表并刷新
                             pets.add(pet);
                             Log.i("PetAdoptionPostID", petID);
