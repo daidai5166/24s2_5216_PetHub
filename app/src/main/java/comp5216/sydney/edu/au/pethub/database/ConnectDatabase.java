@@ -283,10 +283,11 @@ public class ConnectDatabase {
                 .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Pet Adoption Post updated successfully"));
     }
 
-    public void getPetAdoptionPosts(OnSuccessListener<QuerySnapshot> successListener) {
+    public void getPetAdoptionPosts(OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
         db.collection("PetAdoptionPost")
                 .get()
-                .addOnSuccessListener(successListener);
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
     }
 
     // CRUD for User (用户)

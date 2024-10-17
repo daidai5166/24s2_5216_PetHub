@@ -124,7 +124,6 @@ public class PostpetActivity extends AppCompatActivity {
         mpetAddressField = findViewById(R.id.pet_address);
         mpetDescriptionField = findViewById(R.id.pet_description);
 
-
         // 初始化 地址补全
         mpetAddressField.setOnClickListener(v -> {
             // 创建一个 Autocomplete Intent，指定返回的字段
@@ -182,7 +181,6 @@ public class PostpetActivity extends AppCompatActivity {
         others_icons.setBackgroundResource(0);  // 恢复默认背景
     }
 
-
     //  绑定上传按钮的点击事件
     private void uploadPetImageClickListener(FrameLayout frameLayout) {
         frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +191,6 @@ public class PostpetActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void showBottomSheetDialog() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialog);
@@ -248,8 +245,6 @@ public class PostpetActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, CAPTURE_IMAGE);
         }
-
-
     }
 
     // 从相册选择图片
@@ -314,7 +309,6 @@ public class PostpetActivity extends AppCompatActivity {
                 Log.i("Places", "Autocomplete canceled");
             }
         }
-
     }
 
     // Returns the Uri for a photo/media stored on disk given the fileName and type
@@ -328,8 +322,6 @@ public class PostpetActivity extends AppCompatActivity {
             if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
                 Log.d(APP_TAG, "failed to create directory");
             }
-
-
 
             // Create the file target for the media based on filename
             file = new File(mediaStorageDir, fileName);
@@ -464,7 +456,8 @@ public class PostpetActivity extends AppCompatActivity {
                 adopterId,
                 interestedUserIds,
                 uriStringList,
-                blogTitles,documentId  ->{
+                blogTitles,
+                documentId -> {
                     for (int i = 0; i < imageUris.size(); i++) {
                         Uri imageUri = imageUris.get(i);        // 获取当前图片的 Uri
                         String imageName = imageNames.get(i);   // 获取当前图片的名称
@@ -491,8 +484,5 @@ public class PostpetActivity extends AppCompatActivity {
                 e ->{
                     Log.e("FirestoreDatabase", "Error uploading pet");
                 });
-
-
     }
-
 }
