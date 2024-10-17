@@ -88,9 +88,10 @@ public class MainActivity extends AppCompatActivity {
                             List<String> interestedUserIds = (List<String>) document.get("interestedUserIds");
                             List<String> uriStringList = (List<String>) document.get("uriStringList");
                             List<String> blogTitles = (List<String>) document.get("blogTitles");
+                            String uploadTime = document.getString("uploadTime");
 
                             // 构造 Pet 对象
-                            Pet pet = new Pet(petID, petName, age, gender, description, category, address, longitude, latitude, ownerId, adopterId, interestedUserIds, uriStringList, blogTitles);
+                            Pet pet = new Pet(petID, petName, age, gender, description, category, address, longitude, latitude, ownerId, adopterId, interestedUserIds, uriStringList, uploadTime);
 
                             // 添加到列表并刷新
                             pets.add(pet);

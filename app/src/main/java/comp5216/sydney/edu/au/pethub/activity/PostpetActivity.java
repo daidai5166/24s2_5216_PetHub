@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -87,7 +86,6 @@ public class PostpetActivity extends AppCompatActivity {
     private List<Uri> imageUris = new ArrayList<>();
     MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
     ConnectDatabase connectDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -400,13 +398,14 @@ public class PostpetActivity extends AppCompatActivity {
         // 创建一个用来保存图片名字的列表
         List<String> imageNames = new ArrayList<>();
 
+        String uploadTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
         // 遍历 imageUris，根据每个 Uri 的索引生成文件名
         for (int i = 0; i < imageUris.size(); i++) {
             // 可以根据索引生成文件名，例如 "image_0.jpg", "image_1.jpg" 等
             String imageName = "/image_" + i + ".jpg";
             imageNames.add(imageName);
         }
-
 
         // 检查name
         if (!checkNameInput(petName)){
@@ -442,7 +441,6 @@ public class PostpetActivity extends AppCompatActivity {
         String ownerId="1";//myUser.getFirebaseId();//用户firebase的ID
         String adopterId="";//新宠物暂无领养人
         List<String> interestedUserIds=new ArrayList<>();//新宠物暂无兴趣人
-        List<String> blogTitles=new ArrayList<>();
         connectDatabase.addPetAdoptionPost(
                 petName,
                 age,
@@ -456,7 +454,7 @@ public class PostpetActivity extends AppCompatActivity {
                 adopterId,
                 interestedUserIds,
                 uriStringList,
-                blogTitles,
+                uploadTime,
                 documentId -> {
                     for (int i = 0; i < imageUris.size(); i++) {
                         Uri imageUri = imageUris.get(i);        // 获取当前图片的 Uri
