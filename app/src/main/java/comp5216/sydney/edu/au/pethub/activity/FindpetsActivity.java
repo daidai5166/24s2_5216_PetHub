@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -15,6 +18,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -27,10 +31,11 @@ import comp5216.sydney.edu.au.pethub.model.Pet;
 
 public class FindpetsActivity extends AppCompatActivity {
 
-    String selectedGender = "M";
+    Boolean selectedGender = true;
     Spinner spinnerPetType;
-    Spinner spinnerLocation;
+    EditText spinnerLocation;
     private ImageView genderMale, genderFemale;
+    Button searchButton;
 
     ArrayList<Pet> pets;
     PetAdapter petAdapter;
@@ -39,11 +44,12 @@ public class FindpetsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_findpets);
+        searchButton = findViewById(R.id.btn_search);
         genderMale = findViewById(R.id.gender_male);
         genderFemale = findViewById(R.id.gender_female);
 
-        setGenderSelection(genderMale, genderFemale, "M", "male");
-        setGenderSelection(genderFemale, genderMale, "F", "female");
+        setGenderSelection(genderMale, genderFemale, true, "male");
+        setGenderSelection(genderFemale, genderMale, false, "female");
         genderMale.setBackgroundColor(Color.parseColor("#9FE716"));
 
         // 获取 Spinner
@@ -60,18 +66,18 @@ public class FindpetsActivity extends AppCompatActivity {
 
         spinnerLocation = findViewById(R.id.spinner_location);
 
-        // 获取 string-array 资源
-        ArrayAdapter<CharSequence> adapterLocation = ArrayAdapter.createFromResource(this,
-                R.array.search_pet_locations, android.R.layout.simple_spinner_item);
-
-        // 设置下拉样式
-        adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // 设置下拉样式
-        adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // 绑定 Adapter 到 Spinner
-        spinnerLocation.setAdapter(adapterLocation);
+//        // 获取 string-array 资源
+//        ArrayAdapter<CharSequence> adapterLocation = ArrayAdapter.createFromResource(this,
+//                R.array.search_pet_locations, android.R.layout.simple_spinner_item);
+//
+//        // 设置下拉样式
+//        adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        // 设置下拉样式
+//        adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        // 绑定 Adapter 到 Spinner
+//        spinnerLocation.setAdapter(adapterLocation);
 
         // Search page 获取 GridView 并设置点击事件
         GridView gridView = findViewById(R.id.grid_pets);
@@ -81,8 +87,7 @@ public class FindpetsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        petAdapter = new PetAdapter(this, pets);
-        gridView.setAdapter(petAdapter);
+
 
         // 初始化导航栏
         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
@@ -93,17 +98,23 @@ public class FindpetsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        fetchPetAdoptionPostsWithFilter();
+        searchButton.setOnClickListener(v -> {
+            pets = new ArrayList<>();
+            // 重新获取数据
+            fetchPetAdoptionPostsWithFilter();
+            petAdapter = new PetAdapter(this, pets);
+            gridView.setAdapter(petAdapter);
+        });
     }
 
     /**
      * 封装性别选择逻辑，包括背景切换和性别值的设置
      * @param selectedView 当前点击的 ImageView（性别图标）
      * @param otherView 另一个性别的 ImageView（需重置背景）
-     * @param genderValue 性别的值，"F" 表示男性，"M" 表示女性
+     * @param genderValue 性别的值，true 表示男性，false 表示女性
      * @param genderType 性别类型，用于切换背景的标识
      */
-    private void setGenderSelection(ImageView selectedView, ImageView otherView, String genderValue, String genderType) {
+    private void setGenderSelection(ImageView selectedView, ImageView otherView, Boolean genderValue, String genderType) {
         // 为当前点击的 ImageView 设置点击事件
         selectedView.setOnClickListener(v -> {
             selectedGender = genderValue; // 设置当前选择的性别
@@ -119,10 +130,14 @@ public class FindpetsActivity extends AppCompatActivity {
 
     // 封装获取宠物领养帖的函数
     private void fetchPetAdoptionPostsWithFilter() {
+        String selectedCategory = spinnerPetType.getSelectedItem().toString();
+        String selectedLocation = spinnerLocation.getText().toString();
+        Log.i("Filter", "Category: " + selectedCategory + " Gender: " + selectedGender + " Location: " + selectedLocation);
         ConnectDatabase connectDatabase = new ConnectDatabase();
-        connectDatabase.getPetAdoptionPosts(
+        connectDatabase.getPetAdoptionPostsByFilter(selectedCategory, selectedGender, selectedLocation,
                 queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    Log.i("FindpetsActivity", "fetchPetAdoptionPostsWithFilter: " + queryDocumentSnapshots.size());
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
                         try {
                             // 手动获取字段并调试数据
                             String petID = document.getId();
@@ -138,7 +153,7 @@ public class FindpetsActivity extends AppCompatActivity {
                             String adopterId = document.getString("adopterId");
                             List<String> interestedUserIds = (List<String>) document.get("interestedUserIds");
                             List<String> uriStringList = (List<String>) document.get("uriStringList");
-                            List<String> blogTitles = (List<String>) document.get("blogTitles");
+                            String uploadTime = document.getString("uploadTime");
 
                             // 构造 Pet 对象
                             Pet pet = new Pet(
@@ -155,7 +170,7 @@ public class FindpetsActivity extends AppCompatActivity {
                                     adopterId,
                                     interestedUserIds,
                                     uriStringList,
-                                    blogTitles
+                                    uploadTime
                             );
 
                             // 添加到列表并刷新
