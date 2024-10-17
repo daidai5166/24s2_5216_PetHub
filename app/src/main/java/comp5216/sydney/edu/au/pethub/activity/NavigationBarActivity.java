@@ -51,38 +51,32 @@ public class NavigationBarActivity {
             activity.startActivity(intent);
         });
 
+        activity.findViewById(R.id.btn_search_bottom).setOnClickListener(v -> {
+            Intent intent = new Intent(activity, FindpetsActivity.class);
+            activity.startActivity(intent);
+        });
+
         if (myUser == null) {
-            // 如果用户未登录，禁用其他按钮并提示用户登录
-            Toast.makeText(activity, "Please log in to have a complete experience.", Toast.LENGTH_SHORT).show();
-
             // 禁用其他按钮
-            activity.findViewById(R.id.btn_search_bottom).setOnClickListener(v -> {
-                Intent intent = new Intent(activity, SignInActivity.class);
-                activity.startActivity(intent);
-            });
-
             activity.findViewById(R.id.btn_post).setOnClickListener(v -> {
                 Intent intent = new Intent(activity, SignInActivity.class);
                 activity.startActivity(intent);
+                Toast.makeText(activity, "Please log in to have a complete experience.", Toast.LENGTH_SHORT).show();
             });
 
             activity.findViewById(R.id.btn_blog).setOnClickListener(v -> {
                 Intent intent = new Intent(activity, SignInActivity.class);
                 activity.startActivity(intent);
+                Toast.makeText(activity, "Please log in to have a complete experience.", Toast.LENGTH_SHORT).show();
             });
 
             activity.findViewById(R.id.btn_account).setOnClickListener(v -> {
                 Intent intent = new Intent(activity, SignInActivity.class);
                 activity.startActivity(intent);
+                Toast.makeText(activity, "Please log in to have a complete experience.", Toast.LENGTH_SHORT).show();
             });
 
         } else {
-            // 如果用户已登录，启用所有按钮并设置点击事件
-            activity.findViewById(R.id.btn_search_bottom).setOnClickListener(v -> {
-                Intent intent = new Intent(activity, FindpetsActivity.class);
-                activity.startActivity(intent);
-            });
-
             activity.findViewById(R.id.btn_post).setOnClickListener(v -> {
                 Intent intent = new Intent(activity, PostpetActivity.class);
                 activity.startActivity(intent);

@@ -243,7 +243,7 @@ public class ConnectDatabase {
                                    String adopterId,
                                    List<String> interestedUserIds,  // 多个人可能想要领养同一个宠物
                                    List<String> uriStringList,      // uri的string格式的list 照片路径
-                                   List<String> blogTitles,
+                                   String uploadTime,
                                    OnSuccessListener<String> successListener,
                                    OnFailureListener failureListener) {
         CollectionReference pets = db.collection("PetAdoptionPost");
@@ -260,7 +260,7 @@ public class ConnectDatabase {
         pet.put("adopterId", adopterId);
         pet.put("interestedUserIds", interestedUserIds);
         pet.put("uriStringList", uriStringList);
-        pet.put("blogTitles", blogTitles);
+        pet.put("uploadTime", uploadTime);
 
         pets.add(pet)
                 .addOnSuccessListener(documentReference -> {
@@ -366,26 +366,22 @@ public class ConnectDatabase {
     public void addBlog(String blogTitle,
                         String content,
                         String petName,
-                        int age,
-                        boolean gender,
                         String category,
                         String postTime,
-                        String userEmail,
-                        List<String> likedUsers,
-                        String photoPath) {
+                        String ownerId,
+                        String petID,
+                        OnSuccessListener<String> successListener, //从宠物领养贴找到 blogTitle.
+                        OnFailureListener failureListener) {
         CollectionReference blogs = db.collection("Blog");
         Map<String, Object> blog = new HashMap<>();
         blog.put("blogTitle", blogTitle);
         blog.put("content", content);
         blog.put("petName", petName);
-        blog.put("age", age);
-        blog.put("gender", gender);  // 0: 雌性, 1: 雄性
         blog.put("category", category);
         blog.put("postTime", postTime);
-        blog.put("userEmail", userEmail);
-        blog.put("likedUsers", likedUsers);
-        blog.put("photoPath", photoPath);
-
+        blog.put("userEmail", ownerId);
+        blog.put("likedUsers", new String[] {});
+        blog.put("petID", petID);
         blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Blog added with ID: " + documentReference.getId()));
     }
 
@@ -464,7 +460,6 @@ public class ConnectDatabase {
             Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogTitle);
         }).addOnFailureListener(failureListener);
     }
-
 
     // 从Firebase Storage加载图片到ImageView 参数: this, imageView, 路径
     // 例如: loadImageFromFirebaseStorageToImageView(this, imageView, "Users/user123/avatar.jpg");

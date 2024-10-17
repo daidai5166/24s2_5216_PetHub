@@ -20,6 +20,7 @@ public class Pet {
     private List<String> interestedUserIds;
     private List<String> uriStringList; // List of image URIs in string format
     private List<String> blogTitles;
+    private String uploadTime;
 
     private OnSuccessListener<String> successListener;
     private OnFailureListener failureListener;
@@ -27,7 +28,7 @@ public class Pet {
     // Constructor
     public Pet(String petID, String petName, int age, boolean gender, String description, String category,
                String address, double longitude, double latitude, String ownerId, String adopterId,
-               List<String> interestedUserIds, List<String> uriStringList, List<String> blogTitles) {
+               List<String> interestedUserIds, List<String> uriStringList, String uploadTime) {
         this.petID = petID;
         this.petName = petName;
         this.age = age;
@@ -41,12 +42,10 @@ public class Pet {
         this.adopterId = adopterId;
         this.interestedUserIds = interestedUserIds;
         this.uriStringList = uriStringList;
-        this.blogTitles = blogTitles;
+        this.uploadTime = uploadTime;
     }
 
     // Getters and Setters
-
-
     public String getPetID() {
         return petID;
     }
@@ -157,6 +156,14 @@ public class Pet {
 
     public void setBlogTitles(List<String> blogTitles) {
         this.blogTitles = blogTitles;
+    }
+
+    public String getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
     }
 }
 

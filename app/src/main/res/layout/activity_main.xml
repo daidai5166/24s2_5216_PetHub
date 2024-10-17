@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#f5f5f5">
+    android:background="@drawable/rounded_background" >
 
     <!-- Top Section with Logo and Search Bar -->
     <LinearLayout
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#a3aa7f"
-        android:padding="16dp">
+        android:padding="16dp" >
 
         <!-- Logo Section -->
         <LinearLayout

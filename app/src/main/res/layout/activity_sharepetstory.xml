@@ -58,42 +58,45 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp" />
 
-        <!-- Pet Image Section -->
+        <!-- Image Upload Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_height="match_parent"
 
-            <!-- Pet Image -->
-            <!-- android:src="@drawable/ic_add_image"-->
-            <ImageView
-                android:id="@+id/pet_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+            android:orientation="horizontal">
 
-                android:contentDescription="Pet Image"
-                android:layout_marginEnd="16dp" />
+            <FrameLayout
+                android:id="@+id/blog_image_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gray_square">
 
-            <!-- Add Image Button -->
-            <!-- android:src="@drawable/ic_add_image"-->
-            <ImageView
-                android:id="@+id/add_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                <!-- upload icon -->
+                <ImageView
+                    android:id="@+id/upload_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Upload Icon"
+                    android:src="@drawable/ic_upload" />
 
-                android:contentDescription="Add Image"
-                android:background="@drawable/gray_square"
-                android:gravity="center" />
+            </FrameLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/share_recyclerViewImages"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scrollbars="horizontal"
+                android:orientation="horizontal"
+                />
         </LinearLayout>
 
         <!-- Story Section -->
         <EditText
-            android:id="@+id/story_title"
+            android:id="@+id/blog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Story Title"
-            android:text="Daisy's happy day !!!"
+            android:hint="Enter Blog Story Title"
             android:textSize="18sp"
             android:textColor="#000000"
             android:backgroundTint="#d4d8aa"
@@ -102,44 +105,22 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/story_description"
+            android:id="@+id/blog_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Write your story..."
-            android:text="Daisy made a new friend at the dog park today, they rolled around and play with each other. Daisy enjoyed herself on running after the ball, she didn’t want to go home at all!!!"
+            android:hint="Write your story here..."
             android:backgroundTint="#d4d8aa"
             android:textSize="16sp"
             android:textColor="#000000"
             android:padding="8dp"
             android:minLines="4"
+            android:maxLines="6"
+            android:ellipsize="end"
+            android:scrollHorizontally="false"
+            android:inputType="textMultiLine"
             android:gravity="top"
             android:layout_marginTop="16dp" />
-    </LinearLayout>
 
-    <!-- Location Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical">
-
-        <!-- Location Icon -->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Location Icon"
-            android:src="@drawable/ic_location" />
-
-        <!-- Location Text -->
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Burwood, Sydney"
-            android:textSize="16sp"
-            android:textColor="#000000" />
     </LinearLayout>
 
     <!-- Post Blog Button -->
@@ -153,6 +134,7 @@
         android:textAllCaps="false"
         android:padding="16dp"
         android:layout_gravity="center"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:onClick="onPostBlogClick"/>
 
 </LinearLayout>
