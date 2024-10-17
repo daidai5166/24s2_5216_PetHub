@@ -28,6 +28,7 @@ public class User {
     public String getFirebaseId() {
         return firebaseId;
     }
+
     public void setFirebaseId(String firebaseId) {
         this.firebaseId = firebaseId;
     }

@@ -29,6 +29,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private List<Pet> pets = new ArrayList<>();
+    private PetAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,74 +58,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 创建宠物数据
-        List<Pet> pets = new ArrayList<>();
-
-        /*pets.add(new Pet(
-                "Buddy",
-                3,
-                true,
-                "Friendly dog looking for a loving home",
-                "Dog",
-                "123 Park Avenue",
-                40.7128,
-                -74.0060,
-                "owner123",
-                null, // 还没有领养者
-                Arrays.asList("user1", "user2"), // 感兴趣的用户列表
-                Arrays.asList("https://example.com/dog1.jpg", "https://example.com/dog2.jpg"), // 图片 URI 列表
-                Arrays.asList("My blog about dogs", "Why you should adopt Buddy"), // 博客标题
-                successListener,
-                failureListener
-        ));
-
-        pets.add(new Pet(
-                "Whiskers",
-                2,
-                false,
-                "Playful cat with a big heart",
-                "Cat",
-                "456 Elm Street",
-                34.0522,
-                -118.2437,
-                "owner456",
-                null,
-                Arrays.asList("user3", "user4"),
-                Arrays.asList("https://example.com/cat1.jpg", "https://example.com/cat2.jpg"),
-                Arrays.asList("My experience with Whiskers", "Adopt a playful friend"),
-                successListener,
-                failureListener
-        ));
-
-        pets.add(new Pet(
-                "Tweety",
-                1,
-                false,
-                "Colorful bird who loves to sing",
-                "Bird",
-                "789 Oak Street",
-                51.5074,
-                -0.1278,
-                "owner789",
-                null,
-                Arrays.asList("user5"),
-                Arrays.asList("https://example.com/bird1.jpg"),
-                Arrays.asList("How to care for birds", "Meet Tweety the singing bird"),
-                successListener,
-                failureListener
-        ));*/
-
         // 创建适配器并绑定数据
-        PetAdapter adapter = new PetAdapter(this, pets);
+        adapter = new PetAdapter(this, pets);
         gridView.setAdapter(adapter);
 
-        ConnectDatabase connectDatabase = new ConnectDatabase();
+        // 获取宠物领养数据
+        fetchPetAdoptionPosts();
+    }
 
+    // 封装获取宠物领养帖的函数
+    private void fetchPetAdoptionPosts() {
+        ConnectDatabase connectDatabase = new ConnectDatabase();
         connectDatabase.getPetAdoptionPosts(
                 queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         try {
                             // 手动获取字段并调试数据
+                            String petID = document.getId();
                             String petName = document.getString("petName");
                             int age = document.getLong("age").intValue();
                             boolean gender = document.getBoolean("gender");
@@ -138,10 +90,11 @@ public class MainActivity extends AppCompatActivity {
                             List<String> blogTitles = (List<String>) document.get("blogTitles");
 
                             // 构造 Pet 对象
-                            Pet pet = new Pet(petName, age, gender, description, category, address, longitude, latitude, ownerId, adopterId, interestedUserIds, uriStringList, blogTitles);
+                            Pet pet = new Pet(petID, petName, age, gender, description, category, address, longitude, latitude, ownerId, adopterId, interestedUserIds, uriStringList, blogTitles);
 
                             // 添加到列表并刷新
                             pets.add(pet);
+                            Log.i("PetAdoptionPostID", petID);
                             Log.d("PetAdoptionPost", pet.getPetName());
                         } catch (Exception e) {
                             Log.e("PetAdoptionPost", "Error parsing document", e);

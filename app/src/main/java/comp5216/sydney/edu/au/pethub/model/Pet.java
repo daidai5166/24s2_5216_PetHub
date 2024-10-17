@@ -5,9 +5,8 @@ import java.util.List;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import comp5216.sydney.edu.au.pethub.R;
-
 public class Pet {
+    private String petID;
     private String petName;
     private int age;
     private boolean gender; // true: male, false: female
@@ -26,9 +25,10 @@ public class Pet {
     private OnFailureListener failureListener;
 
     // Constructor
-    public Pet(String petName, int age, boolean gender, String description, String category,
+    public Pet(String petID, String petName, int age, boolean gender, String description, String category,
                String address, double longitude, double latitude, String ownerId, String adopterId,
                List<String> interestedUserIds, List<String> uriStringList, List<String> blogTitles) {
+        this.petID = petID;
         this.petName = petName;
         this.age = age;
         this.gender = gender;
@@ -45,6 +45,16 @@ public class Pet {
     }
 
     // Getters and Setters
+
+
+    public String getPetID() {
+        return petID;
+    }
+
+    public void setPetID(String petID) {
+        this.petID = petID;
+    }
+
     public String getPetName() {
         return petName;
     }
