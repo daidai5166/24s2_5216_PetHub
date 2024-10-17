@@ -35,37 +35,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Pet Type Spinner -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pet Type"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp" />
-
-        <Spinner
-            android:id="@+id/spinner_pet_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Pet Breed Spinner -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pet Breed"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp" />
-
-        <Spinner
-            android:id="@+id/spinner_pet_breed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Location Spinner and Gender Selection -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,18 +49,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- Pet Type Spinner -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Location"
+                    android:text="Pet Type"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:layout_marginBottom="8dp" />
 
+
                 <Spinner
-                    android:id="@+id/spinner_location"
+                    android:id="@+id/spinner_pet_type"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp" />
             </LinearLayout>
 
             <!-- Gender Selector -->
@@ -136,17 +108,66 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Search Button -->
-        <Button
-            android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
+
+
+        <!-- Pet Breed Spinner -->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Pet Breed"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textColor="#000000"-->
+<!--            android:layout_marginBottom="8dp" />-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_pet_breed"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="16dp" />-->
+
+        <!-- Location Spinner and Gender Selection -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search"
-            android:backgroundTint="#a3aa7f"
-            android:textColor="#ffffff"
-            android:textAllCaps="false"
-            android:padding="12dp"
-            android:layout_gravity="center" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <!-- Location Spinner -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+                <!-- Search Button -->
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:backgroundTint="#a3aa7f"
+                    android:textColor="#ffffff"
+                    android:textAllCaps="false"
+                    android:padding="12dp"
+                    android:layout_gravity="center" />
+        </LinearLayout>
+
+
     </LinearLayout>
     <!-- Pet Results List -->
     <GridView
