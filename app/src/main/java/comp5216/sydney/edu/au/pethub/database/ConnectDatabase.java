@@ -243,7 +243,7 @@ public class ConnectDatabase {
                                    String adopterId,
                                    List<String> interestedUserIds,  // 多个人可能想要领养同一个宠物
                                    List<String> uriStringList,      // uri的string格式的list 照片路径
-                                   List<String> blogTitles,
+                                   String uploadTime,
                                    OnSuccessListener<String> successListener,
                                    OnFailureListener failureListener) {
         CollectionReference pets = db.collection("PetAdoptionPost");
@@ -260,7 +260,7 @@ public class ConnectDatabase {
         pet.put("adopterId", adopterId);
         pet.put("interestedUserIds", interestedUserIds);
         pet.put("uriStringList", uriStringList);
-        pet.put("blogTitles", blogTitles);
+        pet.put("uploadTime", uploadTime);
 
         pets.add(pet)
                 .addOnSuccessListener(documentReference -> {
@@ -460,7 +460,6 @@ public class ConnectDatabase {
             Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogTitle);
         }).addOnFailureListener(failureListener);
     }
-
 
     // 从Firebase Storage加载图片到ImageView 参数: this, imageView, 路径
     // 例如: loadImageFromFirebaseStorageToImageView(this, imageView, "Users/user123/avatar.jpg");

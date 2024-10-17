@@ -1,6 +1,6 @@
 <!-- res/drawable/rounded_background.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#FFFFFF"/> <!-- 白色背景 -->
+    <solid android:color="#F0F0F0"/> <!-- 白色背景 -->
     <!-- 设置上方两个圆角 -->
     <corners
         android:topLeftRadius="20dp"
