@@ -193,6 +193,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -212,6 +213,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -287,6 +289,35 @@ public class ConnectDatabase {
         db.collection("PetAdoptionPost")
                 .get()
                 .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+
+    public void getPetAdoptionPostsByFilter(String category, boolean gender, String location, OnSuccessListener<List<DocumentSnapshot>> successListener, OnFailureListener failureListener) {
+        // 构建初始查询，包含 category 和 gender 的筛选
+        Query query = db.collection("PetAdoptionPost")
+                .whereEqualTo("category", category)  // 完全匹配 category 字段
+                .whereEqualTo("gender", gender);  // 匹配 gender 为 true 或 false
+
+        // 执行查询
+        query.get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    // 如果 location 不是空字符串，进行客户端过滤
+                    List<DocumentSnapshot> filteredDocs = new ArrayList<>();
+                    if (location != null && !location.isEmpty()) {
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            String docLocation = doc.getString("address");
+                            if (docLocation != null && docLocation.contains(location)) {
+                                filteredDocs.add(doc);
+                            }
+                        }
+                    } else {
+                        // 如果 location 为空，使用所有文档
+                        filteredDocs.addAll(queryDocumentSnapshots.getDocuments());
+                    }
+
+                    // 返回过滤后的 DocumentSnapshot 列表
+                    successListener.onSuccess(filteredDocs);
+                })
                 .addOnFailureListener(failureListener);
     }
 
