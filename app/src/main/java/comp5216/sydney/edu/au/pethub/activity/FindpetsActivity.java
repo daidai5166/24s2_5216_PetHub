@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,10 +82,16 @@ public class FindpetsActivity extends AppCompatActivity {
 
         // Search page 获取 GridView 并设置点击事件
         GridView gridView = findViewById(R.id.grid_pets);
-        gridView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(FindpetsActivity.this, PetdetailsActivity.class);
-            // 可根据点击的项传递宠物的相关数据
-            startActivity(intent);
+        // GridView设置点击事件
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(FindpetsActivity.this, PetdetailsActivity.class);
+                Pet selectedPet = pets.get(position);
+                intent.putExtra("selectedPet", selectedPet);
+                // 可根据点击的项传递宠物的相关数据
+                startActivity(intent);
+            }
         });
 
 
