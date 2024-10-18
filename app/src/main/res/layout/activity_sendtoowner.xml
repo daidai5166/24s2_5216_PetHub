@@ -40,15 +40,15 @@
             android:layout_marginTop="8dp" />
 
         <!-- User Location -->
-        <TextView
-            android:id="@+id/user_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sydney NSW"
-            android:textSize="16sp"
-            android:textColor="#ffffff"
-            android:gravity="center"
-            android:layout_marginTop="4dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/user_location"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Sydney NSW"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginTop="4dp" />-->
     </LinearLayout>
 
     <!-- Form Fields for Contact Information -->
@@ -154,5 +154,6 @@
         android:textColor="#ffffff"
         android:textAllCaps="false"
         android:padding="16dp"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:onClick="onSendClick"/>
 </LinearLayout>
