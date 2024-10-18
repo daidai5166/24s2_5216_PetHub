@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import comp5216.sydney.edu.au.pethub.R;
@@ -23,8 +24,14 @@ public class PetAdapter extends BaseAdapter {
 
     // 构造方法
     public PetAdapter(Context context, List<Pet> petList) {
+
         this.context = context;
-        this.petList = petList;
+        if(petList != null){
+            this.petList = petList;
+        }
+        else {
+            this.petList = new ArrayList<>() ;
+        }
     }
 
     @Override

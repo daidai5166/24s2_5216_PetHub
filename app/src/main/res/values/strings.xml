@@ -16,4 +16,39 @@
     <string name="inputAddress">Please enter your address below</string>
     <string name="petEmptyDescription">This pet has not been introduced yet! 😢</string>
     <string name="selectPetCategoryWarn">Please select the pet category!</string>
+
+    <string-array name="pet_types">
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Bird</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="search_pet_locations">
+        <item>Albury</item>
+        <item>Armidale</item>
+        <item>Bathurst</item>
+        <item>Broken Hill</item>
+        <item>Cessnock</item>
+        <item>Coffs Harbour</item>
+        <item>Dubbo</item>
+        <item>Gosford</item>
+        <item>Goulburn</item>
+        <item>Grafton</item>
+        <item>Griffith</item>
+        <item>Lake Macquarie</item>
+        <item>Lismore</item>
+        <item>Maitland</item>
+        <item>Newcastle</item>
+        <item>Nowra</item>
+        <item>Orange</item>
+        <item>Port Macquarie</item>
+        <item>Queanbeyan</item>
+        <item>Sydney</item>
+        <item>Tamworth</item>
+        <item>Tweed Heads</item>
+        <item>Wagga Wagga</item>
+        <item>Wollongong</item>
+        <item>Wyong</item>
+    </string-array>
 </resources>

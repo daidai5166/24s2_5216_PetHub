@@ -241,7 +241,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
-
+    <Button
+        android:id="@+id/btn_sign_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Out"
+        android:backgroundTint="#a3aa7f"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:onClick="onSignOutClick"
+        android:enabled="true"/>
 
     <!-- Bottom Navigation Bar -->
     <!--  remember set id to use  -->

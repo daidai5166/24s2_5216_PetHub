@@ -1,5 +1,7 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
@@ -436,7 +438,7 @@ public class PostpetActivity extends AppCompatActivity {
             }
         }
         int age = Integer.parseInt(petAge); // 转换petAge格式
-        boolean gender = petGender.equalsIgnoreCase("male");//转化petGender格式到Boolean
+        boolean gender = petGender.equalsIgnoreCase("male"); //转化petGender格式到Boolean, male为true, female为false
         // TODO 等待navigation bar校验写完
         String ownerId="1";//myUser.getFirebaseId();//用户firebase的ID
         String adopterId="";//新宠物暂无领养人
