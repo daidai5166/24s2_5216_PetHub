@@ -24,11 +24,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.adapters.PetAdapter;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 import comp5216.sydney.edu.au.pethub.model.Pet;
+import comp5216.sydney.edu.au.pethub.model.User;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
 public class FindpetsActivity extends AppCompatActivity {
 
@@ -40,6 +43,7 @@ public class FindpetsActivity extends AppCompatActivity {
 
     ArrayList<Pet> pets;
     PetAdapter petAdapter;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +70,8 @@ public class FindpetsActivity extends AppCompatActivity {
         spinnerPetType.setAdapter(adapter);
 
         spinnerLocation = findViewById(R.id.spinner_location);
-
+        MyApp myApp = (MyApp) getApplication();
+        user = myApp.getUser();
 //        // 获取 string-array 资源
 //        ArrayAdapter<CharSequence> adapterLocation = ArrayAdapter.createFromResource(this,
 //                R.array.search_pet_locations, android.R.layout.simple_spinner_item);
@@ -180,8 +185,11 @@ public class FindpetsActivity extends AppCompatActivity {
                                     uploadTime
                             );
 
-                            // 添加到列表并刷新
-                            pets.add(pet);
+                            if(user == null || !Objects.equals(user.getFirebaseId(), ownerId)) {
+                                // 添加到列表并刷新
+                                pets.add(pet);
+                            }
+
                             Log.d("PetAdoptionPost", pet.getPetName());
                         } catch (Exception e) {
                             Log.e("PetAdoptionPost", "Error parsing document", e);
