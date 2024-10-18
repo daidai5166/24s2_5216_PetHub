@@ -512,6 +512,27 @@ public class ConnectDatabase {
         }
     }
 
+    // 添加了OnFailureListener的版本
+    public static void loadImageFromFirebaseStorageToImageView(
+            Context context,
+            ImageView imageView,
+            String imagePath,
+            OnFailureListener failureListener
+    ) {
+        Log.i("Load Image", "Loading image from " + imagePath + " from storage");
+
+        if (imagePath != null && !imagePath.isEmpty()) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                Log.i("Firebase Storage", "Image found in storage");
+                Glide.with(context).load(uri).into(imageView);
+            }).addOnFailureListener(e -> {
+                failureListener.onFailure(e);
+                Log.e("Firebase Storage Load Image", "Failed to load image from storage");
+            });
+        }
+    }
+
     // 不使用cache加载图片到ImageView 参数: this, imageView, 路径
     // 会清除Glide的内存缓存
     // 目前感觉没起作用

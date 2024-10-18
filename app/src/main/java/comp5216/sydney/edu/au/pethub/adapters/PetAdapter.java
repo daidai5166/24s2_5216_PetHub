@@ -14,9 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bumptech.glide.Glide;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.model.Pet;
 
@@ -76,6 +73,12 @@ public class PetAdapter extends BaseAdapter {
         loadImageFromFirebaseStorageToImageView(context, petImage, URL);
 
         return convertView; // 返回完整的视图作为 GridView 中的每一项
+    }
+
+    public void updatePets(List<Pet> newPets) {
+        this.petList.clear();
+        this.petList.addAll(newPets);
+        notifyDataSetChanged();
     }
 }
 
