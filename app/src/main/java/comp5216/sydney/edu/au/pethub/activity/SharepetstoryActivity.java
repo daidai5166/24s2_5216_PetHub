@@ -83,7 +83,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
-    private List<Uri> imageUris = new ArrayList<>();
+    private List<Object> imageUris = new ArrayList<>();
     MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
     ConnectDatabase connectDatabase;
 

@@ -74,6 +74,12 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        findViewById(R.id.my_pet).setOnClickListener(v -> {
+            Intent intent = new Intent(AccountActivity.this, MypetsActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     public void onSignOutClick(View view) {

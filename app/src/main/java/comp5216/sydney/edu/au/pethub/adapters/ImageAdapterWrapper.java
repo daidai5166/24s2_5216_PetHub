@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ImageAdapterWrapper extends BaseAdapter {
     private ImageAdapter imageAdapter;
 
-    public ImageAdapterWrapper(Context context, List<Uri> imageUris) {
+    public ImageAdapterWrapper(Context context, List<Object> imageUris) {
         // 使用现有的 ImageAdapter 逻辑
         imageAdapter = new ImageAdapter(context, imageUris);
     }
