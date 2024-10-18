@@ -121,7 +121,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="12dp">
+            android:padding="12dp"
+            android:id="@+id/my_pet">
 
             <ImageView
                 android:layout_width="24dp"

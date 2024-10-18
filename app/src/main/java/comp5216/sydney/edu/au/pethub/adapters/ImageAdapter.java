@@ -1,5 +1,9 @@
 package comp5216.sydney.edu.au.pethub.adapters;
 
+;
+
+import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -19,10 +23,10 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private List<Uri> imageUris;
+    private List<Object> imageUris; // 支持 Uri 和 String 类型
     private Context context;
 
-    public ImageAdapter(Context context, List<Uri> imageUris) {
+    public ImageAdapter(Context context, List<Object> imageUris) {
         this.context = context;
         this.imageUris = imageUris;
     }
@@ -74,8 +78,18 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Uri imageUri = imageUris.get(position);
-        holder.imageView.setImageURI(imageUri);  // 设置图片
+//        Uri imageUri = imageUris.get(position);
+//        holder.imageView.setImageURI(imageUri);  // 设置图片
+        Object imageObject = imageUris.get(position);
+
+        // 判断类型是 Uri 还是 String
+        if (imageObject instanceof Uri) {
+            // 如果是 Uri 类型，直接加载
+            holder.imageView.setImageURI((Uri) imageObject);
+        } else if (imageObject instanceof String) {
+            // 如果是 String 类型，调用加载 Firebase Storage 图片的函数
+            loadImageFromFirebaseStorageToImageView(context, holder.imageView, (String) imageObject);
+        }
 
         // 删除按钮点击事件
         holder.btnDelete.setOnClickListener(v -> {

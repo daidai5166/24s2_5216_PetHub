@@ -273,10 +273,15 @@ public class ConnectDatabase {
 
     }
 
-    public void deletePetAdoptionPost(String postId) {
+    public void deletePetAdoptionPost(String postId, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
         db.collection("PetAdoptionPost").document(postId)
                 .delete()
-                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Pet Adoption Post deleted successfully"));
+                .addOnSuccessListener(aVoid -> {
+                    successListener.onSuccess(aVoid);
+                    Log.d(TAG_FIRESTORE, "Pet Adoption Post deleted successfully");
+
+                })
+                .addOnFailureListener(failureListener);
     }
 
     public void updatePetAdoptionPost(String postId, Map<String, Object> updates) {
@@ -320,6 +325,7 @@ public class ConnectDatabase {
                 })
                 .addOnFailureListener(failureListener);
     }
+
 
     // CRUD for User (用户)
     public void addUser(String userName,

@@ -85,7 +85,7 @@ public class PostpetActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
-    private List<Uri> imageUris = new ArrayList<>();
+    private List<Object> imageUris = new ArrayList<>();
     MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
     ConnectDatabase connectDatabase;
 
@@ -433,13 +433,14 @@ public class PostpetActivity extends AppCompatActivity {
 
         if (imageUris != null){
             // 将每个 Uri 转换为字符串
-            for (Uri uri : imageUris) {
+            for (Object uri : imageUris) {
                 uriStringList.add(uri.toString());
             }
         }
         int age = Integer.parseInt(petAge); // 转换petAge格式
         boolean gender = petGender.equalsIgnoreCase("male"); //转化petGender格式到Boolean, male为true, female为false
-        String ownerId= myUser.getFirebaseId();//用户firebase的ID
+        // TODO 等待navigation bar校验写完
+        String ownerId=myUser.getFirebaseId();//myUser.getFirebaseId();//用户firebase的ID
         String adopterId="";//新宠物暂无领养人
         List<String> interestedUserIds=new ArrayList<>();//新宠物暂无兴趣人
         connectDatabase.addPetAdoptionPost(
@@ -458,7 +459,7 @@ public class PostpetActivity extends AppCompatActivity {
                 uploadTime,
                 documentId -> {
                     for (int i = 0; i < imageUris.size(); i++) {
-                        Uri imageUri = imageUris.get(i);        // 获取当前图片的 Uri
+                        Uri imageUri = (Uri) imageUris.get(i);        // 获取当前图片的 Uri
                         String imageName = imageNames.get(i);   // 获取当前图片的名称
 
                         // 调用上传函数，传入图片名称和 Uri
@@ -484,4 +485,9 @@ public class PostpetActivity extends AppCompatActivity {
                     Log.e("FirestoreDatabase", "Error uploading pet");
                 });
     }
+    public void goBack(View view){
+        onBackPressed();
+
+    }
+
 }
