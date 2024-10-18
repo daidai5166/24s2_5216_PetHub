@@ -409,17 +409,25 @@ public class ConnectDatabase {
                         String petID,
                         OnSuccessListener<String> successListener, //从宠物领养贴找到 blogTitle.
                         OnFailureListener failureListener) {
-        CollectionReference blogs = db.collection("Blog");
+        CollectionReference blogs = db.collection("Blogs");
         Map<String, Object> blog = new HashMap<>();
+        List<String> likedUsers = new ArrayList<>();
         blog.put("blogTitle", blogTitle);
         blog.put("content", content);
         blog.put("petName", petName);
         blog.put("category", category);
         blog.put("postTime", postTime);
         blog.put("userEmail", ownerId);
-        blog.put("likedUsers", new String[] {});
         blog.put("petID", petID);
         blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Blog added with ID: " + documentReference.getId()));
+        blog.put("likedUsers", likedUsers);
+
+        blogs.add(blog)
+                .addOnSuccessListener(documentReference -> {
+                            Log.d(TAG_FIRESTORE, "Pet Blog Post added with ID: " + documentReference.getId());
+                            successListener.onSuccess(documentReference.getId());
+                        }
+                ).addOnFailureListener(failureListener);
     }
 
     public void deleteBlog(String blogId) {
@@ -487,14 +495,14 @@ public class ConnectDatabase {
     }
 
     // 上传博客图片
-    public void uploadBlogImage(String blogTitle, Uri blogImageUri, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+    public void uploadBlogImage(String blogID, Uri blogImageUri, String imageName, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();
-        StorageReference blogImageRef = storageRef.child("Blogs/" + blogTitle + "/image.jpg");
+        StorageReference blogImageRef = storageRef.child("Blogs/" + blogID + imageName);
 
         UploadTask uploadTask = blogImageRef.putFile(blogImageUri);
         uploadTask.addOnSuccessListener(taskSnapshot -> {
             blogImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
-            Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogTitle);
+            Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogID);
         }).addOnFailureListener(failureListener);
     }
 

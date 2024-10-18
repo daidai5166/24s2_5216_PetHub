@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,6 +87,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
     private List<Object> imageUris = new ArrayList<>();
     MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
     ConnectDatabase connectDatabase;
+    private Spinner selectPetSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +120,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
         uploadPetImageClickListener(blogImageUpload);
 
         //读取用户的宠物数据，++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        Spinner selectPetSpinner = findViewById(R.id.select_pet_spinner);
+        selectPetSpinner = findViewById(R.id.select_pet_spinner);
         List<String> petNames = new ArrayList<>();
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -144,8 +146,21 @@ public class SharepetstoryActivity extends AppCompatActivity {
                     Toast.makeText(SharepetstoryActivity.this, "Failed to load pets.", Toast.LENGTH_SHORT).show();
                 });
 
-        // Use selectedPetName in your blog post creation logic
-        //String selectedPetName = selectPetSpinner.getSelectedItem().toString();
+        // 设置 Spinner 的监听器
+        selectPetSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // 获取用户选中的宠物名称
+                String selectedPetName = parent.getItemAtPosition(position).toString();
+                // 在这里可以使用 selectedPetName，或者存储为全局变量
+                Log.d("SelectedPet", "用户选择了宠物: " + selectedPetName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 当没有选择任何项目时的处理
+            }
+        });
     }
 
     //  绑定上传按钮的点击事件
@@ -313,72 +328,93 @@ public class SharepetstoryActivity extends AppCompatActivity {
         return  true;
     }
 
-//    public void onPostBlogClick(View v){
-//        blogTitle = mblogNameField.getText().toString().trim();
-//        mblogDescription = mblogDescriptionField.getText().toString().trim();
-//        // 创建一个用来保存图片名字的列表
-//        List<String> imageNames = new ArrayList<>();
-//
-//        // 遍历 imageUris，根据每个 Uri 的索引生成文件名
-//        for (int i = 0; i < imageUris.size(); i++) {
-//            // 可以根据索引生成文件名，例如 "image_0.jpg", "image_1.jpg" 等
-//            String imageName = "/image_" + i + ".jpg";
-//            imageNames.add(imageName);
-//        }
-//
-//        // 检查title
-//        if (!checkNameInput(blogTitle)){
-//            return;
-//        }
-//
-//        // 检查Description 也就是 content
-//        if (!checkDescriptionInput(mblogDescription)){
-//            return;
-//        }
-//
-//        // TODO 等待navigation bar校验写完
-//        String ownerId="1";//myUser.getFirebaseId();//用户firebase的ID
-//
-//        //List<String> interestedUserIds=new ArrayList<>();//新宠物暂无兴趣人
-//
-//        //List<String> blogTitles=new ArrayList<>();
-//
-//        connectDatabase.addBlog(
-//                blogTitle,
-//                mblogDescription,
-//                ownerId,
-////                String petName,
-////                String category,
-////                String postTime,
-////                String ownerId,
-////                String petID,
-//                //TODO liked users?
-//                documentId  ->{
-//                    for (int i = 0; i < imageUris.size(); i++) {
-//                        Uri imageUri = imageUris.get(i);        // 获取当前图片的 Uri
-//                        String imageName = imageNames.get(i);   // 获取当前图片的名称
-//
-//                        // 调用上传函数，传入图片名称和 Uri
-//                        connectDatabase.uploadPetImage(documentId, imageUri, imageName,
-//                                // 成功回调
-//                                downloadUri -> {
-//                                    Log.d("FirestoreDatabase", "Image uploaded successfully: " + imageName);
-//                                    // 您可以在这里处理每次图片上传成功后的逻辑，例如保存下载 URL
-//                                },
-//                                // 失败回调
-//                                e -> {
-//                                    Log.e("FirestoreDatabase", "Failed to upload image: " + imageName, e);
-//                                }
-//                        );
-//                    }
-//                    Toast.makeText(SharepetstoryActivity.this, "Upload success.",
-//                            Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(SharepetstoryActivity.this, MypetsActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                },
-//                e ->{
-//                    Log.e("FirestoreDatabase", "Error uploading pet");
-//                });
-//    }
+    public void onPostBlogClick(View v){
+        blogTitle = mblogNameField.getText().toString().trim();
+        mblogDescription = mblogDescriptionField.getText().toString().trim();
+
+        //Use selectedPetName in your blog post creation logic
+        String selectedPetName = selectPetSpinner.getSelectedItem().toString();
+
+        // 获取当前用户的 ID
+        String ownerId = myUser.getFirebaseId();
+
+        // 获取当前时间作为 postTime
+        String postTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        // 检查title
+        if (!checkNameInput(blogTitle)){
+            return;
+        }
+
+        // 检查Description 也就是 content
+        if (!checkDescriptionInput(mblogDescription)){
+            return;
+        }
+
+        // 从数据库中获取选中宠物的详细信息
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("PetAdoptionPost")
+                .whereEqualTo("ownerId", ownerId)
+                .whereEqualTo("petName", selectedPetName)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        DocumentSnapshot petDocument = querySnapshot.getDocuments().get(0);
+                        String petID = petDocument.getId();
+                        String category = petDocument.getString("category");
+
+                        // 调用 addBlog 方法
+                        connectDatabase.addBlog(
+                                blogTitle,
+                                mblogDescription,
+                                selectedPetName,
+                                category,
+                                postTime,
+                                ownerId,
+                                petID,
+                                documentId -> {
+                                    // 博客添加成功后，上传图片
+                                    List<String> imageNames = new ArrayList<>();
+                                    for (int i = 0; i < imageUris.size(); i++) {
+                                        String imageName = "/image_" + i + ".jpg";
+                                        imageNames.add(imageName);
+                                    }
+
+                                    for (int i = 0; i < imageUris.size(); i++) {
+                                        Uri imageUri = (Uri) imageUris.get(i);
+                                        String imageName = imageNames.get(i);
+                                        Log.i("imageName", imageName);
+
+                                        // 上传与博客相关的每张图片
+                                        connectDatabase.uploadBlogImage(documentId, imageUri, imageName,
+                                                downloadUri -> {
+                                                    Log.d("FirestoreDatabase", "Image uploaded successfully: " + imageName);
+                                                },
+                                                e -> {
+                                                    Log.e("FirestoreDatabase", "Failed to upload image: " +  e);
+                                                }
+                                        );
+                                    }
+
+                                    Toast.makeText(SharepetstoryActivity.this, "Upload success.",
+                                            Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(SharepetstoryActivity.this, MyBlogsActivity.class);
+                                    startActivity(intent);
+                                    //finish();
+                                },
+                                e ->{
+                                    Log.e("FirestoreDatabase", "Error uploading blog", e);
+                                    Toast.makeText(SharepetstoryActivity.this, "Failed to upload blog.", Toast.LENGTH_SHORT).show();
+                                }
+                        );
+                    } else {
+                        // 未找到匹配的宠物
+                        Toast.makeText(SharepetstoryActivity.this, "Pet not found.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirestoreDatabase", "Error fetching pet details", e);
+                    Toast.makeText(SharepetstoryActivity.this, "Failed to fetch pet details.", Toast.LENGTH_SHORT).show();
+                });
+    }
 }
