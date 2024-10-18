@@ -506,7 +506,7 @@ public class ConnectDatabase {
     }
 
     // 上传宠物图片
-    public void uploadPetImage(String petName, Uri petImageUri,String photoName ,OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+    public void uploadPetImage(String petName, Uri petImageUri, String photoName ,OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();
         StorageReference petImageRef = storageRef.child("Pets/" + petName + photoName);
 

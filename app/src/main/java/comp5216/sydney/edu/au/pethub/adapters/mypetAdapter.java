@@ -21,7 +21,7 @@ import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.model.Pet;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 
-public class mypetAdapter  extends RecyclerView.Adapter<mypetAdapter .PetViewHolder> {
+public class mypetAdapter extends RecyclerView.Adapter<mypetAdapter.PetViewHolder> {
     private Context context;
     private List<Pet> petList;
     public mypetAdapter (Context context,List<Pet> petList) {
