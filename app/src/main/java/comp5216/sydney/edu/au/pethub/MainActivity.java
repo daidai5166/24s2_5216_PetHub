@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, PetdetailsActivity.class);
+                Pet selectedPet = pets.get(position);
+                intent.putExtra("selectedPet", selectedPet);
                 // 可根据点击的项传递宠物的相关数据
                 startActivity(intent);
             }

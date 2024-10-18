@@ -4,8 +4,12 @@ import java.util.List;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Pet {
+import androidx.annotation.NonNull;
+
+public class Pet implements Parcelable {
     private String petID;
     private String petName;
     private int age;
@@ -44,6 +48,36 @@ public class Pet {
         this.uriStringList = uriStringList;
         this.uploadTime = uploadTime;
     }
+
+    protected Pet(Parcel in) {
+        petID = in.readString();
+        petName = in.readString();
+        age = in.readInt();
+        gender = in.readByte() != 0;
+        description = in.readString();
+        category = in.readString();
+        address = in.readString();
+        longitude = in.readDouble();
+        latitude = in.readDouble();
+        ownerId = in.readString();
+        adopterId = in.readString();
+        interestedUserIds = in.createStringArrayList();
+        uriStringList = in.createStringArrayList();
+        blogTitles = in.createStringArrayList();
+        uploadTime = in.readString();
+    }
+
+    public static final Creator<Pet> CREATOR = new Creator<Pet>() {
+        @Override
+        public Pet createFromParcel(Parcel in) {
+            return new Pet(in);
+        }
+
+        @Override
+        public Pet[] newArray(int size) {
+            return new Pet[size];
+        }
+    };
 
     // Getters and Setters
     public String getPetID() {
@@ -164,6 +198,30 @@ public class Pet {
 
     public void setUploadTime(String uploadTime) {
         this.uploadTime = uploadTime;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(petID);
+        parcel.writeString(petName);
+        parcel.writeInt(age);
+        parcel.writeByte((byte) (gender ? 1 : 0));
+        parcel.writeString(description);
+        parcel.writeString(category);
+        parcel.writeString(address);
+        parcel.writeDouble(longitude);
+        parcel.writeDouble(latitude);
+        parcel.writeString(ownerId);
+        parcel.writeString(adopterId);
+        parcel.writeStringList(interestedUserIds);
+        parcel.writeStringList(uriStringList);
+        parcel.writeStringList(blogTitles);
+        parcel.writeString(uploadTime);
     }
 }
 
