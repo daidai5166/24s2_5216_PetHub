@@ -5,6 +5,7 @@ import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFr
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ public class PetdetailsActivity extends AppCompatActivity {
     TextView postDateField;
 
     Button adoptButton;
-
+    ImageView backButton;
     int currentImageIndex = 0;
 
     @Override
@@ -62,7 +63,7 @@ public class PetdetailsActivity extends AppCompatActivity {
         postDateField = findViewById(R.id.post_date);
         ownerAvatarField = findViewById(R.id.owner_image);
         adoptButton = findViewById(R.id.btn_adopt);
-
+        backButton = findViewById(R.id.back_button);
         // 左右箭头
         arrowLeft = findViewById(R.id.arrow_left);
         arrowRight = findViewById(R.id.arrow_right);
@@ -144,5 +145,14 @@ public class PetdetailsActivity extends AppCompatActivity {
                     }
                 }
             });
+    }
+
+    public void onAdoptButton(View view) {
+        Intent intent = new Intent(this, SendtoownerActivity.class);
+        startActivity(intent);
+    }
+
+    public void onBackClick(View view) {
+        finish();
     }
 }

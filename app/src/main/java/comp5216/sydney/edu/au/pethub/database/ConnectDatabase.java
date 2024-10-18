@@ -466,6 +466,29 @@ public class ConnectDatabase {
                 .addOnFailureListener(failureListener);
     }
 
+    // CRUD for Request (请求)
+    public void addRequest(String userId,
+                           String userName,
+                           String email,
+                           int phone,
+                           String address,
+                           String message,
+                           OnSuccessListener<String> successListener,
+                           OnFailureListener failureListener) {
+        CollectionReference requests = db.collection("Requests");
+        Map<String, Object> request = new HashMap<>();
+        request.put("userId", userId);
+        request.put("userName", userName);
+        request.put("email", email);
+        request.put("phone", phone);
+        request.put("address", address);
+        request.put("message", message);
+
+        requests.add(request).addOnSuccessListener(documentReference -> {
+            Log.d(TAG_FIRESTORE, "User added with ID: " + documentReference.getId());
+            successListener.onSuccess(documentReference.getId());
+        });
+    }
     // 上传用户头像
     public void uploadUserAvatar(String userId, Bitmap avatarBitmap, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();
@@ -505,6 +528,7 @@ public class ConnectDatabase {
             Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogID);
         }).addOnFailureListener(failureListener);
     }
+
 
     // 从Firebase Storage加载图片到ImageView 参数: this, imageView, 路径
     // 例如: loadImageFromFirebaseStorageToImageView(this, imageView, "Users/user123/avatar.jpg");

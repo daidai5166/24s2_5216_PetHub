@@ -60,6 +60,9 @@
             android:name=".activity.MyBlogsActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.SendtoownerActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SignUpActivity"
             android:exported="true" />
         <activity
