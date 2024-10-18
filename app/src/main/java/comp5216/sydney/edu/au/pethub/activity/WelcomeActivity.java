@@ -3,16 +3,24 @@ package comp5216.sydney.edu.au.pethub.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.viewpager2.widget.ViewPager2;
+
+import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
+import comp5216.sydney.edu.au.pethub.model.User;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 import comp5216.sydney.edu.au.pethub.util.MarshmallowPermission;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import comp5216.sydney.edu.au.pethub.MainActivity;
 import comp5216.sydney.edu.au.pethub.R;
@@ -23,6 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private android.widget.Button getStartedButton;
     private TextView titleText, descriptionText;
     private Handler handler = new Handler();
+    ConnectDatabase connectDatabase;
     MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
 
     @Override
@@ -35,6 +44,7 @@ public class WelcomeActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         titleText = findViewById(R.id.title);
         descriptionText = findViewById(R.id.description);
+        connectDatabase = new ConnectDatabase();
 
         // 创建并设置适配器
         ViewPagerAdapter adapter = new ViewPagerAdapter();
@@ -49,9 +59,23 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            Log.i("WelcomeActivity", "User already logged in");
+            MyApp myApp = (MyApp) getApplication();
+
+            connectDatabase.getUserByEmail(firebaseUser.getEmail(), user -> {
+                myApp.setUser(user);
+                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }, e -> {
+
+            });
+        }
         // 自动滑动
         autoScrollViewPager();
-        
+
         // 获取开始按钮
         getStartedButton = findViewById(R.id.get_started);
         getStartedButton.setOnClickListener(v -> {

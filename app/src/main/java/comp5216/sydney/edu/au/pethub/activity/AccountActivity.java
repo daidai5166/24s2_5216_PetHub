@@ -12,12 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import comp5216.sydney.edu.au.pethub.MainActivity;
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.model.User;
 import comp5216.sydney.edu.au.pethub.singleton.MyApp;
@@ -73,5 +75,18 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+
+    public void onSignOutClick(View view) {
+        // 获取 FirebaseAuth 实例
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        // 登出当前用户
+        mAuth.signOut();
+        MyApp myApp = (MyApp) getApplication();
+        myApp.setUser(null);
+        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
