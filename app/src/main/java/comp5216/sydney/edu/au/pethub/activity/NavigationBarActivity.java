@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import comp5216.sydney.edu.au.pethub.MainActivity;
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 import comp5216.sydney.edu.au.pethub.model.User;

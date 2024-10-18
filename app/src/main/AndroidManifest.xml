@@ -69,7 +69,7 @@
             android:name=".activity.AccountActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true" />
         <activity
             android:name=".activity.SharepetstoryActivity"

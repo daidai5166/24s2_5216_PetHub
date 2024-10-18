@@ -1,6 +1,7 @@
-package comp5216.sydney.edu.au.pethub;
+package comp5216.sydney.edu.au.pethub.activity;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
@@ -10,8 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 
-import comp5216.sydney.edu.au.pethub.activity.PetdetailsActivity;
-import comp5216.sydney.edu.au.pethub.activity.NavigationBarActivity;
+import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 import comp5216.sydney.edu.au.pethub.model.Pet;
 import comp5216.sydney.edu.au.pethub.adapters.PetAdapter;
@@ -20,24 +20,36 @@ import comp5216.sydney.edu.au.pethub.util.MarshmallowPermission;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private List<Pet> pets = new ArrayList<>();
     private PetAdapter adapter;
     private FusedLocationProviderClient fusedLocationClient;
-    MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
 
     private double currentLatitude;
     private double currentLongitude;
+    private Button btnDogs;
+    private Button btnCats;
+    private Button btnBirds;
+    private Button btnOthers;
+    private Button btnSearch;
+    private TextView textSearch;
+
+    MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
+    private Map<String, List<Pet>> categorizedPets = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +62,62 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // 获取位置
+        getLastKnownLocation();
+
+        btnDogs = findViewById(R.id.btn_dogs);
+        btnCats = findViewById(R.id.btn_cats);
+        btnBirds = findViewById(R.id.btn_birds);
+        btnOthers = findViewById(R.id.btn_others);
+        btnSearch = findViewById(R.id.btn_search);
+        textSearch = findViewById(R.id.search_pet);
+
+        btnDogs.setOnClickListener(v -> {
+            resetButtonBackgrounds();
+            btnDogs.setBackgroundColor(Color.parseColor("#9dbf85"));
+            filterAndSortPetsByCategory("Dog");
+        });
+
+        btnCats.setOnClickListener(v -> {
+            resetButtonBackgrounds();
+            btnCats.setBackgroundColor(Color.parseColor("#9dbf85"));
+            filterAndSortPetsByCategory("Cat");
+        });
+
+        btnBirds.setOnClickListener(v -> {
+            resetButtonBackgrounds();
+            btnBirds.setBackgroundColor(Color.parseColor("#9dbf85"));
+            filterAndSortPetsByCategory("Bird");
+        });
+
+        btnOthers.setOnClickListener(v -> {
+            resetButtonBackgrounds();
+            btnOthers.setBackgroundColor(Color.parseColor("#9dbf85"));
+            filterAndSortPetsByCategory("Other");
+        });
+
+        btnSearch.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, FindpetsActivity.class);
+            startActivity(intent);
+        });
+
+        textSearch.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, FindpetsActivity.class);
+            startActivity(intent);
+        });
+
         // 初始化导航栏
         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
         navigationBarActivity.setupNavigationBar();
 
-        // Main page 获取 GridView 并设置点击事件
+        // Main page 获取 GridView
         GridView gridView = findViewById(R.id.grid_pets);
+
+        // 创建适配器并绑定数据
+        adapter = new PetAdapter(this, pets);
+        gridView.setAdapter(adapter);
+
+        // GridView设置点击事件
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -66,13 +128,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-        // 创建适配器并绑定数据
-        adapter = new PetAdapter(this, pets);
-        gridView.setAdapter(adapter);
+    private void resetButtonBackgrounds() {
+        Button btnDogs = findViewById(R.id.btn_dogs);
+        Button btnCats = findViewById(R.id.btn_cats);
+        Button btnBirds = findViewById(R.id.btn_birds);
+        Button btnOthers = findViewById(R.id.btn_others);
 
-        // 获取位置
-        getLastKnownLocation();
+        // Reset background to transparent for all buttons
+        btnDogs.setBackgroundColor(Color.TRANSPARENT);
+        btnCats.setBackgroundColor(Color.TRANSPARENT);
+        btnBirds.setBackgroundColor(Color.TRANSPARENT);
+        btnOthers.setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    private void categorizePets() {
+        for (Pet pet : pets) {
+            String category = pet.getCategory().toLowerCase();
+            categorizedPets.putIfAbsent(category, new ArrayList<>());
+            categorizedPets.get(category).add(pet);
+        }
+    }
+
+    private void filterAndSortPetsByCategory(String category) {
+        List<Pet> filteredPets = categorizedPets.get(category.toLowerCase());
+        if (filteredPets == null) {
+            filteredPets = new ArrayList<>();
+        }
+
+        // 排序逻辑保持不变
+        sortPetsByDistance(filteredPets);
+        adapter.updatePets(filteredPets);
     }
 
     // 封装获取宠物领养帖的函数
@@ -124,8 +211,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
+                    // 对宠物进行分类
+                    categorizePets();
+
                     // 在获取到当前位置后，进行排序
-                    sortPetsByDistance();
+                    sortPetsByDistance(pets);
 
                     // 数据更新后通知适配器刷新
                     adapter.notifyDataSetChanged();
@@ -144,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 对pets列表按照距离排序
-    public void sortPetsByDistance() {
+    public void sortPetsByDistance(List<Pet> sortPets) {
         if (currentLatitude == 0.0 && currentLongitude == 0.0) {
             // 未获取到当前位置时跳过排序
             Log.w("Sort", "Invalid Location");
@@ -152,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // 先按距离升序排列
-        pets.sort((pet1, pet2) -> {
+        sortPets.sort((pet1, pet2) -> {
             double distanceToPet1 = calculateDistance(currentLatitude, currentLongitude, pet1.getLatitude(), pet1.getLongitude());
             double distanceToPet2 = calculateDistance(currentLatitude, currentLongitude, pet2.getLatitude(), pet2.getLongitude());
 
