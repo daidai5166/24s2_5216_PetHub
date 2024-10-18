@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
-
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.noCacheLoadImageFromFirebaseStorageToImageView;
 
@@ -72,8 +71,24 @@ public class AccountActivity extends AppCompatActivity {
         findViewById(R.id.edit_profile).setOnClickListener(v -> {
             Intent intent = new Intent(AccountActivity.this, EditProfileActivity.class);
             startActivity(intent);
-            finish();
         });
+
+        findViewById(R.id.my_pet).setOnClickListener(v -> {
+            Intent intent = new Intent(AccountActivity.this, MypetsActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.my_blog).setOnClickListener(v -> {
+            Intent intent = new Intent(AccountActivity.this, MyBlogsActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.pet_message).setOnClickListener(v -> {
+            Intent intent = new Intent(AccountActivity.this, MyMessageList.class);
+            startActivity(intent);
+        });
+
+        // TODO: Help and About Us 待完成
     }
 
     public void onSignOutClick(View view) {

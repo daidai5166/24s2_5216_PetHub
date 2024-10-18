@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    // 对宠物进行分类
+                    // 对宠物进行分类并填入HashMap
                     categorizePets();
 
                     // 在获取到当前位置后，进行排序
