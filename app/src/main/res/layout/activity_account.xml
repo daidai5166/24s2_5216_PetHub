@@ -99,8 +99,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_edit"
-                android:contentDescription="Edit Profile" />
+                android:src="@drawable/ic_edit" />
 
             <TextView
                 android:id="@+id/tv_edit_profile"
@@ -119,13 +118,12 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:padding="12dp"
-            android:id="@+id/my_pet">
+            android:id="@+id/my_pet" >
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_mypet"
-                android:contentDescription="My Pet" />
+                android:src="@drawable/ic_mypet" />
 
             <TextView
                 android:id="@+id/tv_my_pet"
@@ -143,12 +141,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="12dp">
+            android:padding="12dp"
+            android:id="@+id/my_blog">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="My Blog"
                 android:src="@drawable/ic_myblog" />
 
             <TextView
@@ -167,12 +165,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="12dp">
+            android:padding="12dp"
+            android:id="@+id/pet_message">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="My Message"
                 android:src="@drawable/ic_myblog" />
 
             <TextView
@@ -196,8 +194,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_help"
-                android:contentDescription="Help" />
+                android:src="@drawable/ic_help" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -219,8 +216,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_about_us"
-                android:contentDescription="About Us" />
+                android:src="@drawable/ic_about_us" />
 
             <TextView
                 android:layout_width="wrap_content"
