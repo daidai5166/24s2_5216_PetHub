@@ -83,8 +83,17 @@
                 android:textStyle="bold"
                 android:fontFamily="sans-serif" />
 
+<!--            <TextView-->
+<!--                android:id="@+id/pet_breed"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Cavalier King Charles Spaniel"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textColor="#888888"-->
+<!--                android:layout_marginBottom="8dp" />-->
+
             <TextView
-                android:id="@+id/pet_breed"
+                android:id="@+id/pet_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cavalier King Charles Spaniel"
