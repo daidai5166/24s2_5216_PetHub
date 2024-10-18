@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
-import comp5216.sydney.edu.au.pethub.model.User;
 import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 import comp5216.sydney.edu.au.pethub.util.MarshmallowPermission;
 import androidx.annotation.NonNull;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import comp5216.sydney.edu.au.pethub.MainActivity;
 import comp5216.sydney.edu.au.pethub.R;
 
 public class WelcomeActivity extends AppCompatActivity {

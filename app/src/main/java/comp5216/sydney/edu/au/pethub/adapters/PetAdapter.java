@@ -74,5 +74,11 @@ public class PetAdapter extends BaseAdapter {
 
         return convertView; // 返回完整的视图作为 GridView 中的每一项
     }
+
+    public void updatePets(List<Pet> newPets) {
+        this.petList.clear();
+        this.petList.addAll(newPets);
+        notifyDataSetChanged();
+    }
 }
 
