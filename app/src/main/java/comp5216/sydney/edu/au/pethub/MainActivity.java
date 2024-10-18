@@ -69,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new PetAdapter(this, pets);
         gridView.setAdapter(adapter);
 
-        // 获取宠物领养数据
-        fetchPetAdoptionPosts();
-
         // 获取位置
         getLastKnownLocation();
     }
@@ -119,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                             pets.add(pet);
                             Log.i("PetAdoptionPostID", petID);
                             Log.d("PetAdoptionPost", pet.getPetName());
+                            Log.d("PetAdoptionPost", "latitude: " + latitude + ", longitude:" + longitude);
                         } catch (Exception e) {
                             Log.e("PetAdoptionPost", "Error parsing document", e);
                         }
@@ -147,17 +145,22 @@ public class MainActivity extends AppCompatActivity {
     public void sortPetsByDistance() {
         if (currentLatitude == 0.0 && currentLongitude == 0.0) {
             // 未获取到当前位置时跳过排序
-            Log.w("Sort", "当前位置无效，无法排序");
+            Log.w("Sort", "Invalid Location");
             return;
         }
 
-        // 使用Collections.sort进行排序
+        // 先按距离升序排列
         pets.sort((pet1, pet2) -> {
             double distanceToPet1 = calculateDistance(currentLatitude, currentLongitude, pet1.getLatitude(), pet1.getLongitude());
             double distanceToPet2 = calculateDistance(currentLatitude, currentLongitude, pet2.getLatitude(), pet2.getLongitude());
 
-            // 按距离升序排列
-            return Double.compare(distanceToPet1, distanceToPet2);
+            int distanceComparison = Double.compare(distanceToPet1, distanceToPet2);
+            if (distanceComparison != 0) {
+                return distanceComparison;
+            }
+
+            // 如果距离相等，再按时间降序排列
+            return pet2.getUploadTime().compareTo(pet1.getUploadTime());
         });
     }
 
@@ -172,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
                             currentLatitude = location.getLatitude();
                             currentLongitude = location.getLongitude();
                             Log.d("Location", "Latitude: " + currentLatitude + ", Longitude: " + currentLongitude);
+
+                            // 获取宠物领养数据
+                            fetchPetAdoptionPosts();
                         }
                     });
         } else {

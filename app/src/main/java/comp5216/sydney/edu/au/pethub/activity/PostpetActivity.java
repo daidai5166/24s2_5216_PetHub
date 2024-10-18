@@ -439,8 +439,7 @@ public class PostpetActivity extends AppCompatActivity {
         }
         int age = Integer.parseInt(petAge); // 转换petAge格式
         boolean gender = petGender.equalsIgnoreCase("male"); //转化petGender格式到Boolean, male为true, female为false
-        // TODO 等待navigation bar校验写完
-        String ownerId="1";//myUser.getFirebaseId();//用户firebase的ID
+        String ownerId= myUser.getFirebaseId();//用户firebase的ID
         String adopterId="";//新宠物暂无领养人
         List<String> interestedUserIds=new ArrayList<>();//新宠物暂无兴趣人
         connectDatabase.addPetAdoptionPost(
