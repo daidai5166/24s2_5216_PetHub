@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.pethub;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -34,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private List<Pet> pets = new ArrayList<>();
     private PetAdapter adapter;
     private FusedLocationProviderClient fusedLocationClient;
-    MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
 
     private double currentLatitude;
     private double currentLongitude;
+
+    MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
