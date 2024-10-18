@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import com.bumptech.glide.Glide;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.model.Pet;
 

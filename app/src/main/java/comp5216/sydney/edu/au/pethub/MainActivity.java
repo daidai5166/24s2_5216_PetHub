@@ -27,7 +27,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
 
-    // 全局变量
     private double currentLatitude;
     private double currentLongitude;
 
@@ -154,16 +152,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // 使用Collections.sort进行排序
-        Collections.sort(pets, (pet1, pet2) -> {
+        pets.sort((pet1, pet2) -> {
             double distanceToPet1 = calculateDistance(currentLatitude, currentLongitude, pet1.getLatitude(), pet1.getLongitude());
             double distanceToPet2 = calculateDistance(currentLatitude, currentLongitude, pet2.getLatitude(), pet2.getLongitude());
 
             // 按距离升序排列
             return Double.compare(distanceToPet1, distanceToPet2);
         });
-
-        // 更新UI
-//        adapter.notifyDataSetChanged();
     }
 
     @SuppressLint("MissingPermission")
