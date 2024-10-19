@@ -63,6 +63,9 @@
             android:name=".activity.SendtoownerActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.SelectnewownerActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SignUpActivity"
             android:exported="true" />
         <activity

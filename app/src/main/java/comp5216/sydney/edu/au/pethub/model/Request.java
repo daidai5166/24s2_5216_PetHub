@@ -1,6 +1,11 @@
 package comp5216.sydney.edu.au.pethub.model;
 
-public class Request {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Request implements Parcelable {
     private String userId;
     private String petID;
     private String requestId;
@@ -23,6 +28,30 @@ public class Request {
         this.phone = phone;
         this.date = date;
     }
+
+    protected Request(Parcel in) {
+        petID = in.readString();
+        userId = in.readString();
+        requestId = in.readString();
+        userName = in.readString();
+        email = in.readString();
+        address = in.readString();
+        message = in.readString();
+        phone = in.readInt();
+        date = in.readString();
+    }
+
+    public static final Creator<Request> CREATOR = new Creator<Request>() {
+        @Override
+        public Request createFromParcel(Parcel in) {
+            return new Request(in);
+        }
+
+        @Override
+        public Request[] newArray(int size) {
+            return new Request[size];
+        }
+    };
 
     public String getPetID() {
         return petID;
@@ -94,5 +123,23 @@ public class Request {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(petID);
+        parcel.writeString(userId);
+        parcel.writeString(requestId);
+        parcel.writeString(userName);
+        parcel.writeString(email);
+        parcel.writeString(address);
+        parcel.writeString(message);
+        parcel.writeInt(phone);
+        parcel.writeString(date);
     }
 }

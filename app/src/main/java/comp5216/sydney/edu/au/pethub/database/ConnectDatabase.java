@@ -291,6 +291,12 @@ public class ConnectDatabase {
 
     }
 
+    public void updatePetAdopterId(String petId, String adopterId) {
+        db.collection("PetAdoptionPost").document(petId)
+                .update("adopterId", adopterId)
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Pet Adoption Post updated successfully"));
+    }
+
 
 
 
@@ -574,6 +580,12 @@ public class ConnectDatabase {
                 .get()
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
+    }
+
+    public void deleteRequest(String requestId) {
+        db.collection("Requests").document(requestId)
+                .delete()
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Request deleted successfully"));
     }
 
     // 上传用户头像

@@ -185,7 +185,7 @@ public class FindpetsActivity extends AppCompatActivity {
                                     uploadTime
                             );
 
-                            if(user == null || !Objects.equals(user.getFirebaseId(), ownerId)) {
+                            if(user == null || !Objects.equals(user.getFirebaseId(), ownerId) || !Objects.equals(adopterId, "")) {
                                 // 添加到列表并刷新
                                 pets.add(pet);
                             }

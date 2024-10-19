@@ -149,9 +149,9 @@ public class MyMessageActivity extends AppCompatActivity {
 
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
-//            Log.i("MyMessageActivity", "Clicked item " + position + ": " + clickedItem);
-//            Intent intent = new Intent(MyMessageActivity.this, SelectnewownerActivity.class);
-//            if (intent != null) {
+            Log.i("MyMessageActivity", "Clicked item: " + position);
+            Intent intent = new Intent(MyMessageActivity.this, SelectnewownerActivity.class);
+            if (intent != null) {
 //                // put "extras" into the bundle for access in the edit activity
 //                intent.putExtra("itemID", clickedItem.getToDoItemID()+"");
 //                intent.putExtra("itemName", clickedItem.getToDoItemName());
@@ -159,9 +159,11 @@ public class MyMessageActivity extends AppCompatActivity {
 //                intent.putExtra("itemDate", clickedItem.getToDoItemDate());
 //                intent.putExtra("itemTime", clickedItem.getToDoItemTime());
 //                intent.putExtra("position", position);
-//                // brings up the second activity
-//                startActivity(intent);
-//            }
+                Request request = requests.get(position);
+                intent.putExtra("request", request);
+                // brings up the second activity
+                startActivity(intent);
+            }
         });
 
     }
