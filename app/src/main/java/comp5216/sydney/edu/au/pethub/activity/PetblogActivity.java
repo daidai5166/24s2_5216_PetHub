@@ -146,14 +146,24 @@ public class PetblogActivity extends AppCompatActivity {
     }
 
     private void filterAndSortBlogsByCategory(String category) {
-        List<Blog> filteredBlogs = categorizedBlogs.get(category.toLowerCase());
-        if (filteredBlogs == null) {
-            filteredBlogs = new ArrayList<>();
-        }
 
-        // 排序逻辑保持不变
-        sortBlogsByTime(filteredBlogs);
-        blogAdapter.updateBlogs(filteredBlogs);
+        List<Blog> filteredBlogs;
+
+        // 如果传入种类为Latest，则按照原有list的时间顺序排列
+        if (!category.equals("Latest")) {
+            filteredBlogs = categorizedBlogs.get(category.toLowerCase());
+            if (filteredBlogs == null) {
+                filteredBlogs = new ArrayList<>();
+            }
+
+            sortBlogsByTime(filteredBlogs);
+            blogAdapter.updateBlogs(filteredBlogs);
+        } else {
+
+            filteredBlogs = new ArrayList<>(blogList);
+            sortBlogsByTime(filteredBlogs);
+            blogAdapter.updateBlogs(filteredBlogs);
+        }
     }
 
     // 封装获取博客帖子的函数
@@ -161,6 +171,7 @@ public class PetblogActivity extends AppCompatActivity {
         ConnectDatabase connectDatabase = new ConnectDatabase();
         connectDatabase.getBlogs(
                 queryDocumentSnapshots -> {
+                    List<Blog> newBlogList = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         try {
                             // 手动获取字段并调试数据
@@ -188,7 +199,7 @@ public class PetblogActivity extends AppCompatActivity {
                             );
 
                             // 添加到博客列表
-                            blogList.add(blog);
+                            newBlogList.add(blog);
 
                             Log.i("BlogPostID", blogID);
                             Log.d("BlogPost", blog.getBlogTitle());
@@ -196,6 +207,10 @@ public class PetblogActivity extends AppCompatActivity {
                             Log.e("BlogPost", "Error parsing document", e);
                         }
                     }
+
+
+                    blogList.clear();
+                    blogList.addAll(newBlogList);
 
                     // 对博客进行分类或其他处理
                     categorizeBlogs();
@@ -212,16 +227,16 @@ public class PetblogActivity extends AppCompatActivity {
     private void categorizeBlogs() {
         for (Blog blog : blogList) {
             String category = blog.getCategory().toLowerCase();
-            categorizedBlogs.putIfAbsent(category, new ArrayList<>());
-            categorizedBlogs.get(category).add(blog);
+            categorizedBlogs.computeIfAbsent(category, k -> new ArrayList<>()).add(blog);
         }
     }
 
-    // 对blogs列表按照距离排序
+    // 对blogs列表按照时间排序
     public void sortBlogsByTime(List<Blog> sortBlogs) {
-        sortBlogs.sort((blog1, blog2) -> {
-            // 按时间降序排列
-            return blog2.getPostTime().compareTo(blog1.getPostTime());
-        });
+        if (sortBlogs == null || sortBlogs.isEmpty()) {
+            return;
+        }
+
+        sortBlogs.sort((blog1, blog2) -> blog2.getPostTime().compareTo(blog1.getPostTime()));
     }
 }
