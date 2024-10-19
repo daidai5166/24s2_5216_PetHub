@@ -47,6 +47,9 @@ public class MyBlogsActivity extends AppCompatActivity {
             return insets;
         });
 
+        // 绑定Post Blog按钮点击事件
+        btn_Post_New_Blog_Button = findViewById(R.id.Post_New_Blog_Button);
+
         // 获取用户
         myApp = (MyApp) getApplication();
         myUser = myApp.getUser();
