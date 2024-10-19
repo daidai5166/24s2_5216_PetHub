@@ -91,6 +91,9 @@ public class PetblogActivity extends AppCompatActivity {
 
         // 拉取博客
         fetchBlogPosts();
+
+        // 搜索按钮点击事件
+        buttonSearch.setOnClickListener(v -> searchBlogs());
     }
 
     private void setupTabClickListeners() {
@@ -238,5 +241,21 @@ public class PetblogActivity extends AppCompatActivity {
         }
 
         sortBlogs.sort((blog1, blog2) -> blog2.getPostTime().compareTo(blog1.getPostTime()));
+    }
+
+    private void searchBlogs() {
+        String query = editTextSearchBar.getText().toString().toLowerCase();  // 获取搜索框输入并转换为小写
+        List<Blog> filteredBlogs = new ArrayList<>();
+
+        for (Blog blog : blogList) {
+            // 比较 petName 或 blogTitle，忽略大小写
+            if (blog.getPetName().toLowerCase().contains(query) ||
+                    blog.getBlogTitle().toLowerCase().contains(query)) {
+                filteredBlogs.add(blog);
+            }
+        }
+
+        // 更新适配器的数据
+        blogAdapter.updateBlogs(filteredBlogs);
     }
 }
