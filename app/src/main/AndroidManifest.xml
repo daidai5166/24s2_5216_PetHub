@@ -36,6 +36,9 @@
         android:supportsRtl="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.BlogdetailsActivity"
+            android:exported="true"/>
+        <activity
             android:name=".activity.PetdetailsActivity"
             android:exported="false" />
         <activity

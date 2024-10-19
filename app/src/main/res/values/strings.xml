@@ -18,6 +18,16 @@
     <string name="share_button">Share Button</string>
     <string name="find_interesting_pet_blogs">Find interesting pet blogs</string>
     <string name="search">Search</string>
+    <string name="aboutUs">Development team: Liu ZhiYuan || Ji GuanLan || Wang YuBin || Zhao LeTai || Chen GuoJun || Tong JiaLing\n\n
+        Github Link:  https://github.com/daidai5166/24s2_5216_PetHub\n\n
+        ©Copyright belongs to the Pethub project development team\n\n
+                        </string>
+
+    <string name="help">Home: Show all pets\n\nSearch: Search for pets based on certain criteria \n\n
+        Post: Upload a pet you want to adopt or take care of\n\n
+        Blog: Daily Sharing and Communication of Pets\n\n
+        Account: Personal Information Management\n\n
+    </string>
 
     <string-array name="pet_types">
         <item>Dog</item>
