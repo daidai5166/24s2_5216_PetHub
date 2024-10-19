@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import comp5216.sydney.edu.au.pethub.R;
+import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 import comp5216.sydney.edu.au.pethub.model.Pet;
 
 public class PetdetailsActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class PetdetailsActivity extends AppCompatActivity {
     ImageView backButton;
     int currentImageIndex = 0;
 
+    ConnectDatabase connectDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,7 @@ public class PetdetailsActivity extends AppCompatActivity {
         String petDescription = pet.getDescription();
         String petImageUrl = "Pets/" + petID + "/image_" + currentImageIndex + ".jpg";
         boolean petGender = pet.isGender();
-        String ownerName = pet.getOwnerId();
+
         String ownerId = pet.getOwnerId();
         String ownerAvatarUrl = "Users/" + ownerId + "/avatar.jpg";
         String postDate = pet.getUploadTime();
@@ -97,9 +99,14 @@ public class PetdetailsActivity extends AppCompatActivity {
         petAgeField.setText(petAge + " years");
         petLocationField.setText(petLocation);
         petDescriptionField.setText(petDescription);
-        ownerNameField.setText(ownerName);
         postDateField.setText(postDate);
 
+        connectDatabase = new ConnectDatabase();
+        connectDatabase.getUserById(ownerId, user -> {
+            ownerNameField.setText(user.getUsername());
+        }, (e) -> {
+
+        });
         if(petGender) {
             petGenderField.setImageResource(R.drawable.ic_gender_male);
         } else {

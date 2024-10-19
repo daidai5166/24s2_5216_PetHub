@@ -15,6 +15,8 @@ import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 import comp5216.sydney.edu.au.pethub.model.Pet;
 import comp5216.sydney.edu.au.pethub.adapters.PetAdapter;
+import comp5216.sydney.edu.au.pethub.model.User;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 import comp5216.sydney.edu.au.pethub.util.MarshmallowPermission;
 
 import android.util.Log;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnOthers;
     private Button btnSearch;
     private TextView textSearch;
+    private User myUser;
+    private MyApp myApp;
 
     MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
     private Map<String, List<Pet>> categorizedPets = new HashMap<>();
@@ -71,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
         btnOthers = findViewById(R.id.btn_others);
         btnSearch = findViewById(R.id.btn_search);
         textSearch = findViewById(R.id.search_pet);
+
+        myApp = (MyApp) this.getApplication();
+        myUser = myApp.getUser();
 
         btnDogs.setOnClickListener(v -> {
             resetButtonBackgrounds();
@@ -200,9 +208,12 @@ public class MainActivity extends AppCompatActivity {
                                     interestedUserIds,
                                     uriStringList,
                                     uploadTime);
-                          
+
                             // 添加到列表并刷新
-                            pets.add(pet);
+                            if (myUser == null || !Objects.equals(ownerId, myUser.getFirebaseId())) {
+                                pets.add(pet);
+                            }
+
                             Log.i("PetAdoptionPostID", petID);
                             Log.d("PetAdoptionPost", pet.getPetName());
                             Log.d("PetAdoptionPost", "latitude: " + latitude + ", longitude:" + longitude);

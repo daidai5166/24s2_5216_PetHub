@@ -213,9 +213,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.pethub.model.User;
@@ -381,6 +384,33 @@ public class ConnectDatabase {
                 .addOnFailureListener(failureListener);
     }
 
+    public void getUserById(String userId, OnSuccessListener<User> successListener, OnFailureListener failureListener) {
+        db.collection("Users")
+                .document(userId)  // 使用 documentId 查询
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // 按需提取字段
+                        String firebaseId = documentSnapshot.getId();
+                        String username = documentSnapshot.getString("userName");
+                        String emailFromDb = documentSnapshot.getString("email");
+                        String gender = documentSnapshot.getString("gender");
+                        int phone = Math.toIntExact(documentSnapshot.getLong("phone"));
+                        String address = documentSnapshot.getString("address");
+                        String avatarPath = documentSnapshot.getString("avatarPath");
+
+                        // 创建 User 对象
+                        User user = new User(firebaseId, username, emailFromDb, gender, phone, address, avatarPath);
+
+                        // 调用回调函数传递 User 对象
+                        successListener.onSuccess(user);
+                    } else {
+                        successListener.onSuccess(null);  // 如果没有找到该 document
+                    }
+                })
+                .addOnFailureListener(failureListener);
+    }
+
     public void deleteUser(String userId) {
         db.collection("Users").document(userId)
                 .delete()
@@ -477,12 +507,15 @@ public class ConnectDatabase {
                            OnFailureListener failureListener) {
         CollectionReference requests = db.collection("Requests");
         Map<String, Object> request = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
         request.put("userId", userId);
         request.put("userName", userName);
         request.put("email", email);
         request.put("phone", phone);
         request.put("address", address);
         request.put("message", message);
+        request.put("date", currentDate);
 
         requests.add(request).addOnSuccessListener(documentReference -> {
             Log.d(TAG_FIRESTORE, "User added with ID: " + documentReference.getId());
@@ -506,7 +539,7 @@ public class ConnectDatabase {
     }
 
     // 上传宠物图片
-    public void uploadPetImage(String petName, Uri petImageUri,String photoName ,OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+    public void uploadPetImage(String petName, Uri petImageUri, String photoName ,OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();
         StorageReference petImageRef = storageRef.child("Pets/" + petName + photoName);
 

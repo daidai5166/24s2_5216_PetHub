@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#f5f5f5"
-    tools:context=".activity.MyBlogsActivity">
+    tools:context=".activity.MyBlogsActivity" >
 
     <!-- Top Bar -->
     <LinearLayout
@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:background="#a3aa7f"
         android:padding="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical" >
 
         <TextView
             android:layout_width="wrap_content"

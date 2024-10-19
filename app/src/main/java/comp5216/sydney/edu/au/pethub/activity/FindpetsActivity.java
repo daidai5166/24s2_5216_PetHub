@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,11 +24,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.adapters.PetAdapter;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 import comp5216.sydney.edu.au.pethub.model.Pet;
+import comp5216.sydney.edu.au.pethub.model.User;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
 public class FindpetsActivity extends AppCompatActivity {
 
@@ -39,6 +43,7 @@ public class FindpetsActivity extends AppCompatActivity {
 
     ArrayList<Pet> pets;
     PetAdapter petAdapter;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +70,8 @@ public class FindpetsActivity extends AppCompatActivity {
         spinnerPetType.setAdapter(adapter);
 
         spinnerLocation = findViewById(R.id.spinner_location);
-
+        MyApp myApp = (MyApp) getApplication();
+        user = myApp.getUser();
 //        // 获取 string-array 资源
 //        ArrayAdapter<CharSequence> adapterLocation = ArrayAdapter.createFromResource(this,
 //                R.array.search_pet_locations, android.R.layout.simple_spinner_item);
@@ -81,10 +87,16 @@ public class FindpetsActivity extends AppCompatActivity {
 
         // Search page 获取 GridView 并设置点击事件
         GridView gridView = findViewById(R.id.grid_pets);
-        gridView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(FindpetsActivity.this, PetdetailsActivity.class);
-            // 可根据点击的项传递宠物的相关数据
-            startActivity(intent);
+        // GridView设置点击事件
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(FindpetsActivity.this, PetdetailsActivity.class);
+                Pet selectedPet = pets.get(position);
+                intent.putExtra("selectedPet", selectedPet);
+                // 可根据点击的项传递宠物的相关数据
+                startActivity(intent);
+            }
         });
 
 
@@ -173,8 +185,11 @@ public class FindpetsActivity extends AppCompatActivity {
                                     uploadTime
                             );
 
-                            // 添加到列表并刷新
-                            pets.add(pet);
+                            if(user == null || !Objects.equals(user.getFirebaseId(), ownerId)) {
+                                // 添加到列表并刷新
+                                pets.add(pet);
+                            }
+
                             Log.d("PetAdoptionPost", pet.getPetName());
                         } catch (Exception e) {
                             Log.e("PetAdoptionPost", "Error parsing document", e);
