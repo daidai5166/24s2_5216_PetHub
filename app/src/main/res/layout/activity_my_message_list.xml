@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#f5f5f5"
-    tools:context=".activity.MyMessageList">
+    tools:context=".activity.MyMessageActivity">
     <!-- Top Bar with Back Button and Title -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,59 +39,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#ffffff"
-        android:elevation="2dp"
-        android:padding="16dp"
-        android:layout_margin="16dp"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Pet Image -->
-        <!-- android:src="@drawable/Daisy_pet_image" -->
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-
-            android:scaleType="centerCrop"
-            android:layout_marginEnd="16dp" />
-
-        <!-- Pet Info Text -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <!-- Select Pet Dropdown -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Select Your Pet"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="8dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Daisy"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+        <Spinner
+            android:id="@+id/select_pet_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cavalier King Charles Spaniel"
-                android:textColor="#888888"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2 Years"
-                android:textColor="#888888"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Icon Button (Heart or More Info) -->
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_gender_female"
-            android:contentDescription="More Info" />
     </LinearLayout>
 
     <!-- Message List Section -->
@@ -101,111 +66,12 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:padding="8dp">
-
-        <!-- Message Item 1 -->
-        <LinearLayout
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#ffffff"
-            android:elevation="2dp"
-            android:padding="16dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_vertical">
+            android:layout_height="match_parent"
+            android:id="@+id/list_view">
 
-            <!-- Sender Image -->
-            <!-- android:src="@drawable/sample_user_image" -->
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-
-                android:scaleType="centerCrop"
-                android:layout_marginEnd="16dp" />
-
-            <!-- Message Text Content -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jimmy Zhang"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hi, I want to adopt Daisy"
-                    android:textColor="#888888"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Message Time -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="18:01"
-                android:textColor="#a3aa7f"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Message Item 2 (Additional Messages Can Follow Similar Format) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#ffffff"
-            android:elevation="2dp"
-            android:padding="16dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_vertical">
-
-            <!-- Sender Image -->
-            <!-- android:src="@drawable/sample_user_image" -->
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-
-                android:scaleType="centerCrop"
-                android:layout_marginEnd="16dp" />
-
-            <!-- Message Text Content -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Darina"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hi, I want to adopt Daisy"
-                    android:textColor="#888888"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Message Time -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15:01"
-                android:textColor="#a3aa7f"
-                android:textSize="14sp" />
-        </LinearLayout>
+        </ListView>
 
     </LinearLayout>
 

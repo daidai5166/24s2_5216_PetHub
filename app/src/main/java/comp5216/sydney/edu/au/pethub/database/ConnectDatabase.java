@@ -190,6 +190,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -221,6 +222,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import comp5216.sydney.edu.au.pethub.model.Blog;
 import comp5216.sydney.edu.au.pethub.model.User;
 import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
@@ -236,7 +238,8 @@ public class ConnectDatabase {
     }
 
     // CRUD for Pet Adoption Post (宠物领养贴)
-    public void addPetAdoptionPost(String petName,
+    public void addPetAdoptionPost(String petId,
+                                   String petName,
                                    int age,
                                    boolean gender,
                                    String description,
@@ -267,14 +270,36 @@ public class ConnectDatabase {
         pet.put("uriStringList", uriStringList);
         pet.put("uploadTime", uploadTime);
 
-        pets.add(pet)
-                .addOnSuccessListener(documentReference -> {
-                            Log.d(TAG_FIRESTORE, "Pet Adoption Post added with ID: " + documentReference.getId());
-                            successListener.onSuccess(documentReference.getId());
-                        }
-                ).addOnFailureListener(failureListener);
+        // 判断 petId 是否为空
+        if (petId == null || petId.isEmpty()) {
+            // 如果 petId 为空，添加新记录，让 Firestore 自动生成文档 ID
+            pets.add(pet)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d(TAG_FIRESTORE, "Pet Adoption Post added with ID: " + documentReference.getId());
+                        successListener.onSuccess(documentReference.getId()); // 返回生成的文档 ID
+                    })
+                    .addOnFailureListener(failureListener);
+        } else {
+            // 如果 petId 不为空，更新现有记录
+            pets.document(petId)
+                    .set(pet)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d(TAG_FIRESTORE, "Pet Adoption Post updated with ID: " + petId);
+                        successListener.onSuccess(petId); // 返回更新的文档 ID
+                    })
+                    .addOnFailureListener(failureListener);
+        }
 
     }
+
+    public void updatePetAdopterId(String petId, String adopterId) {
+        db.collection("PetAdoptionPost").document(petId)
+                .update("adopterId", adopterId)
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Pet Adoption Post updated successfully"));
+    }
+
+
+
 
     public void deletePetAdoptionPost(String postId, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
         db.collection("PetAdoptionPost").document(postId)
@@ -447,7 +472,7 @@ public class ConnectDatabase {
         blog.put("petName", petName);
         blog.put("category", category);
         blog.put("postTime", postTime);
-        blog.put("userEmail", ownerId);
+        blog.put("userEmail", ownerId); // 唯独Blog的userEmail填入的是ownerId
         blog.put("petID", petID);
         blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Blog added with ID: " + documentReference.getId()));
         blog.put("likedUsers", likedUsers);
@@ -478,6 +503,53 @@ public class ConnectDatabase {
                 .addOnSuccessListener(successListener);
     }
 
+    public void getBlogsByFilter(String ownerID, OnSuccessListener<List<Blog>> successListener, OnFailureListener failureListener) {
+        // 构建初始查询，包含 ownerID 的筛选
+        Query query = db.collection("Blogs")
+                .whereEqualTo("userEmail", ownerID);
+
+        // 执行查询
+        query.get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        List<Blog> filteredBlogs = new ArrayList<>();
+                        try {
+                            for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                String blogID = document.getId();
+                                String blogTitle = document.getString("blogTitle");
+                                String content = document.getString("content");
+                                String petName = document.getString("petName");
+                                String postTime = document.getString("postTime");
+                                String ownerId = document.getString("userEmail");
+                                String category = document.getString("category");
+                                String petID = document.getString("petID");
+                                List<String> likedUsers = (List<String>) document.get("likedUsers");
+
+                                Blog blog = new Blog(
+                                        blogID,
+                                        blogTitle,
+                                        content,
+                                        petName,
+                                        category,
+                                        postTime,
+                                        ownerId,
+                                        petID,
+                                        likedUsers);
+
+                                filteredBlogs.add(blog);
+                            }
+                            successListener.onSuccess(filteredBlogs);
+                        } catch (Exception e) {
+                            Log.e("Blog Fetch Error", "Error parsing documents", e);
+                            failureListener.onFailure(e);  // 处理文档解析错误
+                        }
+                    } else {
+                        successListener.onSuccess(new ArrayList<>());
+                    }
+                })
+                .addOnFailureListener(failureListener);
+    }
+
     // 获取博客 - 通过博客标题 (blogTitle) 获取
     public void getBlogsByTitle(String blogTitle, OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
         db.collection("Blog")
@@ -497,7 +569,8 @@ public class ConnectDatabase {
     }
 
     // CRUD for Request (请求)
-    public void addRequest(String userId,
+    public void addRequest(String petID,
+                           String userId,
                            String userName,
                            String email,
                            int phone,
@@ -506,22 +579,64 @@ public class ConnectDatabase {
                            OnSuccessListener<String> successListener,
                            OnFailureListener failureListener) {
         CollectionReference requests = db.collection("Requests");
-        Map<String, Object> request = new HashMap<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String currentDate = sdf.format(new Date());
-        request.put("userId", userId);
-        request.put("userName", userName);
-        request.put("email", email);
-        request.put("phone", phone);
-        request.put("address", address);
-        request.put("message", message);
-        request.put("date", currentDate);
 
-        requests.add(request).addOnSuccessListener(documentReference -> {
-            Log.d(TAG_FIRESTORE, "User added with ID: " + documentReference.getId());
-            successListener.onSuccess(documentReference.getId());
-        });
+        // 1. 先查询是否存在相同的 petID 和 userId
+        requests.whereEqualTo("petID", petID)
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.isEmpty()) {
+                        // 2. 如果没有匹配记录，添加新请求
+                        Map<String, Object> request = new HashMap<>();
+                        request.put("petID", petID);
+                        request.put("userId", userId);
+                        request.put("userName", userName);
+                        request.put("email", email);
+                        request.put("phone", phone);
+                        request.put("address", address);
+                        request.put("message", message);
+                        request.put("date", currentDate);
+
+                        requests.add(request).addOnSuccessListener(documentReference -> {
+                            Log.d(TAG_FIRESTORE, "Request added with ID: " + documentReference.getId());
+                            successListener.onSuccess(documentReference.getId());
+                        }).addOnFailureListener(failureListener);
+                    } else {
+                        // 3. 如果已经存在匹配记录，更新现有记录
+                        DocumentReference existingRequest = queryDocumentSnapshots.getDocuments().get(0).getReference();
+                        Log.i(TAG_FIRESTORE, "Request already exists, updating existing request: " + existingRequest.getId());
+                        existingRequest.update("userName", userName,
+                                        "email", email,
+                                        "phone", phone,
+                                        "address", address,
+                                        "message", message,
+                                        "date", currentDate)
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d(TAG_FIRESTORE, "Request updated successfully.");
+                                    successListener.onSuccess(existingRequest.getId());
+                                }).addOnFailureListener(failureListener);
+                    }
+                })
+                .addOnFailureListener(failureListener);
     }
+
+
+    public void getRequestsByPetId(String petID, OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
+        db.collection("Requests")
+                .whereEqualTo("petID", petID)
+                .get()
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+
+    public void deleteRequest(String requestId) {
+        db.collection("Requests").document(requestId)
+                .delete()
+                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Request deleted successfully"));
+    }
+
     // 上传用户头像
     public void uploadUserAvatar(String userId, Bitmap avatarBitmap, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();

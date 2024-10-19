@@ -1,8 +1,10 @@
 package comp5216.sydney.edu.au.pethub.adapters;
 
+import static androidx.core.content.ContextCompat.startActivity;
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import comp5216.sydney.edu.au.pethub.R;
+import comp5216.sydney.edu.au.pethub.activity.MypetsActivity;
+import comp5216.sydney.edu.au.pethub.activity.PostpetActivity;
 import comp5216.sydney.edu.au.pethub.model.Pet;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 
@@ -40,7 +44,7 @@ public class mypetAdapter extends RecyclerView.Adapter<mypetAdapter.PetViewHolde
     @Override
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         Pet pet = petList.get(position);
-        String UrlMypet = "Pets/" + pet.getPetID() + "/image_0.jpg";;
+        String UrlMypet = "Pets/" + pet.getPetID() + "/image_0.jpg";
         // 绑定Pet的各个属性到对应的视图元素
         holder.name.setText(pet.getPetName());
         holder.age.setText(pet.getAge() + " Years");
@@ -55,6 +59,10 @@ public class mypetAdapter extends RecyclerView.Adapter<mypetAdapter.PetViewHolde
         // 设置编辑按钮和删除按钮的点击事件
         holder.editButton.setOnClickListener(v -> {
             // 编辑逻辑
+            Intent intent = new Intent(context, PostpetActivity.class);
+            intent.putExtra("selectedPet",pet);
+            context.startActivity(intent);
+
         });
 
         holder.deleteButton.setOnClickListener(v -> {

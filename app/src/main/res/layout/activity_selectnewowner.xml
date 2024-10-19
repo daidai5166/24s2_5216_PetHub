@@ -134,7 +134,7 @@
 
     <!-- Select as New Owner Button -->
     <Button
-        android:id="@+id/select_owner_button"
+        android:id="@+id/select_new_owner_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Select this person as new owner"
@@ -143,6 +143,7 @@
         android:textAllCaps="false"
         android:padding="16dp"
         android:layout_gravity="bottom"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:onClick="onSelectClick"/>
 
 </LinearLayout>

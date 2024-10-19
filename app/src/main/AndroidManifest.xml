@@ -54,13 +54,16 @@
             android:name=".activity.EditProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".activity.MyMessageList"
+            android:name=".activity.MyMessageActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MyBlogsActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SendtoownerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SelectnewownerActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SignUpActivity"

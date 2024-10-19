@@ -3,10 +3,12 @@ package comp5216.sydney.edu.au.pethub.adapters;
 ;
 
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
+import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.noCacheLoadImageFromFirebaseStorageToImageView;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -88,16 +93,35 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             holder.imageView.setImageURI((Uri) imageObject);
         } else if (imageObject instanceof String) {
             // 如果是 String 类型，调用加载 Firebase Storage 图片的函数
-            loadImageFromFirebaseStorageToImageView(context, holder.imageView, (String) imageObject);
+            noCacheLoadImageFromFirebaseStorageToImageView(context, holder.imageView, (String) imageObject);
         }
 
         // 删除按钮点击事件
         holder.btnDelete.setOnClickListener(v -> {
-            // 从列表中移除图片
-            imageUris.remove(position);
-            // 通知适配器更新 RecyclerView
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, imageUris.size());
+
+            if (imageObject instanceof String) {
+                // 如果是 String 类型，表示是云端的图片，删除 Firebase Storage 中的记录
+                String imagePath = (String) imageObject;
+
+                // 获取 Firebase Storage 的图片引用
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
+                storageReference.delete().addOnSuccessListener(aVoid -> {
+                    // 成功删除云端图片后，删除本地的引用
+                    imageUris.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, imageUris.size());
+                    Log.d("Firebase database", "Cloud image deleted successfully.");
+                }).addOnFailureListener(e -> {
+                    // 删除失败，输出错误信息
+                    Log.e("Firebase database", "Failed to delete cloud image.", e);
+                });
+            } else if (imageObject instanceof Uri) {
+                // 如果是 Uri 类型，表示是本地的图片，直接删除列表中的本地图片
+                imageUris.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, imageUris.size());
+                Log.d("DeleteImage", "Local image removed.");
+            }
         });
     }
 

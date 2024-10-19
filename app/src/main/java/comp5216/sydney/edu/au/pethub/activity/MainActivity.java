@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                                     uploadTime);
 
                             // 添加到列表并刷新
-                            if (myUser == null || !Objects.equals(ownerId, myUser.getFirebaseId())) {
+                            if (myUser == null || !Objects.equals(ownerId, myUser.getFirebaseId()) || !Objects.equals(adopterId, "")) {
                                 pets.add(pet);
                             }
 
