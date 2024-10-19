@@ -71,18 +71,6 @@ public class FindpetsActivity extends AppCompatActivity {
         spinnerLocation = findViewById(R.id.spinner_location);
         MyApp myApp = (MyApp) getApplication();
         user = myApp.getUser();
-//        // 获取 string-array 资源
-//        ArrayAdapter<CharSequence> adapterLocation = ArrayAdapter.createFromResource(this,
-//                R.array.search_pet_locations, android.R.layout.simple_spinner_item);
-//
-//        // 设置下拉样式
-//        adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        // 设置下拉样式
-//        adapterLocation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        // 绑定 Adapter 到 Spinner
-//        spinnerLocation.setAdapter(adapterLocation);
 
         // Search page 获取 GridView 并设置点击事件
         GridView gridView = findViewById(R.id.grid_pets);
@@ -97,8 +85,6 @@ public class FindpetsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
         // 初始化导航栏
         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
