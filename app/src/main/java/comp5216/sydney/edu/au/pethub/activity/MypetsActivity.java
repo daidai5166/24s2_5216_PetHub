@@ -1,5 +1,6 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,6 @@ public class MypetsActivity extends AppCompatActivity {
     private mypetAdapter myPetAdapter;
     private List<Pet> myPetList= new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +71,8 @@ public class MypetsActivity extends AppCompatActivity {
 
     }
 
-
     // 封装获取宠物领养帖的函数
+    @SuppressLint("NotifyDataSetChanged")
     private void fetchPetAdoptionPosts() {
         ConnectDatabase connectDatabase = new ConnectDatabase();
         connectDatabase.getPetAdoptionPosts(
@@ -123,9 +123,6 @@ public class MypetsActivity extends AppCompatActivity {
                         }
                     }
 
-                    // 在获取到当前位置后，进行排序
-                    // sortPetsByDistance();
-
                     // 数据更新后通知适配器刷新
                     myPetAdapter.notifyDataSetChanged();
                 },
@@ -134,8 +131,6 @@ public class MypetsActivity extends AppCompatActivity {
                 }
         );
     }
-
-
 
     public void goBack(View view){
         Intent intent = new Intent(MypetsActivity.this, AccountActivity.class);
