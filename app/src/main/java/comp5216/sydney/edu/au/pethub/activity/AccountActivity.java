@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
-import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.noCacheLoadImageFromFirebaseStorageToImageView;
 
 import android.os.Bundle;
