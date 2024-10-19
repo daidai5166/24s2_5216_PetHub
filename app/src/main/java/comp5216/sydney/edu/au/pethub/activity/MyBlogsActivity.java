@@ -33,8 +33,7 @@ public class MyBlogsActivity extends AppCompatActivity {
     private User myUser;
     private RecyclerView recyclerView;
     private myBlogAdapter myBlogAdapter;
-    private List<Blog> myBlogList = new ArrayList<>();
-    private Button btn_Post_New_Blog_Button;
+    private final List<Blog> myBlogList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class MyBlogsActivity extends AppCompatActivity {
         });
 
         // 绑定Post Blog按钮点击事件
-        btn_Post_New_Blog_Button = findViewById(R.id.Post_New_Blog_Button);
+        Button btn_Post_New_Blog_Button = findViewById(R.id.Post_New_Blog_Button);
 
         // 获取用户
         myApp = (MyApp) getApplication();
