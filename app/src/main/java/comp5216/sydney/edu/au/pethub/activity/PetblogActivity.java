@@ -91,9 +91,9 @@ public class PetblogActivity extends AppCompatActivity {
 //            startActivity(intent);
 //        });
 //
-//        // 初始化导航栏
-//        NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
-//        navigationBarActivity.setupNavigationBar();
+        // 初始化导航栏
+        NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
+        navigationBarActivity.setupNavigationBar();
         findViewById(R.id.iv_share_blog).setOnClickListener(v -> {
             Intent intent = new Intent(PetblogActivity.this, SharepetstoryActivity.class);
             startActivity(intent);

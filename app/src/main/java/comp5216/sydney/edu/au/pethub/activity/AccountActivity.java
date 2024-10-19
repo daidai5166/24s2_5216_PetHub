@@ -60,10 +60,10 @@ public class AccountActivity extends AppCompatActivity {
             } else {
                 genderField.setImageResource(R.drawable.ic_gender_male);
             }
+
+
+            noCacheLoadImageFromFirebaseStorageToImageView(AccountActivity.this, avatarField, "Users/"+myUser.getFirebaseId()+"/avatar.jpg");
         }
-
-        noCacheLoadImageFromFirebaseStorageToImageView(AccountActivity.this, avatarField, "Users/"+myUser.getFirebaseId()+"/avatar.jpg");
-
         // 初始化导航栏
         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
         navigationBarActivity.setupNavigationBar();
@@ -84,7 +84,7 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.pet_message).setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, MyMessageList.class);
+            Intent intent = new Intent(AccountActivity.this, MyMessageActivity.class);
             startActivity(intent);
         });
 

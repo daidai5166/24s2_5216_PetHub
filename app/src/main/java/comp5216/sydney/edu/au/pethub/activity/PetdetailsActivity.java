@@ -38,7 +38,7 @@ public class PetdetailsActivity extends AppCompatActivity {
     Button adoptButton;
     ImageView backButton;
     int currentImageIndex = 0;
-
+    Pet pet;
     ConnectDatabase connectDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class PetdetailsActivity extends AppCompatActivity {
 
         // 获取 Intent 并提取数据
         Intent intent = getIntent();
-        Pet pet = (Pet) intent.getParcelableExtra("selectedPet");
+        pet = intent.getParcelableExtra("selectedPet");
         String petID = pet.getPetID();
         String petName = pet.getPetName();
         String petType = pet.getCategory();
@@ -156,6 +156,7 @@ public class PetdetailsActivity extends AppCompatActivity {
 
     public void onAdoptButton(View view) {
         Intent intent = new Intent(this, SendtoownerActivity.class);
+        intent.putExtra("petID", pet.getPetID());
         startActivity(intent);
     }
 

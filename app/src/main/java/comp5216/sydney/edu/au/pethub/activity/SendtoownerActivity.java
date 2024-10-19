@@ -49,6 +49,7 @@ public class SendtoownerActivity extends AppCompatActivity {
     private EditText userAddressField;
     private String userAddress ="";
     User user;
+    String petID;
     private static final int AUTOCOMPLETE_REQUEST_CODE = 103;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,10 @@ public class SendtoownerActivity extends AppCompatActivity {
         userPhoneField.setText(user.getPhone() + "");
         userEmailField.setText(user.getEmail());
 
+        // 获取 Intent 并提取数据
+        Intent intent = getIntent();
+        petID = intent.getStringExtra("petID");
+
         loadImageFromFirebaseStorageToImageView(this, userImageField, "Users/" + user.getFirebaseId() + "/avatar.jpg");
 
         sendButton = findViewById(R.id.send_to_owner_button);
@@ -83,9 +88,9 @@ public class SendtoownerActivity extends AppCompatActivity {
             // 创建一个 Autocomplete Intent，指定返回的字段
             List<Place.Field> fields = Arrays.asList(
                     Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS,Place.Field.LAT_LNG);
-            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+            Intent intent1 = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
                     .build(this);
-            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+            startActivityForResult(intent1, AUTOCOMPLETE_REQUEST_CODE);
         });
 
     }
@@ -131,6 +136,7 @@ public class SendtoownerActivity extends AppCompatActivity {
             return;
         }
         connectDatabase.addRequest(
+                petID,
                 user.getFirebaseId(),
                 userNameField.getText().toString(),
                 userEmailField.getText().toString(),
