@@ -15,6 +15,9 @@
     <string name="inputAddress">Please enter your address below</string>
     <string name="petEmptyDescription">This pet has not been introduced yet! 😢</string>
     <string name="selectPetCategoryWarn">Please select the pet category!</string>
+    <string name="share_button">Share Button</string>
+    <string name="find_interesting_pet_blogs">Find interesting pet blogs</string>
+    <string name="search">Search</string>
 
     <string-array name="pet_types">
         <item>Dog</item>

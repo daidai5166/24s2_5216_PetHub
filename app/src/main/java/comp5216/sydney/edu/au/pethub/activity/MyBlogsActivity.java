@@ -2,8 +2,11 @@ package comp5216.sydney.edu.au.pethub.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +34,7 @@ public class MyBlogsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private myBlogAdapter myBlogAdapter;
     private List<Blog> myBlogList = new ArrayList<>();
+    private Button btn_Post_New_Blog_Button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +59,12 @@ public class MyBlogsActivity extends AppCompatActivity {
         myBlogAdapter = new myBlogAdapter(this, myBlogList);
         recyclerView.setAdapter(myBlogAdapter);
 
-        fetchBlogPosts();
-
-        findViewById(R.id.blog_list_post_button).setOnClickListener(v -> {
+        btn_Post_New_Blog_Button.setOnClickListener(v -> {
             Intent intent = new Intent(MyBlogsActivity.this, SharepetstoryActivity.class);
             startActivity(intent);
-            finish();
         });
+
+        fetchBlogPosts();
     }
 
     // 封装获取博客的信息

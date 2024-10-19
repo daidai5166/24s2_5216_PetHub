@@ -80,6 +80,34 @@ public class MainActivity extends AppCompatActivity {
         myApp = (MyApp) this.getApplication();
         myUser = myApp.getUser();
 
+        // 为标签设置点击事件
+        setupTabClickListeners();
+
+        // 初始化导航栏
+        NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
+        navigationBarActivity.setupNavigationBar();
+
+        // Main page 获取 GridView
+        GridView gridView = findViewById(R.id.grid_pets);
+
+        // 创建适配器并绑定数据
+        adapter = new PetAdapter(this, pets);
+        gridView.setAdapter(adapter);
+
+        // GridView设置点击事件
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, PetdetailsActivity.class);
+                Pet selectedPet = pets.get(position);
+                intent.putExtra("selectedPet", selectedPet);
+                // 可根据点击的项传递宠物的相关数据
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setupTabClickListeners() {
         btnDogs.setOnClickListener(v -> {
             resetButtonBackgrounds();
             btnDogs.setBackgroundColor(Color.parseColor("#9dbf85"));
@@ -112,29 +140,6 @@ public class MainActivity extends AppCompatActivity {
         textSearch.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, FindpetsActivity.class);
             startActivity(intent);
-        });
-
-        // 初始化导航栏
-        NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
-        navigationBarActivity.setupNavigationBar();
-
-        // Main page 获取 GridView
-        GridView gridView = findViewById(R.id.grid_pets);
-
-        // 创建适配器并绑定数据
-        adapter = new PetAdapter(this, pets);
-        gridView.setAdapter(adapter);
-
-        // GridView设置点击事件
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, PetdetailsActivity.class);
-                Pet selectedPet = pets.get(position);
-                intent.putExtra("selectedPet", selectedPet);
-                // 可根据点击的项传递宠物的相关数据
-                startActivity(intent);
-            }
         });
     }
 

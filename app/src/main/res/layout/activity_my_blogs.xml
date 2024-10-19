@@ -47,9 +47,9 @@
 
     <!-- Post New Blog Button -->
     <Button
-        android:id="@+id/blog_list_post_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/Post_New_Blog_Button"
         android:text="Post New Blog"
         android:backgroundTint="#a3aa7f"
         android:textColor="#ffffff"

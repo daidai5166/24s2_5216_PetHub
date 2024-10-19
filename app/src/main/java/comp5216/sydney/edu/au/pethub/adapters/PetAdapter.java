@@ -72,7 +72,7 @@ public class PetAdapter extends BaseAdapter {
 
         loadImageFromFirebaseStorageToImageView(context, petImage, URL);
 
-        return convertView; // 返回完整的视图作为 GridView 中的每一项
+        return convertView;
     }
 
     public void updatePets(List<Pet> newPets) {
