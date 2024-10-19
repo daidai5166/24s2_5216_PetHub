@@ -130,31 +130,32 @@
             android:layout_marginBottom="8dp" />
 
         <!-- State Dropdown -->
-        <EditText
-            android:hint="First Row"
+        <TextView
+            android:hint="Click to select your location"
             android:id="@+id/location_first_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#ffffff"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            />
 
         <!-- City Dropdown -->
-        <EditText
-            android:hint="Second Row"
-            android:id="@+id/location_second_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:layout_marginBottom="8dp" />
+<!--        <EditText-->
+<!--            android:hint="Second Row"-->
+<!--            android:id="@+id/location_second_row"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:backgroundTint="#ffffff"-->
+<!--            android:layout_marginBottom="8dp" />-->
 
-        <!-- Suburb Dropdown -->
-        <EditText
-            android:hint="Third Row"
-            android:id="@+id/location_third_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:layout_marginBottom="24dp" />
+<!--        &lt;!&ndash; Suburb Dropdown &ndash;&gt;-->
+<!--        <EditText-->
+<!--            android:hint="Third Row"-->
+<!--            android:id="@+id/location_third_row"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:backgroundTint="#ffffff"-->
+<!--            android:layout_marginBottom="24dp" />-->
 
         <TextView
             android:layout_width="wrap_content"

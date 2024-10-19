@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,12 +26,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.pethub.R;
@@ -47,7 +56,7 @@ public class EditProfileActivity extends AppCompatActivity {
     Button changeAvatarButton;
 //    EditText email;
     EditText phone;
-    EditText locationRow1;
+    TextView locationRow1;
     EditText locationRow2;
     EditText locationRow3;
     ConnectDatabase connectDatabase = new ConnectDatabase();
@@ -55,11 +64,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private String selectedGender = "" ; // 用来存储选择的性别
     private static final int MY_PERMISSIONS_REQUEST_READ_PHOTOS = 102;
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 103;
 
     Uri avatarUri;
     Bitmap scaledAvatar;
 
     Boolean avatarChanged = false;
+    String newAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +95,8 @@ public class EditProfileActivity extends AppCompatActivity {
 //        email = findViewById(R.id.edit_email);
         phone = findViewById(R.id.edit_phone);
         locationRow1 = findViewById(R.id.location_first_row);
-        locationRow2 = findViewById(R.id.location_second_row);
-        locationRow3 = findViewById(R.id.location_third_row);
+//        locationRow2 = findViewById(R.id.location_second_row);
+//        locationRow3 = findViewById(R.id.location_third_row);
         avatar = findViewById(R.id.user_avatar);
         genderMale = findViewById(R.id.gender_male);
         genderFemale = findViewById(R.id.gender_female);
@@ -114,11 +125,20 @@ public class EditProfileActivity extends AppCompatActivity {
             phone.setText(String.valueOf(user.getPhone()));
         }
         if(user.getAddress() != null || !user.getAddress().equals("")) {
-            String[] locationList = splitLocation(user.getAddress(), "%");
-            locationRow1.setText(locationList[0]);
-            locationRow2.setText(locationList[1]);
-            locationRow3.setText(locationList[2]);
+//            String[] locationList = splitLocation(user.getAddress(), "%");
+            locationRow1.setText(user.getAddress());
+//            locationRow2.setText(locationList[1]);
+//            locationRow3.setText(locationList[2]);
         }
+
+        locationRow1.setOnClickListener(v -> {
+            // 创建一个 Autocomplete Intent，指定返回的字段
+            List<Place.Field> fields = Arrays.asList(
+                    Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS,Place.Field.LAT_LNG);
+            Intent intent1 = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                    .build(this);
+            startActivityForResult(intent1, AUTOCOMPLETE_REQUEST_CODE);
+        });
 
         noCacheLoadImageFromFirebaseStorageToImageView(this, avatar, "Users/"+user.getFirebaseId()+"/avatar.jpg");
 
@@ -155,11 +175,12 @@ public class EditProfileActivity extends AppCompatActivity {
             }
 //            String newEmail = email.getText().toString();
             int newPhone = Integer.parseInt(phone.getText().toString());
-            String newLocation = mergeLocation(new String[]{
-                    locationRow1.getText().toString(),
-                    locationRow2.getText().toString(),
-                    locationRow3.getText().toString()
-            }, "%");
+//            String newLocation = mergeLocation(new String[]{
+//                    locationRow1.getText().toString(),
+//                    locationRow2.getText().toString(),
+//                    locationRow3.getText().toString()
+//            }, "%");
+            String newLocation = locationRow1.getText().toString();
             String newUsername = username.getText().toString();
 
             Map<String, Object> updates = new HashMap<>();
@@ -170,7 +191,12 @@ public class EditProfileActivity extends AppCompatActivity {
             updates.put("address", newLocation);
 
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
+            user.setUsername(newUsername);
+//                                            user.setEmail(newEmail);
+            user.setAddress(newLocation);
+            user.setPhone(newPhone);
+            user.setGender(selectedGender);
+            myApp.setUser(user);
             // 修改用户的邮箱地址
 //            if (firebaseUser != null) {
 //                firebaseUser.updateEmail(newEmail)
@@ -181,14 +207,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                 connectDatabase.updateUser(
                                         user.getFirebaseId(),
                                         updates,
-                                        (result) -> {
+                                        result -> {
                                             //保存用户信息
-                                            user.setUsername(newUsername);
-//                                            user.setEmail(newEmail);
-                                            user.setAddress(newLocation);
-                                            user.setPhone(newPhone);
-                                            user.setGender(selectedGender);
-                                            myApp.setUser(user);
+
                                         });
 
         // TODO: 需要刷新页面才能够替换头像
@@ -272,6 +293,30 @@ public class EditProfileActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+        else if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // 获取用户选择的地点
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                // 将完整地址显示在 EditText 中
+                locationRow1.setText(place.getAddress());
+                newAddress = place.getAddress();
+                Log.i("Places", "Place: " + place.getName() + ", " + place.getId() + ", " + place.getAddress());
+//                LatLng latLng = place.getLatLng();
+//                if (latLng != null){
+//                    petLatitude = latLng.latitude;
+//                    userLongitude = latLng.longitude;
+//                    Log.i("location", petLatitude +" "+ userLongitude);
+//                }
+
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // 处理错误
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i("Places", "Error: " + status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // 用户取消了操作
+                Log.i("Places", "Autocomplete canceled");
             }
         }
     }
