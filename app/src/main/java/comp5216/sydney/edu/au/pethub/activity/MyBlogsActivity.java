@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +60,7 @@ public class MyBlogsActivity extends AppCompatActivity {
         findViewById(R.id.blog_list_post_button).setOnClickListener(v -> {
             Intent intent = new Intent(MyBlogsActivity.this, SharepetstoryActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 
@@ -83,5 +85,9 @@ public class MyBlogsActivity extends AppCompatActivity {
                     Log.e("Blog Fetch Error", "Failed to fetch blogs", e);
                 }
         );
+    }
+
+    public void myBlogOnBackClick(View view) {
+        finish();
     }
 }

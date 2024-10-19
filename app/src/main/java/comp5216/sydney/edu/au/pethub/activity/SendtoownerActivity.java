@@ -145,6 +145,7 @@ public class SendtoownerActivity extends AppCompatActivity {
                 message,(id) -> {
                     Log.i("SendtoownerActivity", "Request sent successfully");
                     Intent intent = new Intent(this, MainActivity.class);
+                    Toast.makeText(this, "Request sent successfully, thank you!", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     finish();
                 }, (e) -> {

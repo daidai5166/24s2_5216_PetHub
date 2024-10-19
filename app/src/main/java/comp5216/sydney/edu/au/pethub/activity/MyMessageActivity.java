@@ -167,4 +167,8 @@ public class MyMessageActivity extends AppCompatActivity {
         });
 
     }
+
+    public void myMessageOnBackClick(View view) {
+        finish();
+    }
 }

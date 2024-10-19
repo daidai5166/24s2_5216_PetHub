@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -101,6 +102,7 @@ public class AccountActivity extends AppCompatActivity {
         myApp.setUser(null);
         Intent intent = new Intent(AccountActivity.this, MainActivity.class);
         startActivity(intent);
+        Toast.makeText(AccountActivity.this, "Log out successfully, see ya.", Toast.LENGTH_SHORT).show();
         finish();
     }
 }
