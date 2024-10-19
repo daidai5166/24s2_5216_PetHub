@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import comp5216.sydney.edu.au.pethub.R;
-import comp5216.sydney.edu.au.pethub.activity.MyBlogsActivity;
 import comp5216.sydney.edu.au.pethub.model.Blog;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 

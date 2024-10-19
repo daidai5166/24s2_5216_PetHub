@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#f5f5f5"
-    tools:context=".activity.PetblogActivity">
+    android:background="@drawable/rounded_background">
 
     <!-- Top Bar with Search Functionality -->
     <LinearLayout
@@ -14,16 +13,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="#a3aa7f"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:gravity="center_vertical" >
 
         <!-- Share Button -->
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:contentDescription="@string/share_button"
             android:src="@drawable/ic_share_white"
             android:id="@+id/iv_share_blog"
-            android:contentDescription="Back"
-            android:layout_gravity="start" />
+            android:layout_gravity="center_vertical"/>
 
         <!-- Search Bar -->
         <EditText
@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Search for pet blogs"
+            android:hint="@string/find_interesting_pet_blogs"
             android:backgroundTint="#ffffff"
             android:padding="8dp"
             android:textColor="#000000"
@@ -44,7 +44,7 @@
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="@string/search"
             android:backgroundTint="#ffffff"
             android:textColor="#a3aa7f"
             android:textAllCaps="false"
@@ -111,7 +111,7 @@
     <GridView
         android:id="@+id/blog_grid_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="329dp"
         android:layout_weight="1"
         android:numColumns="2"
         android:verticalSpacing="16dp"
