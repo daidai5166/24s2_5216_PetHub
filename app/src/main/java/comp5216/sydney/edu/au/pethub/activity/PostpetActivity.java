@@ -48,6 +48,7 @@ import java.util.Locale;
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.adapters.ImageAdapter;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
+import comp5216.sydney.edu.au.pethub.model.Pet;
 import comp5216.sydney.edu.au.pethub.model.User;
 import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 import comp5216.sydney.edu.au.pethub.util.MarshmallowPermission;
@@ -63,6 +64,7 @@ public class PostpetActivity extends AppCompatActivity {
     private File file;
     private Uri photo_uri;
 
+    private String pet_id="";
     private String pet_category="";
     private String petName="";
     private String petGender="";
@@ -85,7 +87,7 @@ public class PostpetActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
-    private List<Object> imageUris = new ArrayList<>();
+    private List<Object> imageUris= new ArrayList<>();
     MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
     ConnectDatabase connectDatabase;
 
@@ -99,6 +101,10 @@ public class PostpetActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // 判断 Intent 是否包含 pet 对象
+        Intent intentFromMypets = getIntent();
+        Pet pet = intentFromMypets.getParcelableExtra("selectedPet");
+
         // 获取用户
         myApp = (MyApp) getApplication();
         myUser = myApp.getUser();
@@ -148,6 +154,23 @@ public class PostpetActivity extends AppCompatActivity {
         others_icons.setOnClickListener(layoutClickListener);
 
         uploadPetImageClickListener(petImageUpload);
+        if (pet != null){
+            mpetNameField.setText(pet.getPetName());
+            mpetGenderField.setText(pet.isGender()  ? "Male" : "Female");
+            mpetAgeField.setText(String.valueOf(pet.getAge()));
+            mpetAddressField.setText(pet.getAddress());
+            mpetDescriptionField.setText(pet.getDescription());
+            pet_id = pet.getPetID();
+            for (int i = 0; i < pet.getUriStringList().size(); i++) {
+                // 生成类似 image_01, image_02 的字符串
+                String imageName = "Pets/" +pet.getPetID() +"/image_" + i + ".jpg"; //
+                imageUris.add(imageName);
+                imageAdapter.notifyDataSetChanged();
+            }
+
+
+        }
+
 
     }
     //  点击类别的事件
@@ -439,10 +462,11 @@ public class PostpetActivity extends AppCompatActivity {
         }
         int age = Integer.parseInt(petAge); // 转换petAge格式
         boolean gender = petGender.equalsIgnoreCase("male"); //转化petGender格式到Boolean, male为true, female为false
-        String ownerId = myUser.getFirebaseId();//myUser.getFirebaseId();//用户firebase的ID
+        String ownerId=myUser.getFirebaseId();//myUser.getFirebaseId();//用户firebase的ID
         String adopterId="";//新宠物暂无领养人
         List<String> interestedUserIds=new ArrayList<>();//新宠物暂无兴趣人
-        connectDatabase.addPetAdoptionPost(
+        System.out.println(imageUris);
+        connectDatabase.addPetAdoptionPost(pet_id,
                 petName,
                 age,
                 gender,
@@ -457,8 +481,12 @@ public class PostpetActivity extends AppCompatActivity {
                 uriStringList,
                 uploadTime,
                 documentId -> {
+                    int[] uploadCount = {0}; // 计数器
                     for (int i = 0; i < imageUris.size(); i++) {
-                        Uri imageUri = (Uri) imageUris.get(i);        // 获取当前图片的 Uri
+                        Object imageObject = imageUris.get(i);
+                        // 判断是否是 Uri 类型
+                        if (imageObject instanceof Uri) {
+                        Uri imageUri = (Uri) imageObject;        // 获取当前图片的 Uri
                         String imageName = imageNames.get(i);   // 获取当前图片的名称
 
                         // 调用上传函数，传入图片名称和 Uri
@@ -466,19 +494,30 @@ public class PostpetActivity extends AppCompatActivity {
                                 // 成功回调
                                 downloadUri -> {
                                     Log.d("FirestoreDatabase", "Image uploaded successfully: " + imageName);
-                                    // 您可以在这里处理每次图片上传成功后的逻辑，例如保存下载 URL
+                                    // 增加上传成功的计数
+//                                    uploadCount[0]++;
+//
+//                                    // 如果所有图片上传完毕
+//                                    if (uploadCount[0] == imageUris.size()) {
+//                                        // 调用数据库读取操作并跳转
+//                                        Toast.makeText(PostpetActivity.this, "Upload success.",
+//                                                Toast.LENGTH_SHORT).show();
+//                                        Intent intent = new Intent(PostpetActivity.this, MypetsActivity.class);
+//                                        startActivity(intent);
+//                                        finish();
+//                                    }
                                 },
                                 // 失败回调
                                 e -> {
                                     Log.e("FirestoreDatabase", "Failed to upload image: " + imageName, e);
                                 }
                         );
-                    }
-                    Toast.makeText(PostpetActivity.this, "Upload success.",
-                            Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(PostpetActivity.this, MypetsActivity.class);
-                    startActivity(intent);
-                    finish();
+                            Toast.makeText(PostpetActivity.this, "Upload success.",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(PostpetActivity.this, MypetsActivity.class);
+                            startActivity(intent);
+                            finish();
+                    }}
+
                 },
                 e ->{
                     Log.e("FirestoreDatabase", "Error uploading pet");
@@ -486,6 +525,7 @@ public class PostpetActivity extends AppCompatActivity {
     }
     public void goBack(View view){
         onBackPressed();
+        finish();
     }
 
 }

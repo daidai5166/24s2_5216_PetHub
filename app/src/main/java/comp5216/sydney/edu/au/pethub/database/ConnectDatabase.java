@@ -237,7 +237,8 @@ public class ConnectDatabase {
     }
 
     // CRUD for Pet Adoption Post (宠物领养贴)
-    public void addPetAdoptionPost(String petName,
+    public void addPetAdoptionPost(String petId,
+                                   String petName,
                                    int age,
                                    boolean gender,
                                    String description,
@@ -268,14 +269,30 @@ public class ConnectDatabase {
         pet.put("uriStringList", uriStringList);
         pet.put("uploadTime", uploadTime);
 
-        pets.add(pet)
-                .addOnSuccessListener(documentReference -> {
-                            Log.d(TAG_FIRESTORE, "Pet Adoption Post added with ID: " + documentReference.getId());
-                            successListener.onSuccess(documentReference.getId());
-                        }
-                ).addOnFailureListener(failureListener);
+        // 判断 petId 是否为空
+        if (petId == null || petId.isEmpty()) {
+            // 如果 petId 为空，添加新记录，让 Firestore 自动生成文档 ID
+            pets.add(pet)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d(TAG_FIRESTORE, "Pet Adoption Post added with ID: " + documentReference.getId());
+                        successListener.onSuccess(documentReference.getId()); // 返回生成的文档 ID
+                    })
+                    .addOnFailureListener(failureListener);
+        } else {
+            // 如果 petId 不为空，更新现有记录
+            pets.document(petId)
+                    .set(pet)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d(TAG_FIRESTORE, "Pet Adoption Post updated with ID: " + petId);
+                        successListener.onSuccess(petId); // 返回更新的文档 ID
+                    })
+                    .addOnFailureListener(failureListener);
+        }
 
     }
+
+
+
 
     public void deletePetAdoptionPost(String postId, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
         db.collection("PetAdoptionPost").document(postId)
