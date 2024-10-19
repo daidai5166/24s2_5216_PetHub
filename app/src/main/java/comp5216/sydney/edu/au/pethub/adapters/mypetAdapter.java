@@ -40,7 +40,8 @@ public class mypetAdapter extends RecyclerView.Adapter<mypetAdapter.PetViewHolde
     @Override
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         Pet pet = petList.get(position);
-        String UrlMypet = "Pets/" + pet.getPetID() + "/image_0.jpg";;
+        String UrlMypet = "Pets/" + pet.getPetID() + "/image_0.jpg";
+
         // 绑定Pet的各个属性到对应的视图元素
         holder.name.setText(pet.getPetName());
         holder.age.setText(pet.getAge() + " Years");

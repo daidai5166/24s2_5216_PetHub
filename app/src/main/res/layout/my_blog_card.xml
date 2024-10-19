@@ -1,0 +1,78 @@
+<!-- res/layout/item_blog.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#ffffff"
+    android:padding="8dp"
+    android:elevation="2dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="8dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvBlogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blog Title"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvBlogContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blog Content"
+            android:textColor="#888888"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvPostTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Posted on Date"
+            android:textColor="#888888"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnEditBlog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:textColor="#a3aa7f"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_edit"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/btnDeleteBlog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Del"
+            android:textColor="#a3aa7f"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_delete"
+            android:padding="4dp" />
+    </LinearLayout>
+
+</LinearLayout>

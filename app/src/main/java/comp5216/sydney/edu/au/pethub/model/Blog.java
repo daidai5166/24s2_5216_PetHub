@@ -18,9 +18,18 @@ public class Blog implements Parcelable {
     private String ownerId;
     private String petID;
     private List<String> likedUsers;
+    private String blogID; // New field for blogID
 
-    // Constructor
-    public Blog(String blogTitle, String content, String petName, String category, String postTime, String ownerId, String petID) {
+    public Blog(String blogID,
+                String blogTitle,
+                String content,
+                String petName,
+                String category,
+                String postTime,
+                String ownerId,
+                String petID,
+                List<String> likedUsers) {
+        this.blogID = blogID;
         this.blogTitle = blogTitle;
         this.content = content;
         this.petName = petName;
@@ -35,7 +44,9 @@ public class Blog implements Parcelable {
     public Blog() {
     }
 
+    // Constructor for Parcelable
     protected Blog(Parcel in) {
+        blogID = in.readString();  // Reading blogID
         blogTitle = in.readString();
         content = in.readString();
         petName = in.readString();
@@ -46,6 +57,7 @@ public class Blog implements Parcelable {
         likedUsers = in.createStringArrayList();
     }
 
+    // Parcelable Creator
     public static final Creator<Blog> CREATOR = new Creator<Blog>() {
         @Override
         public Blog createFromParcel(Parcel in) {
@@ -57,6 +69,15 @@ public class Blog implements Parcelable {
             return new Blog[size];
         }
     };
+
+    // Getters and Setters
+    public String getBlogID() {
+        return blogID;
+    }
+
+    public void setBlogID(String blogID) {
+        this.blogID = blogID;
+    }
 
     public String getBlogTitle() {
         return blogTitle;
@@ -122,6 +143,7 @@ public class Blog implements Parcelable {
         this.likedUsers = likedUsers;
     }
 
+    // Parcelable implementation
     @Override
     public int describeContents() {
         return 0;
@@ -129,6 +151,7 @@ public class Blog implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(blogID);
         parcel.writeString(blogTitle);
         parcel.writeString(content);
         parcel.writeString(petName);

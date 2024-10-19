@@ -221,6 +221,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import comp5216.sydney.edu.au.pethub.model.Blog;
 import comp5216.sydney.edu.au.pethub.model.User;
 import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
@@ -447,7 +448,7 @@ public class ConnectDatabase {
         blog.put("petName", petName);
         blog.put("category", category);
         blog.put("postTime", postTime);
-        blog.put("userEmail", ownerId);
+        blog.put("userEmail", ownerId); // 唯独Blog的userEmail填入的是ownerId
         blog.put("petID", petID);
         blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Blog added with ID: " + documentReference.getId()));
         blog.put("likedUsers", likedUsers);
@@ -476,6 +477,53 @@ public class ConnectDatabase {
         db.collection("Blog")
                 .get()
                 .addOnSuccessListener(successListener);
+    }
+
+    public void getBlogsByFilter(String ownerID, OnSuccessListener<List<Blog>> successListener, OnFailureListener failureListener) {
+        // 构建初始查询，包含 ownerID 的筛选
+        Query query = db.collection("Blogs")
+                .whereEqualTo("userEmail", ownerID);
+
+        // 执行查询
+        query.get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        List<Blog> filteredBlogs = new ArrayList<>();
+                        try {
+                            for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                String blogID = document.getId();
+                                String blogTitle = document.getString("blogTitle");
+                                String content = document.getString("content");
+                                String petName = document.getString("petName");
+                                String postTime = document.getString("postTime");
+                                String ownerId = document.getString("userEmail");
+                                String category = document.getString("category");
+                                String petID = document.getString("petID");
+                                List<String> likedUsers = (List<String>) document.get("likedUsers");
+
+                                Blog blog = new Blog(
+                                        blogID,
+                                        blogTitle,
+                                        content,
+                                        petName,
+                                        category,
+                                        postTime,
+                                        ownerId,
+                                        petID,
+                                        likedUsers);
+
+                                filteredBlogs.add(blog);
+                            }
+                            successListener.onSuccess(filteredBlogs);
+                        } catch (Exception e) {
+                            Log.e("Blog Fetch Error", "Error parsing documents", e);
+                            failureListener.onFailure(e);  // 处理文档解析错误
+                        }
+                    } else {
+                        successListener.onSuccess(new ArrayList<>());
+                    }
+                })
+                .addOnFailureListener(failureListener);
     }
 
     // 获取博客 - 通过博客标题 (blogTitle) 获取
@@ -522,6 +570,7 @@ public class ConnectDatabase {
             successListener.onSuccess(documentReference.getId());
         });
     }
+
     // 上传用户头像
     public void uploadUserAvatar(String userId, Bitmap avatarBitmap, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();

@@ -47,15 +47,7 @@ public class MypetsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //没登录的话跳转到登录功能
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // User is signed in
-        } else {
-            // No user is signed in
-            Intent intent = new Intent(MypetsActivity.this, SignInActivity.class);
-            startActivity(intent);
-        }
+
         // 获取用户
         myApp = (MyApp) getApplication();
         myUser = myApp.getUser();
@@ -63,12 +55,12 @@ public class MypetsActivity extends AppCompatActivity {
         // 初始化RecyclerView
         recyclerView = findViewById(R.id.recycler_mypet);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         // 初始化适配器并绑定RecyclerView
         myPetAdapter = new mypetAdapter(this, myPetList);
         recyclerView.setAdapter(myPetAdapter);
 
         fetchPetAdoptionPosts();
-
     }
 
     // 封装获取宠物领养帖的函数

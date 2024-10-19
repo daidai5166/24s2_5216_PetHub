@@ -1,20 +1,34 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import java.util.ArrayList;
+import java.util.List;
 
 import comp5216.sydney.edu.au.pethub.R;
+import comp5216.sydney.edu.au.pethub.adapters.myBlogAdapter;
+import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
+import comp5216.sydney.edu.au.pethub.model.Blog;
+import comp5216.sydney.edu.au.pethub.model.User;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
 public class MyBlogsActivity extends AppCompatActivity {
+
+    private MyApp myApp;
+    private User myUser;
+    private RecyclerView recyclerView;
+    private myBlogAdapter myBlogAdapter;
+    private List<Blog> myBlogList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +40,42 @@ public class MyBlogsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //没登录的话跳转到登录功能
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // User is signed in
-        } else {
-            // No user is signed in
-            Intent intent = new Intent(MyBlogsActivity.this, SignInActivity.class);
-            startActivity(intent);
-        }
+
+        // 获取用户
+        myApp = (MyApp) getApplication();
+        myUser = myApp.getUser();
+
+        // 初始化RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewBlogs);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // 初始化适配器并绑定RecyclerView
+        myBlogAdapter = new myBlogAdapter(this, myBlogList);
+        recyclerView.setAdapter(myBlogAdapter);
+
+        fetchBlogPosts();
+    }
+
+    // 封装获取博客的信息
+    @SuppressLint("NotifyDataSetChanged")
+    private void fetchBlogPosts() {
+        ConnectDatabase connectDatabase = new ConnectDatabase();
+        connectDatabase.getBlogsByFilter(
+                myUser.getFirebaseId(),
+                blogs -> {
+                    // 清空之前的列表
+                    myBlogList.clear();
+
+                    // 添加获取的博客
+                    myBlogList.addAll(blogs);
+
+                    // 更新适配器
+                    myBlogAdapter.notifyDataSetChanged();
+                },
+                e -> {
+                    // 处理查询失败
+                    Log.e("Blog Fetch Error", "Failed to fetch blogs", e);
+                }
+        );
     }
 }
