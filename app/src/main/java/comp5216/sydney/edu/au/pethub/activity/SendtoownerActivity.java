@@ -46,7 +46,7 @@ public class SendtoownerActivity extends AppCompatActivity {
     Button sendButton;
     private Double userLongitude = 0.0;
     private Double petLatitude =0.0;
-    private EditText userAddressField;
+    private TextView userAddressField;
     private String userAddress ="";
     User user;
     String petID;
