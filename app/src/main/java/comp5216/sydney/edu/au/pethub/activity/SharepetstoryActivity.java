@@ -40,8 +40,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
@@ -53,7 +51,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -74,13 +71,11 @@ public class SharepetstoryActivity extends AppCompatActivity {
     private File file;
     private Uri photo_uri;
 
-    //private String pet_category="";
     private String blogTitle="";
     private String mblogDescription="";
 
     private EditText mblogNameField;
     private EditText mblogDescriptionField;
-    private Button mpostPetButton;
 
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
@@ -160,6 +155,22 @@ public class SharepetstoryActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
                 // 当没有选择任何项目时的处理
             }
+        });
+
+        findViewById(R.id.post_blog_back_button).setOnClickListener(v -> {
+            // 清空用户输入的内容
+            mblogNameField.setText("");  // 清空博客标题输入
+            mblogDescriptionField.setText("");  // 清空博客内容输入
+
+            // 清空图片列表并刷新 RecyclerView
+            imageUris.clear();
+            imageAdapter.notifyDataSetChanged();
+
+            Intent intent = new Intent(SharepetstoryActivity.this, MyBlogsActivity.class);
+            startActivity(intent);
+
+            // 结束当前活动，防止回退到该界面时数据仍然存在
+            finish();
         });
     }
 
@@ -400,7 +411,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(SharepetstoryActivity.this, MyBlogsActivity.class);
                                     startActivity(intent);
-                                    //finish();
+                                    finish();
                                 },
                                 e ->{
                                     Log.e("FirestoreDatabase", "Error uploading blog", e);

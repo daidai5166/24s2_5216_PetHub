@@ -36,6 +36,7 @@
 
     <!-- Post New Blog Button -->
     <Button
+        android:id="@+id/blog_list_post_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Post New Blog"

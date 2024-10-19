@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -54,6 +55,11 @@ public class MyBlogsActivity extends AppCompatActivity {
         recyclerView.setAdapter(myBlogAdapter);
 
         fetchBlogPosts();
+
+        findViewById(R.id.blog_list_post_button).setOnClickListener(v -> {
+            Intent intent = new Intent(MyBlogsActivity.this, SharepetstoryActivity.class);
+            startActivity(intent);
+        });
     }
 
     // 封装获取博客的信息

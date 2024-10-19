@@ -474,7 +474,6 @@ public class ConnectDatabase {
         blog.put("postTime", postTime);
         blog.put("userEmail", ownerId); // 唯独Blog的userEmail填入的是ownerId
         blog.put("petID", petID);
-        blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Blog added with ID: " + documentReference.getId()));
         blog.put("likedUsers", likedUsers);
 
         blogs.add(blog)
