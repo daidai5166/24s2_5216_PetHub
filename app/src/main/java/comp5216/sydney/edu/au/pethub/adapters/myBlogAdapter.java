@@ -54,7 +54,7 @@ public class myBlogAdapter extends RecyclerView.Adapter<myBlogAdapter.BlogViewHo
 
         // 从 Firebase 加载图片到 ImageView
         loadImageFromFirebaseStorageToImageView(context, holder.imageView, urlMyBlog,
-                e -> {
+                (e) -> {
                     holder.imageView.setImageResource(R.drawable.ic_dog);
                 });
 
@@ -99,6 +99,7 @@ public class myBlogAdapter extends RecyclerView.Adapter<myBlogAdapter.BlogViewHo
 
         public BlogViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageView = itemView.findViewById(R.id.blog_view);  // 绑定ImageView
             tvBlogTitle = itemView.findViewById(R.id.tvBlogTitle);
             tvBlogContent = itemView.findViewById(R.id.tvBlogContent);
             tvPostTime = itemView.findViewById(R.id.tvPostTime);
