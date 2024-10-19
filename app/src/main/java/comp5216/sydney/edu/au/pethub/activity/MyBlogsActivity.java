@@ -1,8 +1,13 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +33,7 @@ public class MyBlogsActivity extends AppCompatActivity {
     private User myUser;
     private RecyclerView recyclerView;
     private myBlogAdapter myBlogAdapter;
-    private List<Blog> myBlogList = new ArrayList<>();
+    private final List<Blog> myBlogList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,9 @@ public class MyBlogsActivity extends AppCompatActivity {
             return insets;
         });
 
+        // 绑定Post Blog按钮点击事件
+        Button btn_Post_New_Blog_Button = findViewById(R.id.Post_New_Blog_Button);
+
         // 获取用户
         myApp = (MyApp) getApplication();
         myUser = myApp.getUser();
@@ -52,6 +60,11 @@ public class MyBlogsActivity extends AppCompatActivity {
         // 初始化适配器并绑定RecyclerView
         myBlogAdapter = new myBlogAdapter(this, myBlogList);
         recyclerView.setAdapter(myBlogAdapter);
+
+        btn_Post_New_Blog_Button.setOnClickListener(v -> {
+            Intent intent = new Intent(MyBlogsActivity.this, SharepetstoryActivity.class);
+            startActivity(intent);
+        });
 
         fetchBlogPosts();
     }
@@ -77,5 +90,9 @@ public class MyBlogsActivity extends AppCompatActivity {
                     Log.e("Blog Fetch Error", "Failed to fetch blogs", e);
                 }
         );
+    }
+
+    public void myBlogOnBackClick(View view) {
+        finish();
     }
 }

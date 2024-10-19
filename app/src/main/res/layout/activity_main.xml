@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#a3aa7f"
-        android:padding="16dp">
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp">
 
         <!-- Logo Section -->
         <LinearLayout
@@ -40,7 +42,7 @@
                 android:textColor="#ffffff"
                 android:textSize="14sp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="0dp" />
         </LinearLayout>
 
         <!-- Search Bar -->
@@ -63,7 +65,7 @@
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:padding="8dp"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 app:drawableStartCompat="@drawable/ic_search" />
 
             <Button
@@ -83,7 +85,9 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp" >
+            android:paddingRight="16dp"
+            android:paddingTop="2dp"
+            >
 
             <!-- Category Buttons -->
             <android.widget.Button
@@ -93,7 +97,8 @@
                 android:text="Dogs"
                 android:drawableTop="@drawable/ic_dog_category"
                 android:textColor="#000000"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:paddingTop="13dp"/>
 
             <android.widget.Button
                 android:id="@+id/btn_cats"
@@ -102,7 +107,8 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/ic_cat_category"
                 android:text="Cats"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:paddingTop="13dp"/>
 
             <android.widget.Button
                 android:id="@+id/btn_birds"
@@ -111,7 +117,8 @@
                 android:text="Birds"
                 android:drawableTop="@drawable/ic_bird_category"
                 android:textColor="#000000"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:paddingTop="13dp"/>
 
             <android.widget.Button
                 android:id="@+id/btn_others"
@@ -120,7 +127,8 @@
                 android:text="Others"
                 android:drawableTop="@drawable/ic_others_category"
                 android:textColor="#000000"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:paddingTop="13dp"/>
         </LinearLayout>
 <!--    </HorizontalScrollView>-->
 

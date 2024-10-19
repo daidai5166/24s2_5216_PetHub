@@ -46,7 +46,7 @@ public class SendtoownerActivity extends AppCompatActivity {
     Button sendButton;
     private Double userLongitude = 0.0;
     private Double petLatitude =0.0;
-    private EditText userAddressField;
+    private TextView userAddressField;
     private String userAddress ="";
     User user;
     String petID;
@@ -145,6 +145,7 @@ public class SendtoownerActivity extends AppCompatActivity {
                 message,(id) -> {
                     Log.i("SendtoownerActivity", "Request sent successfully");
                     Intent intent = new Intent(this, MainActivity.class);
+                    Toast.makeText(this, "Request sent successfully, thank you!", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     finish();
                 }, (e) -> {

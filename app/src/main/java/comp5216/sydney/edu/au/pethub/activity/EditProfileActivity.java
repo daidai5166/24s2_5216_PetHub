@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
-import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.noCacheLoadImageFromFirebaseStorageToImageView;
 import static comp5216.sydney.edu.au.pethub.util.Utility.mergeLocation;
 import static comp5216.sydney.edu.au.pethub.util.Utility.splitLocation;
@@ -38,7 +37,6 @@ import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 import comp5216.sydney.edu.au.pethub.model.User;
 import comp5216.sydney.edu.au.pethub.singleton.MyApp;
-import comp5216.sydney.edu.au.pethub.util.Utility;
 
 public class EditProfileActivity extends AppCompatActivity {
     User user;

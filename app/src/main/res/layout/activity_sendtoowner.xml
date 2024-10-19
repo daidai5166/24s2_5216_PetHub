@@ -103,11 +103,11 @@
             android:textSize="16sp"
             android:textColor="#000000"
             android:layout_marginBottom="4dp" />
-        <EditText
+        <TextView
             android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="160 city Road, Darlington NSW 2008, Sydney"
+            android:hint="Click to enter your address"
             android:backgroundTint="#d4d8aa"
             android:padding="8dp"
             android:textColor="#000000"
@@ -125,7 +125,7 @@
             android:id="@+id/message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="I'm a responsible, caring individual who loves animals. I have a stable home and plenty of time to give a pet love and attention."
+            android:hint="Write something about what you want to say to the owner."
             android:backgroundTint="#d4d8aa"
             android:padding="8dp"
             android:textColor="#000000"

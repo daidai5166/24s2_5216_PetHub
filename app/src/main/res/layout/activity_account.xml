@@ -185,6 +185,7 @@
 
         <!-- Help Option -->
         <LinearLayout
+            android:id="@+id/help"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -207,6 +208,7 @@
 
         <!-- About Us Option -->
         <LinearLayout
+            android:id="@+id/about_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

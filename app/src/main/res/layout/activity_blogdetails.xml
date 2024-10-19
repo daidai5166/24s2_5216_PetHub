@@ -18,37 +18,64 @@
 
         <!-- Back Button -->
         <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="start"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back"
+            android:onClick="onBlogDetailBack"/>
+    </LinearLayout>
+
+    <!-- Top Section with Back Button and Pet Image -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
             android:contentDescription="Back"
-            android:layout_gravity="start" />
-    </LinearLayout>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:onClick="onBackClick"/>
 
-    <!-- Image Carousel using ViewPager2 -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/image_carousel"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_margin="16dp"
-        android:clipToPadding="false"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:overScrollMode="never" />
+        <!-- Pet Image -->
+        <!-- android:src="@drawable/ic_pet_image" -->
+        <ImageView
+            android:id="@+id/pet_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
 
-    <!-- Page Indicator Dots -->
-    <LinearLayout
-        android:id="@+id/indicator_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_marginTop="-24dp"
-        android:layout_marginBottom="16dp">
+            android:contentDescription="Pet Image"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" />
 
-        <!-- Indicators will be dynamically added here -->
-    </LinearLayout>
+        <!-- Left Arrow -->
+        <ImageView
+            android:id="@+id/arrow_left"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_left"
+            android:contentDescription="Previous Image"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <!-- Right Arrow -->
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_right"
+            android:contentDescription="Next Image"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 
     <!-- Blog Post Content -->
     <LinearLayout
@@ -89,29 +116,29 @@
             android:layout_marginBottom="16dp" />
 
         <!-- Like Section -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center_vertical">-->
 
-            <!-- Heart Icon -->
-            <ImageView
-                android:id="@+id/like_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_heart"
-                android:contentDescription="Like Icon"
-                android:layout_marginEnd="8dp" />
+<!--            &lt;!&ndash; Heart Icon &ndash;&gt;-->
+<!--            <ImageView-->
+<!--                android:id="@+id/like_icon"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_heart"-->
+<!--                android:contentDescription="Like Icon"-->
+<!--                android:layout_marginEnd="8dp" />-->
 
-            <!-- Like Count -->
-            <TextView
-                android:id="@+id/like_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="12"
-                android:textSize="16sp"
-                android:textColor="#000000" />
-        </LinearLayout>
+<!--            &lt;!&ndash; Like Count &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/like_count"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="12"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textColor="#000000" />-->
+<!--        </LinearLayout>-->
     </LinearLayout>
 </LinearLayout>

@@ -474,7 +474,6 @@ public class ConnectDatabase {
         blog.put("postTime", postTime);
         blog.put("userEmail", ownerId); // 唯独Blog的userEmail填入的是ownerId
         blog.put("petID", petID);
-        blogs.add(blog).addOnSuccessListener(documentReference -> Log.d(TAG_FIRESTORE, "Blog added with ID: " + documentReference.getId()));
         blog.put("likedUsers", likedUsers);
 
         blogs.add(blog)
@@ -486,21 +485,22 @@ public class ConnectDatabase {
     }
 
     public void deleteBlog(String blogId) {
-        db.collection("Blog").document(blogId)
+        db.collection("Blogs").document(blogId)
                 .delete()
                 .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Blog deleted successfully"));
     }
 
     public void updateBlog(String blogId, Map<String, Object> updates) {
-        db.collection("Blog").document(blogId)
+        db.collection("Blogs").document(blogId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Blog updated successfully"));
     }
 
-    public void getBlogs(OnSuccessListener<QuerySnapshot> successListener) {
-        db.collection("Blog")
+    public void getBlogs(OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
+        db.collection("Blogs")
                 .get()
-                .addOnSuccessListener(successListener);
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
     }
 
     public void getBlogsByFilter(String ownerID, OnSuccessListener<List<Blog>> successListener, OnFailureListener failureListener) {
@@ -622,7 +622,6 @@ public class ConnectDatabase {
                 .addOnFailureListener(failureListener);
     }
 
-
     public void getRequestsByPetId(String petID, OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
         db.collection("Requests")
                 .whereEqualTo("petID", petID)
@@ -721,29 +720,6 @@ public class ConnectDatabase {
 
     // 不使用cache加载图片到ImageView 参数: this, imageView, 路径
     // 会清除Glide的内存缓存
-    // 目前感觉没起作用
-    /*public static void noCacheLoadImageFromFirebaseStorageToImageView(
-            Context context,
-            ImageView imageView,
-            String imagePath
-    ) {
-        Log.i("Load Image", "Loading image from " + imagePath + " from storage");
-        // 清除 Glide 的内存缓存
-        Glide.get(context).clearMemory();
-        if (imagePath != null && !imagePath.isEmpty()) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
-            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                Log.i("Firebase Storage", "Image found in storage");
-                Glide.with(context)
-                        .load(uri)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(imageView);
-            }).addOnFailureListener(e -> {
-                Log.e("Load Image", "Failed to load image from storage");
-            });
-        }
-    }*/
     public static void noCacheLoadImageFromFirebaseStorageToImageView(
             Context context,
             ImageView imageView,

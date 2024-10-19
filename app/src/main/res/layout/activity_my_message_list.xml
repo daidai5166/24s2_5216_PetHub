@@ -19,11 +19,13 @@
 
         <!-- Back Button -->
         <ImageView
+            android:id="@+id/my_message_back_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_back"
             android:contentDescription="Back"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:onClick="myMessageOnBackClick"/>
 
         <!-- Title -->
         <TextView

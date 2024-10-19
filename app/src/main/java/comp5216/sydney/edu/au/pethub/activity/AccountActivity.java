@@ -1,8 +1,8 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
-import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.noCacheLoadImageFromFirebaseStorageToImageView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -13,7 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,6 +51,7 @@ public class AccountActivity extends AppCompatActivity {
         emailField = findViewById(R.id.tv_email);
         genderField = findViewById(R.id.icon_user_gender);
         avatarField = findViewById(R.id.user_avatar);
+
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (myUser != null) {
@@ -88,7 +91,29 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // TODO: Help and About Us 待完成
+        findViewById(R.id.help).setOnClickListener(v->{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Help")
+                    .setMessage(getString(R.string.help))
+                    .setPositiveButton("Confirm", (dialog, id) -> {
+                    });
+            // 创建并显示对话框
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+
+        findViewById(R.id.about_us).setOnClickListener(v->{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("About us")
+                    .setMessage(getString(R.string.aboutUs))
+                    .setPositiveButton("Confirm", (dialog, id) -> {
+                    });
+            // 创建并显示对话框
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
     }
 
     public void onSignOutClick(View view) {
@@ -101,6 +126,7 @@ public class AccountActivity extends AppCompatActivity {
         myApp.setUser(null);
         Intent intent = new Intent(AccountActivity.this, MainActivity.class);
         startActivity(intent);
+        Toast.makeText(AccountActivity.this, "Log out successfully, see ya.", Toast.LENGTH_SHORT).show();
         finish();
     }
 }
