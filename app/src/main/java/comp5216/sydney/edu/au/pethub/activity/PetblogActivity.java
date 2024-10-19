@@ -108,21 +108,21 @@ public class PetblogActivity extends AppCompatActivity {
         textViewDogsTab.setOnClickListener(v -> {
             resetButtonBackgrounds();
             textViewDogsTab.setBackgroundColor(Color.parseColor("#9dbf85"));
-            filterAndSortBlogsByCategory("Dogs");  // 筛选狗相关博客
+            filterAndSortBlogsByCategory("Dog");  // 筛选狗相关博客
         });
 
         // Cats tab
         textViewCatsTab.setOnClickListener(v -> {
             resetButtonBackgrounds();
             textViewCatsTab.setBackgroundColor(Color.parseColor("#9dbf85"));
-            filterAndSortBlogsByCategory("Cats");  // 筛选猫相关博客
+            filterAndSortBlogsByCategory("Cat");  // 筛选猫相关博客
         });
 
         // Birds tab
         textViewBirdsTab.setOnClickListener(v -> {
             resetButtonBackgrounds();
             textViewBirdsTab.setBackgroundColor(Color.parseColor("#9dbf85"));
-            filterAndSortBlogsByCategory("Birds");  // 筛选鸟相关博客
+            filterAndSortBlogsByCategory("Bird");  // 筛选鸟相关博客
         });
 
         // Others tab
