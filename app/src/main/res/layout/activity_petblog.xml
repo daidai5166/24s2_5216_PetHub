@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/blog_latest_tab"
             android:text="Latest"
-            android:textColor="#a3aa7f"
+            android:textColor="#888888"
             android:textStyle="bold"
             android:padding="8dp" />
 
@@ -77,6 +77,7 @@
             android:id="@+id/blog_dogs_tab"
             android:textColor="#888888"
             android:padding="8dp"
+            android:textStyle="bold"
             android:layout_marginStart="16dp" />
 
         <TextView
@@ -86,6 +87,7 @@
             android:id="@+id/blog_cats_tab"
             android:textColor="#888888"
             android:padding="8dp"
+            android:textStyle="bold"
             android:layout_marginStart="16dp" />
 
         <TextView
@@ -95,6 +97,7 @@
             android:id="@+id/blog_birds_tab"
             android:textColor="#888888"
             android:padding="8dp"
+            android:textStyle="bold"
             android:layout_marginStart="16dp" />
 
         <TextView
@@ -104,6 +107,7 @@
             android:id="@+id/blog_others_tab"
             android:textColor="#888888"
             android:padding="8dp"
+            android:textStyle="bold"
             android:layout_marginStart="16dp" />
     </LinearLayout>
 
