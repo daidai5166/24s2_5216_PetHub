@@ -74,6 +74,7 @@ public class AccountActivity extends AppCompatActivity {
         findViewById(R.id.edit_profile).setOnClickListener(v -> {
             Intent intent = new Intent(AccountActivity.this, EditProfileActivity.class);
             startActivity(intent);
+            finish();
         });
 
         findViewById(R.id.my_pet).setOnClickListener(v -> {

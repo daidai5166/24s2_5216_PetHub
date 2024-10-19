@@ -445,7 +445,10 @@ public class ConnectDatabase {
     public void updateUser(String userId, Map<String, Object> updates, OnSuccessListener<QuerySnapshot> successListener) {
         db.collection("Users").document(userId)
                 .update(updates)
-                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "User updated successfully"));
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG_FIRESTORE, "User updated successfully");
+                    successListener.onSuccess(null);
+                });
     }
 
     public void getUsers(OnSuccessListener<QuerySnapshot> successListener) {
