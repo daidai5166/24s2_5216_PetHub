@@ -20,8 +20,8 @@
         <!-- Back Button -->
         <ImageView
             android:id="@+id/my_blog_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
             android:src="@drawable/ic_back"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
