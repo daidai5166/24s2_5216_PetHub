@@ -90,23 +90,6 @@
             android:textColor="#000000"
             android:layout_marginBottom="16dp" />
 
-        <!-- Email Field -->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Email"-->
-<!--            android:textColor="#000000"-->
-<!--            android:textSize="16sp" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/edit_email"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="mathewperry0001@gmail.com"-->
-<!--            android:backgroundTint="#d4d8aa"-->
-<!--            android:drawableEnd="@drawable/ic_edit"-->
-<!--            android:textColor="#000000"-->
-<!--            android:layout_marginBottom="16dp" />-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -144,23 +127,6 @@
             android:layout_marginBottom="8dp"
             />
 
-        <!-- City Dropdown -->
-<!--        <EditText-->
-<!--            android:hint="Second Row"-->
-<!--            android:id="@+id/location_second_row"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="#ffffff"-->
-<!--            android:layout_marginBottom="8dp" />-->
-
-<!--        &lt;!&ndash; Suburb Dropdown &ndash;&gt;-->
-<!--        <EditText-->
-<!--            android:hint="Third Row"-->
-<!--            android:id="@+id/location_third_row"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="#ffffff"-->
-<!--            android:layout_marginBottom="24dp" />-->
 
         <TextView
             android:layout_width="wrap_content"
