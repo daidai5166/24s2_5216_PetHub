@@ -70,7 +70,7 @@ public class BlogAdapter extends BaseAdapter {
         Blog blog = blogList.get(position);
 
         // 设置博客的图片、标题和描述
-        holder.imageView.findViewById(R.id.blog_image);
+//        holder.imageView.findViewById(R.id.blog_image);
         holder.titleView.setText(blog.getPetName());
         holder.descriptionView.setText(blog.getContent());
 

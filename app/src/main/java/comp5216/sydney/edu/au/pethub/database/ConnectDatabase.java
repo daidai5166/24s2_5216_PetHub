@@ -339,7 +339,7 @@ public class ConnectDatabase {
                     if (location != null && !location.isEmpty()) {
                         for (DocumentSnapshot doc : queryDocumentSnapshots) {
                             String docLocation = doc.getString("address");
-                            if (docLocation != null && docLocation.contains(location)) {
+                            if (docLocation != null && docLocation.toLowerCase().contains(location.toLowerCase())) {
                                 filteredDocs.add(doc);
                             }
                         }
