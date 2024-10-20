@@ -57,17 +57,13 @@ public class myBlogAdapter extends RecyclerView.Adapter<myBlogAdapter.BlogViewHo
                     holder.imageView.setImageResource(R.drawable.ic_dog);
                 });
 
-        // 点击编辑按钮逻辑
-        holder.btnEditBlog.setOnClickListener(v -> {
-            blogClickListener.onEditClick(blog);
-        });
 
         // 点击删除按钮逻辑
         holder.btnDeleteBlog.setOnClickListener(v -> {
             ConnectDatabase connectDatabase;
             connectDatabase = new ConnectDatabase();
             String blogID = blog.getBlogID();
-            connectDatabase.deletePetAdoptionPost(blogID,
+            connectDatabase.deleteBlog(blogID,
                     aVoid -> {
                         // 删除成功后执行的逻辑
                         blogList.remove(position);  // 从列表中移除该项
@@ -94,7 +90,7 @@ public class myBlogAdapter extends RecyclerView.Adapter<myBlogAdapter.BlogViewHo
     public static class BlogViewHolder extends RecyclerView.ViewHolder {
         public TextView tvBlogTitle, tvBlogContent, tvPostTime;
         public ImageView imageView;
-        public Button btnEditBlog, btnDeleteBlog;
+        public Button btnDeleteBlog;
 
         public BlogViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,7 +98,7 @@ public class myBlogAdapter extends RecyclerView.Adapter<myBlogAdapter.BlogViewHo
             tvBlogTitle = itemView.findViewById(R.id.tvBlogTitle);
             tvBlogContent = itemView.findViewById(R.id.tvBlogContent);
             tvPostTime = itemView.findViewById(R.id.tvPostTime);
-            btnEditBlog = itemView.findViewById(R.id.btnEditBlog);
+
             btnDeleteBlog = itemView.findViewById(R.id.btnDeleteBlog);
         }
     }

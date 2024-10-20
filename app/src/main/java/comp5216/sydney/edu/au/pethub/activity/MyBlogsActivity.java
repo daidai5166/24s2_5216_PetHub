@@ -64,6 +64,7 @@ public class MyBlogsActivity extends AppCompatActivity {
         btn_Post_New_Blog_Button.setOnClickListener(v -> {
             Intent intent = new Intent(MyBlogsActivity.this, SharepetstoryActivity.class);
             startActivity(intent);
+            finish();
         });
 
         fetchBlogPosts();

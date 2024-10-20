@@ -312,6 +312,8 @@ public class ConnectDatabase {
                 .addOnFailureListener(failureListener);
     }
 
+
+
     public void updatePetAdoptionPost(String postId, Map<String, Object> updates) {
         db.collection("PetAdoptionPost").document(postId)
                 .update(updates)
@@ -487,10 +489,15 @@ public class ConnectDatabase {
                 ).addOnFailureListener(failureListener);
     }
 
-    public void deleteBlog(String blogId) {
+    public void deleteBlog(String blogId, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
         db.collection("Blogs").document(blogId)
                 .delete()
-                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Blog deleted successfully"));
+                .addOnSuccessListener(aVoid -> {
+                    successListener.onSuccess(aVoid);
+                    Log.d(TAG_FIRESTORE, "Pet Adoption Post deleted successfully");
+
+                })
+                .addOnFailureListener(failureListener);
     }
 
     public void updateBlog(String blogId, Map<String, Object> updates) {
