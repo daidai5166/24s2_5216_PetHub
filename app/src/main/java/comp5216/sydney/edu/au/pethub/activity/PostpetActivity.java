@@ -161,6 +161,19 @@ public class PostpetActivity extends AppCompatActivity {
             mpetAddressField.setText(pet.getAddress());
             mpetDescriptionField.setText(pet.getDescription());
             pet_id = pet.getPetID();
+            // 根据 pet 的类别设置图标背景
+            pet_category = pet.getCategory(); // 假设 Pet 对象中有 getCategory() 方法
+            if (pet_category != null) {
+                if (pet_category.equals("Dog")) {
+                    handleLayoutClick(dogs_icons);
+                } else if (pet_category.equals("Cat")) {
+                    handleLayoutClick(cats_icons);
+                } else if (pet_category.equals("Bird")) {
+                    handleLayoutClick(birds_icons);
+                } else if (pet_category.equals("Other")) {
+                    handleLayoutClick(others_icons);
+                }
+            }
             for (int i = 0; i < pet.getUriStringList().size(); i++) {
                 // 生成类似 image_01, image_02 的字符串
                 String imageName = "Pets/" +pet.getPetID() +"/image_" + i + ".jpg"; //
