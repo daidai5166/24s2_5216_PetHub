@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -84,6 +85,7 @@ public class PostpetActivity extends AppCompatActivity {
     private EditText mpetAddressField;
     private EditText mpetDescriptionField;
     private Button mpostPetButton;
+    private ImageView genderMale, genderFemale;
 
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
@@ -125,10 +127,15 @@ public class PostpetActivity extends AppCompatActivity {
         others_icons = findViewById(R.id.others_icon);
 
         mpetNameField = findViewById(R.id.pet_name);
-        mpetGenderField = findViewById(R.id.pet_gender);
+        genderMale = findViewById(R.id.gender_male);
+        genderFemale = findViewById(R.id.gender_female);
         mpetAgeField = findViewById(R.id.pet_age);
         mpetAddressField = findViewById(R.id.pet_address);
         mpetDescriptionField = findViewById(R.id.pet_description);
+
+        // gender click
+        setGenderSelection(genderMale, genderFemale, "M", "male");
+        setGenderSelection(genderFemale, genderMale, "F", "female");
 
         // 初始化 地址补全
         mpetAddressField.setOnClickListener(v -> {
@@ -156,7 +163,15 @@ public class PostpetActivity extends AppCompatActivity {
         uploadPetImageClickListener(petImageUpload);
         if (pet != null){
             mpetNameField.setText(pet.getPetName());
-            mpetGenderField.setText(pet.isGender()  ? "Male" : "Female");
+            if (pet.isGender()){
+                genderMale.setBackgroundColor(Color.parseColor("#9FE716"));
+                petGender = "m";
+            }else{
+                genderFemale.setBackgroundColor(Color.parseColor("#9FE716"));
+                petGender = "f";
+
+            }
+            // mpetGenderField.setText(pet.isGender()  ? "Male" : "Female");
             mpetAgeField.setText(String.valueOf(pet.getAge()));
             mpetAddressField.setText(pet.getAddress());
             mpetDescriptionField.setText(pet.getDescription());
@@ -186,6 +201,28 @@ public class PostpetActivity extends AppCompatActivity {
 
 
     }
+    /**
+     * 封装性别选择逻辑，包括背景切换和性别值的设置
+     * @param selectedView 当前点击的 ImageView（性别图标）
+     * @param otherView 另一个性别的 ImageView（需重置背景）
+     * @param genderValue 性别的值，"F" 表示男性，"M" 表示女性
+     * @param genderType 性别类型，用于切换背景的标识
+     */
+    private void setGenderSelection(ImageView selectedView, ImageView otherView, String genderValue, String genderType) {
+        // 为当前点击的 ImageView 设置点击事件
+        selectedView.setOnClickListener(v -> {
+            petGender = genderValue; // 设置当前选择的性别
+
+            // 修改当前点击的 ImageView 背景为选中状态
+            selectedView.setBackgroundColor(Color.parseColor("#9FE716"));
+
+            // 重置另一个 ImageView 的背景为默认状态
+            otherView.setBackgroundColor(Color.TRANSPARENT);
+            // System.out.println(selectedGender);
+        });
+    }
+
+
     //  点击类别的事件
     private void handleLayoutClick(View view) {
         // 首先重置所有按钮的背景
@@ -399,15 +436,12 @@ public class PostpetActivity extends AppCompatActivity {
     }
 
     public boolean checkGenderInput(String gender) {
-        // 忽略大小写进行判断
-        if (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female")) {
-            return true; // 输入为 Male 或 Female 时返回 true
-        } else {
-            // 设置错误提示
-            mpetGenderField.setError("Please enter Male or Female.");
-            mpetGenderField.requestFocus(); // 将焦点设置到性别输入框
-            return false; // 输入不是 Male 或 Female 时返回 false
+        if (gender.isEmpty()) {
+            Toast.makeText(PostpetActivity.this, "Please select your gender.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
         }
+        return true;
     }
 
     public boolean checkAgeInput(String age) {
@@ -428,7 +462,7 @@ public class PostpetActivity extends AppCompatActivity {
 
     public void onPostPetClick(View v){
         petName = mpetNameField.getText().toString().trim();
-        petGender = mpetGenderField.getText().toString().trim();
+        // petGender = mpetGenderField.getText().toString().trim();
         petAge = mpetAgeField.getText().toString().trim();
         petDescription = mpetDescriptionField.getText().toString().trim();
         petAddress = mpetAddressField.getText().toString().trim();
@@ -474,7 +508,7 @@ public class PostpetActivity extends AppCompatActivity {
             }
         }
         int age = Integer.parseInt(petAge); // 转换petAge格式
-        boolean gender = petGender.equalsIgnoreCase("male"); //转化petGender格式到Boolean, male为true, female为false
+        boolean gender = petGender.equalsIgnoreCase("m"); //转化petGender格式到Boolean, male为true, female为false
         String ownerId=myUser.getFirebaseId();//myUser.getFirebaseId();//用户firebase的ID
         String adopterId="";//新宠物暂无领养人
         List<String> interestedUserIds=new ArrayList<>();//新宠物暂无兴趣人
@@ -525,12 +559,12 @@ public class PostpetActivity extends AppCompatActivity {
                                     Log.e("FirestoreDatabase", "Failed to upload image: " + imageName, e);
                                 }
                         );
-                            Toast.makeText(PostpetActivity.this, "Upload success.",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(PostpetActivity.this, MypetsActivity.class);
-                            startActivity(intent);
-                            finish();
-                    }}
 
+                    }}
+                    Toast.makeText(PostpetActivity.this, "Upload success.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PostpetActivity.this, MypetsActivity.class);
+                    startActivity(intent);
+                    finish();
                 },
                 e ->{
                     Log.e("FirestoreDatabase", "Error uploading pet");
