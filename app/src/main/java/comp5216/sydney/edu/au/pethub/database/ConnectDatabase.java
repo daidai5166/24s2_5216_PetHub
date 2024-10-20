@@ -653,7 +653,7 @@ public class ConnectDatabase {
         StorageReference avatarRef = storageRef.child("Users/" + userId + "/avatar.jpg");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        avatarBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        avatarBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] data = baos.toByteArray();
 
         UploadTask uploadTask = avatarRef.putBytes(data);
@@ -671,7 +671,7 @@ public class ConnectDatabase {
 
             // 压缩Bitmap
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos);  // 设置压缩质量为75%，根据需要调整
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);  // 设置压缩质量为75%，根据需要调整
             byte[] data = baos.toByteArray();
 
             // 获取存储引用
@@ -698,7 +698,7 @@ public class ConnectDatabase {
 
             // 压缩Bitmap
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos);  // 设置压缩质量为75%，根据需要调整
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);  // 设置压缩质量为75%，根据需要调整
             byte[] data = baos.toByteArray();
 
             // 获取存储引用
