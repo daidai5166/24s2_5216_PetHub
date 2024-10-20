@@ -38,6 +38,8 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);  // 绑定布局文件
         if (!marshmallowPermission.checkPermissionForLocation()) {
             marshmallowPermission.requestPermissionForLocation();}
+        if (!marshmallowPermission.checkPermissionForCamera()) {
+            marshmallowPermission.requestPermissionForCamera();}
         // 绑定 ViewPager2
         viewPager = findViewById(R.id.viewPager);
         titleText = findViewById(R.id.title);

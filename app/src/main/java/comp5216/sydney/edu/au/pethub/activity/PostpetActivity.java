@@ -503,7 +503,7 @@ public class PostpetActivity extends AppCompatActivity {
                         String imageName = imageNames.get(i);   // 获取当前图片的名称
 
                         // 调用上传函数，传入图片名称和 Uri
-                        connectDatabase.uploadPetImage(documentId, imageUri, imageName,
+                        connectDatabase.uploadPetImage(this, documentId, imageUri, imageName,
                                 // 成功回调
                                 downloadUri -> {
                                     Log.d("FirestoreDatabase", "Image uploaded successfully: " + imageName);

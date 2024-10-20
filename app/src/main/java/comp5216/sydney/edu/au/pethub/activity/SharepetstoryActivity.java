@@ -382,7 +382,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
                                         Log.i("imageName", imageName);
 
                                         // 上传与博客相关的每张图片
-                                        connectDatabase.uploadBlogImage(documentId, imageUri, imageName,
+                                        connectDatabase.uploadBlogImage(this, documentId, imageUri, imageName,
                                                 downloadUri -> {
                                                     Log.d("FirestoreDatabase", "Image uploaded successfully: " + imageName);
                                                 },

@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         // 获取位置
         getLastKnownLocation();
 
+        if (!marshmallowPermission.checkPermissionForCamera()) {
+            marshmallowPermission.requestPermissionForCamera();}
+
         btnDogs = findViewById(R.id.btn_dogs);
         btnCats = findViewById(R.id.btn_cats);
         btnBirds = findViewById(R.id.btn_birds);
