@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 获取位置
+        // get location
         getLastKnownLocation();
 
         if (!marshmallowPermission.checkPermissionForCamera()) {
@@ -84,28 +84,28 @@ public class MainActivity extends AppCompatActivity {
         myApp = (MyApp) this.getApplication();
         myUser = myApp.getUser();
 
-        // 为标签设置点击事件
+        // Set a click event for the label
         setupTabClickListeners();
 
-        // 初始化导航栏
+        // Initialize the navigation bar
         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
         navigationBarActivity.setupNavigationBar();
 
-        // Main page 获取 GridView
+        // Main page get GridView
         GridView gridView = findViewById(R.id.grid_pets);
 
-        // 创建适配器并绑定数据
+        // Create an adapter and bind the data
         adapter = new PetAdapter(this, pets);
         gridView.setAdapter(adapter);
 
-        // GridView设置点击事件
+        // GridView set click event
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, PetdetailsActivity.class);
                 Pet selectedPet = pets.get(position);
                 intent.putExtra("selectedPet", selectedPet);
-                // 可根据点击的项传递宠物的相关数据
+                // Pass pets' data according to clicked items
                 startActivity(intent);
             }
         });
@@ -174,19 +174,19 @@ public class MainActivity extends AppCompatActivity {
             filteredPets = new ArrayList<>();
         }
 
-        // 排序逻辑保持不变
+        // The sorting logic remains unchanged.
         sortPetsByDistance(filteredPets);
         adapter.updatePets(filteredPets);
     }
 
-    // 封装获取宠物领养帖的函数
+    // Encapsulate the function to retrieve pet adoption posts
     private void fetchPetAdoptionPosts() {
         ConnectDatabase connectDatabase = new ConnectDatabase();
         connectDatabase.getPetAdoptionPosts(
                 queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         try {
-                            // 手动获取字段并调试数据
+                            // Manually retrieve fields and debug data
                             String petID = document.getId();
                             String petName = document.getString("petName");
                             int age = document.getLong("age").intValue();
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                             List<String> uriStringList = (List<String>) document.get("uriStringList");
                             String uploadTime = document.getString("uploadTime");
 
-                            // 构造 Pet 对象
+                            // construct Pet object
                             Pet pet = new Pet(
                                     petID,
                                     petName,
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                                     uriStringList,
                                     uploadTime);
 
-                            // 添加到列表并刷新
+                            // Add to the list and refresh
                             if (myUser == null ||
                                     !Objects.equals(ownerId, myUser.getFirebaseId()) ||
                                     !Objects.equals(adopterId, "")) {
@@ -233,13 +233,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    // 对宠物进行分类并填入HashMap
+                    // Categorize pets and populate the HashMap
                     categorizePets();
 
-                    // 在获取到当前位置后，进行排序
+                    // Sort after obtaining the current position
                     sortPetsByDistance(pets);
 
-                    // 数据更新后通知适配器刷新
+                    // Notify the adapter to refresh after data update
                     adapter.notifyDataSetChanged();
                 },
                 e -> {
@@ -248,22 +248,22 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    // 计算两个经纬度之间的距离，返回结果为米
+    // Calculate the distance between two coordinates, returning the result in meters
     public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         float[] results = new float[1];
         Location.distanceBetween(lat1, lon1, lat2, lon2, results);
-        return results[0]; // 返回米为单位的距离
+        return results[0]; // Return the distance in meters
     }
 
-    // 对pets列表按照距离排序
+    // Sort the pets list by distance
     public void sortPetsByDistance(List<Pet> sortPets) {
         if (currentLatitude == 0.0 && currentLongitude == 0.0) {
-            // 未获取到当前位置时跳过排序
+            // Skip sorting when the current position is not obtained
             Log.w("Sort", "Invalid Location");
             return;
         }
 
-        // 先按距离升序排列
+        // Sort in ascending order by distance first
         sortPets.sort((pet1, pet2) -> {
             double distanceToPet1 = calculateDistance(currentLatitude, currentLongitude, pet1.getLatitude(), pet1.getLongitude());
             double distanceToPet2 = calculateDistance(currentLatitude, currentLongitude, pet2.getLatitude(), pet2.getLongitude());
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 return distanceComparison;
             }
 
-            // 如果距离相等，再按时间降序排列
+            // If the distances are equal, then sort by time in descending order
             return pet2.getUploadTime().compareTo(pet1.getUploadTime());
         });
     }
@@ -290,12 +290,12 @@ public class MainActivity extends AppCompatActivity {
                             currentLongitude = location.getLongitude();
                             Log.d("Location", "Latitude: " + currentLatitude + ", Longitude: " + currentLongitude);
 
-                            // 获取宠物领养数据
+                            // Retrieve pet adoption data
                             fetchPetAdoptionPosts();
                         }
                     });
         } else {
-            // 请求权限
+            // Request permission.
             marshmallowPermission.requestPermissionForLocation();
         }
     }

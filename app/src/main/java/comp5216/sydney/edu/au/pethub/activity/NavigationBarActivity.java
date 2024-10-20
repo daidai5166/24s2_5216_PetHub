@@ -9,7 +9,7 @@
  *         super.onCreate(savedInstanceState);
  *         setContentView(R.layout.activity_main);
  *
- *         // 初始化导航栏
+ *
  *         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
  *         navigationBarActivity.setupNavigationBar();
  *     }
@@ -39,12 +39,10 @@ public class NavigationBarActivity {
         this.activity = activity;
         myApp = (MyApp) activity.getApplication();
         myUser = myApp.getUser();
-        // 获取当前的 Firebase 用户
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public void setupNavigationBar() {
-        // 绑定按钮
         activity.findViewById(R.id.btn_home).setOnClickListener(v -> {
             Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
@@ -56,7 +54,6 @@ public class NavigationBarActivity {
         });
 
         if (myUser == null) {
-            // 禁用其他按钮
             activity.findViewById(R.id.btn_post).setOnClickListener(v -> {
                 Intent intent = new Intent(activity, SignInActivity.class);
                 activity.startActivity(intent);

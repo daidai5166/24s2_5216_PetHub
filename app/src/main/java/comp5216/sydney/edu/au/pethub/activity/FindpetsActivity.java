@@ -56,37 +56,37 @@ public class FindpetsActivity extends AppCompatActivity {
         setGenderSelection(genderFemale, genderMale, false, "female");
         genderMale.setBackgroundColor(Color.parseColor("#9FE716"));
 
-        // 获取 Spinner
+        // Get Spinner
         spinnerPetType = findViewById(R.id.spinner_pet_type);
-        // 获取 string-array 资源
+        // Get string-array resource
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.pet_types, android.R.layout.simple_spinner_item);
 
-        // 设置下拉样式
+        // Set the dropdown style
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // 绑定 Adapter 到 Spinner
+        // Bind Adapter to Spinner
         spinnerPetType.setAdapter(adapter);
 
         spinnerLocation = findViewById(R.id.spinner_location);
         MyApp myApp = (MyApp) getApplication();
         user = myApp.getUser();
 
-        // Search page 获取 GridView 并设置点击事件
+        // Search page to get GridView and set click event
         GridView gridView = findViewById(R.id.grid_pets);
-        // GridView设置点击事件
+        // GridView set click event
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(FindpetsActivity.this, PetdetailsActivity.class);
                 Pet selectedPet = pets.get(position);
                 intent.putExtra("selectedPet", selectedPet);
-                // 可根据点击的项传递宠物的相关数据
+                // Pass pets' data according to clicked items
                 startActivity(intent);
             }
         });
 
-        // 初始化导航栏
+        // Initialize the navigation bar
         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
         navigationBarActivity.setupNavigationBar();
 
@@ -97,7 +97,7 @@ public class FindpetsActivity extends AppCompatActivity {
         });
         searchButton.setOnClickListener(v -> {
             pets = new ArrayList<>();
-            // 重新获取数据
+            // Retrieve data again
             fetchPetAdoptionPostsWithFilter();
             petAdapter = new PetAdapter(this, pets);
             gridView.setAdapter(petAdapter);
@@ -105,27 +105,27 @@ public class FindpetsActivity extends AppCompatActivity {
     }
 
     /**
-     * 封装性别选择逻辑，包括背景切换和性别值的设置
-     * @param selectedView 当前点击的 ImageView（性别图标）
-     * @param otherView 另一个性别的 ImageView（需重置背景）
-     * @param genderValue 性别的值，true 表示男性，false 表示女性
-     * @param genderType 性别类型，用于切换背景的标识
+     * Encapsulate the gender selection logic, including background switching and setting the gender value
+     * @param selectedView current clicked ImageView (gender icon)
+     * @param otherView Another ImageView for the opposite gender (background needs to be reset)
+     * @param genderValue value for gender,true represents male and false represents female.
+     * @param genderType Gender type, used as an identifier for background switching
      */
     private void setGenderSelection(ImageView selectedView, ImageView otherView, Boolean genderValue, String genderType) {
-        // 为当前点击的 ImageView 设置点击事件
+        // Set the click event for the current clicked ImageView
         selectedView.setOnClickListener(v -> {
-            selectedGender = genderValue; // 设置当前选择的性别
+            selectedGender = genderValue; // set current gender
 
-            // 修改当前点击的 ImageView 背景为选中状态
+            // Change the background of the currently clicked ImageView to the selected state.
             selectedView.setBackgroundColor(Color.parseColor("#9FE716"));
 
-            // 重置另一个 ImageView 的背景为默认状态
+            // Reset another ImageView background to the default state
             otherView.setBackgroundColor(Color.TRANSPARENT);
             // System.out.println(selectedGender);
         });
     }
 
-    // 封装获取宠物领养帖的函数
+    // Encapsulate the function to retrieve pet adoption posts
     private void fetchPetAdoptionPostsWithFilter() {
         String selectedCategory = spinnerPetType.getSelectedItem().toString();
         String selectedLocation = spinnerLocation.getText().toString();
@@ -136,7 +136,7 @@ public class FindpetsActivity extends AppCompatActivity {
                     Log.i("FindpetsActivity", "fetchPetAdoptionPostsWithFilter: " + queryDocumentSnapshots.size());
                     for (DocumentSnapshot document : queryDocumentSnapshots) {
                         try {
-                            // 手动获取字段并调试数据
+                            // manually get the field and debug data
                             String petID = document.getId();
                             String petName = document.getString("petName");
                             int age = document.getLong("age").intValue();
@@ -152,7 +152,7 @@ public class FindpetsActivity extends AppCompatActivity {
                             List<String> uriStringList = (List<String>) document.get("uriStringList");
                             String uploadTime = document.getString("uploadTime");
 
-                            // 构造 Pet 对象
+                            // construct Pet object
                             Pet pet = new Pet(
                                     petID,
                                     petName,
@@ -171,7 +171,7 @@ public class FindpetsActivity extends AppCompatActivity {
                             );
 
                             if((user == null || !Objects.equals(user.getFirebaseId(), ownerId)) && Objects.equals(adopterId, "")) {
-                                // 添加到列表并刷新
+                                // add into the list and fresh
                                 pets.add(pet);
                             }
 
@@ -180,7 +180,7 @@ public class FindpetsActivity extends AppCompatActivity {
                             Log.e("PetAdoptionPost", "Error parsing document", e);
                         }
                     }
-                    // 数据更新后通知适配器刷新
+                    // notify adapter to fresh after data updates
                     petAdapter.notifyDataSetChanged();
                 }, e -> {
 

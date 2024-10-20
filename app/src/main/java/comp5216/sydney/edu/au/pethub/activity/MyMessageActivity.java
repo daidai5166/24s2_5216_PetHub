@@ -55,7 +55,7 @@ public class MyMessageActivity extends AppCompatActivity {
         });
         MyApp myApp = (MyApp) getApplication();
         myUser = myApp.getUser();
-        //读取用户的宠物数据，++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //Read the user's pet data，++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         selectPetSpinner = findViewById(R.id.select_pet_spinner);
         List<String> petNames = new ArrayList<>();
         petIDs = new ArrayList<>();
@@ -63,23 +63,23 @@ public class MyMessageActivity extends AppCompatActivity {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectPetSpinner.setAdapter(spinnerAdapter);
         connectDatabase = new ConnectDatabase();
-        // 获取当前用户的 Firebase ID
+        // Retrieve the current user's Firebase ID
         String userId = myUser.getFirebaseId();
 
-        // 从 Firebase Firestore 中获取该用户的宠物信息
+        // Retrieve the user's pet information from Firebase Firestore.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("PetAdoptionPost")
-                .whereEqualTo("ownerId", userId)  // 根据用户 ID 过滤宠物数据
+                .whereEqualTo("ownerId", userId)  // Filter pet data based on user ID
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
-                    petNames.clear();  // 清空之前的数据
-                    petIDs.clear();  // 清空之前的数据
+                    petNames.clear();  // Clear the previous data
+                    petIDs.clear();  // Clear the previous data
                     for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                        String petName = document.getString("petName");  // 获取宠物的名字
-                        petNames.add(petName);  // 添加到宠物名字的列表
-                        petIDs.add(document.getId());  // 添加到宠物 ID 的列表
+                        String petName = document.getString("petName");  // Retrieve the pet's name.
+                        petNames.add(petName);  // Add to the list of pet names.
+                        petIDs.add(document.getId());  // Add to the list of pet IDs.
                     }
-                    spinnerAdapter.notifyDataSetChanged();  // 更新 Spinner 中的数据显示
+                    spinnerAdapter.notifyDataSetChanged();  // Update the displayed data in the Spinner.
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(MyMessageActivity.this, "Failed to load pets.", Toast.LENGTH_SHORT).show();
@@ -88,42 +88,39 @@ public class MyMessageActivity extends AppCompatActivity {
         selectPetSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                                        @Override
                                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                                           // 获取选中项的内容
+                                                           // Retrieve the content of the selected item.
                                                             selectedPetID = petIDs.get(position);
-                                                           // 从 Firebase Firestore 中获取该用户的请求信息
+                                                           // Retrieve the user's request information from Firebase Firestore.
                                                             connectDatabase.getRequestsByPetId(selectedPetID,
                                                                     querySnapshot -> {
-                                                                    requests.clear();  // 清空之前的数据
+                                                                    requests.clear();  // Clear the previous data.
                                                                     for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                                                        String requestId = document.getId();  // 获取请求的 ID
-                                                                        String requestMessage = document.getString("message");  // 获取请求的消息
-                                                                        String requestDate = document.getString("date");  // 获取请求的日期
-                                                                        String email = document.getString("email");  // 获取请求的邮箱
-                                                                        int phone = document.getLong("phone").intValue();  // 获取请求的电话
-                                                                        String petID = document.getString("petID");  // 获取请求的宠物 ID
-                                                                        String userId = document.getString("userId");  // 获取请求的用户 ID
-                                                                        String userName = document.getString("userName");  // 获取请求的用户名
-                                                                        String address = document.getString("address");  // 获取请求的地址
-                                                                        Request request = new Request(petID, userId, requestId, userName, email, address, requestMessage, phone, requestDate);  // 创建请求对象
-                                                                        requests.add(request);  // 添加到请求列表
+                                                                        String requestId = document.getId();  // Retrieve the request ID
+                                                                        String requestMessage = document.getString("message");  // Retrieve the request message.
+                                                                        String requestDate = document.getString("date");  // Retrieve the request date.
+                                                                        String email = document.getString("email");  // Retrieve the request email.
+                                                                        int phone = document.getLong("phone").intValue();  // Retrieve the request's phone number.
+                                                                        String petID = document.getString("petID");  // Retrieve the request's pet ID.
+                                                                        String userId = document.getString("userId");  // Retrieve the request's user ID.
+                                                                        String userName = document.getString("userName");  // Retrieve the request's username.
+                                                                        String address = document.getString("address");  // Retrieve the request's address.
+                                                                        Request request = new Request(petID, userId, requestId, userName, email, address, requestMessage, phone, requestDate);  //Create a request object
+                                                                        requests.add(request);  // Add to the request list.
                                                                     }
-                                                                    // 定义日期格式
+                                                                    // Define the date format
                                                                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-                                                                    // 使用Comparator对requestDate进行排序
                                                                     requests.sort((r1, r2) -> {
                                                                         try {
-                                                                            // 将String类型的日期转换为Date类型
                                                                             Date date1 = sdf.parse(r1.getDate());
                                                                             Date date2 = sdf.parse(r2.getDate());
-                                                                            // 按日期降序排序（时间靠后的排在前面）
                                                                             return date2.compareTo(date1);
                                                                         } catch (
                                                                                 ParseException e) {
                                                                             e.printStackTrace();
                                                                         }
-                                                                        return 0;  // 如果解析失败，视为相等
+                                                                        return 0;  // If failed, set o
                                                                     });
-                                                                    messageAdapter.notifyDataSetChanged();  // 更新 ListView 中的数据显示
+                                                                    messageAdapter.notifyDataSetChanged();  // update ListView date
                                                                 },
                                                                 e -> {
                                                                     Toast.makeText(MyMessageActivity.this, "Failed to load requests.", Toast.LENGTH_SHORT).show();
@@ -133,7 +130,6 @@ public class MyMessageActivity extends AppCompatActivity {
 
                                                        @Override
                                                        public void onNothingSelected(AdapterView<?> parent) {
-                                                           // 当没有选中任何选项时的逻辑
                                                        }
                                                    });
         listView = findViewById(R.id.list_view);

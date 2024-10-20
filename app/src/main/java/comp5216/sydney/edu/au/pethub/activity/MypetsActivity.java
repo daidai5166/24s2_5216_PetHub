@@ -46,22 +46,18 @@ public class MypetsActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 获取用户
         myApp = (MyApp) getApplication();
         myUser = myApp.getUser();
 
-        // 初始化RecyclerView
         recyclerView = findViewById(R.id.recycler_mypet);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // 初始化适配器并绑定RecyclerView
         myPetAdapter = new mypetAdapter(this, myPetList);
         recyclerView.setAdapter(myPetAdapter);
 
         fetchPetAdoptionPosts();
     }
 
-    // 封装获取宠物领养帖的函数
     @SuppressLint("NotifyDataSetChanged")
     private void fetchPetAdoptionPosts() {
         ConnectDatabase connectDatabase = new ConnectDatabase();
@@ -71,7 +67,6 @@ public class MypetsActivity extends AppCompatActivity {
                         try {
                             if(Objects.equals(myUser.getFirebaseId(), document.getString("ownerId")))
                             {
-                            // 手动获取字段并调试数据
                             String petID = document.getId();
                             String petName = document.getString("petName");
                             int age = document.getLong("age").intValue();
@@ -87,7 +82,6 @@ public class MypetsActivity extends AppCompatActivity {
                             List<String> uriStringList = (List<String>) document.get("uriStringList");
                             String uploadTime = document.getString("uploadTime");
 
-                            // 构造 Pet 对象
                             Pet pet = new Pet(
                                     petID,
                                     petName,
@@ -103,7 +97,6 @@ public class MypetsActivity extends AppCompatActivity {
                                     uriStringList,
                                     uploadTime);
 
-                            // 添加到列表并刷新
                             myPetList.add(pet);
                             Log.i("PetAdoptionPostID", petID);
                             Log.d("PetAdoptionPost", pet.getPetName());
@@ -113,7 +106,6 @@ public class MypetsActivity extends AppCompatActivity {
                         }
                     }
 
-                    // 数据更新后通知适配器刷新
                     myPetAdapter.notifyDataSetChanged();
                 },
                 e -> {

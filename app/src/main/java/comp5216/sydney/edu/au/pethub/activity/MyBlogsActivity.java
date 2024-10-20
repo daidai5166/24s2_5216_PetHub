@@ -46,18 +46,18 @@ public class MyBlogsActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 绑定Post Blog按钮点击事件
+        // Bind the click event for the Post Blog button
         Button btn_Post_New_Blog_Button = findViewById(R.id.Post_New_Blog_Button);
 
-        // 获取用户
+        // Retrieve the user
         myApp = (MyApp) getApplication();
         myUser = myApp.getUser();
 
-        // 初始化RecyclerView
+        // Initialize the RecyclerView.
         recyclerView = findViewById(R.id.recyclerViewBlogs);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // 初始化适配器并绑定RecyclerView
+        // Initialize the adapter and bind it to the RecyclerView.
         myBlogAdapter = new myBlogAdapter(this, myBlogList);
         recyclerView.setAdapter(myBlogAdapter);
 
@@ -70,24 +70,24 @@ public class MyBlogsActivity extends AppCompatActivity {
         fetchBlogPosts();
     }
 
-    // 封装获取博客的信息
+    // Encapsulate the function to retrieve blog information.
     @SuppressLint("NotifyDataSetChanged")
     private void fetchBlogPosts() {
         ConnectDatabase connectDatabase = new ConnectDatabase();
         connectDatabase.getBlogsByFilter(
                 myUser.getFirebaseId(),
                 blogs -> {
-                    // 清空之前的列表
+                    // Clear the previous list
                     myBlogList.clear();
 
-                    // 添加获取的博客
+                    // Add the retrieved blog
                     myBlogList.addAll(blogs);
 
-                    // 更新适配器
+                    // Update the adapter
                     myBlogAdapter.notifyDataSetChanged();
                 },
                 e -> {
-                    // 处理查询失败
+                    // Handle query failure
                     Log.e("Blog Fetch Error", "Failed to fetch blogs", e);
                 }
         );

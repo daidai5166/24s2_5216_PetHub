@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +34,7 @@ public class AccountActivity extends AppCompatActivity {
     private ImageView avatarField;
 
     private MyApp myApp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,16 +59,16 @@ public class AccountActivity extends AppCompatActivity {
             // User is signed in
             usernameField.setText(myUser.getUsername());
             emailField.setText("Email: " + myUser.getEmail());
-            if(myUser.getGender().equals("F")) {
+            if (myUser.getGender().equals("F")) {
                 genderField.setImageResource(R.drawable.ic_gender_female);
             } else {
                 genderField.setImageResource(R.drawable.ic_gender_male);
             }
 
 
-            noCacheLoadImageFromFirebaseStorageToImageView(AccountActivity.this, avatarField, "Users/"+myUser.getFirebaseId()+"/avatar.jpg");
+            noCacheLoadImageFromFirebaseStorageToImageView(AccountActivity.this, avatarField, "Users/" + myUser.getFirebaseId() + "/avatar.jpg");
         }
-        // 初始化导航栏
+        // Initialize the navigation
         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
         navigationBarActivity.setupNavigationBar();
 
@@ -92,36 +93,35 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        findViewById(R.id.help).setOnClickListener(v->{
+        findViewById(R.id.help).setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Help")
                     .setMessage(getString(R.string.help))
                     .setPositiveButton("Confirm", (dialog, id) -> {
                     });
-            // 创建并显示对话框
+            // create and show the dialog
             AlertDialog dialog = builder.create();
             dialog.show();
         });
 
 
-
-        findViewById(R.id.about_us).setOnClickListener(v->{
+        findViewById(R.id.about_us).setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("About us")
                     .setMessage(getString(R.string.aboutUs))
                     .setPositiveButton("Confirm", (dialog, id) -> {
                     });
-            // 创建并显示对话框
+            // create and show the dialog
             AlertDialog dialog = builder.create();
             dialog.show();
         });
     }
 
     public void onSignOutClick(View view) {
-        // 获取 FirebaseAuth 实例
+        // Get FirebaseAuth instance
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        // 登出当前用户
+        // Log out the current user
         mAuth.signOut();
         MyApp myApp = (MyApp) getApplication();
         myApp.setUser(null);

@@ -23,7 +23,7 @@ public class AdoptionrequestActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 初始化导航栏
+        // initialize the navigation bar
         NavigationBarActivity navigationBarActivity = new NavigationBarActivity(this);
         navigationBarActivity.setupNavigationBar();
     }

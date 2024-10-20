@@ -81,7 +81,7 @@ public class EditProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //没登录的话跳转到登录功能
+        // User need to login if they aren't
         MyApp myApp = (MyApp) getApplication();
         user = myApp.getUser();
         if (user == null)  {
@@ -102,15 +102,15 @@ public class EditProfileActivity extends AppCompatActivity {
         genderFemale = findViewById(R.id.gender_female);
         changeAvatarButton = findViewById(R.id.btn_change_picture);
 
-        // 获取初始的 ImageView 的背景 Drawable
+        // Obtain original background ImageView Drawable
         Drawable backgroundDrawable = avatar.getBackground();
 
-        // 检查背景是否为 BitmapDrawable
+        // Check whether background is the BitmapDrawable
         if (backgroundDrawable instanceof BitmapDrawable) {
-            // 如果是 BitmapDrawable，直接获取 Bitmap
+            // If it is BitmapDrawable，get Bitmap directly
             scaledAvatar = ((BitmapDrawable) backgroundDrawable).getBitmap();
         } else {
-            // 如果是其他类型的 Drawable，手动将 Drawable 转换为 Bitmap
+            // If it is other type of Drawable，manually transfer the Drawable into Bitmap
             scaledAvatar = Bitmap.createBitmap(backgroundDrawable.getIntrinsicWidth(), backgroundDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(scaledAvatar);
             backgroundDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -118,7 +118,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         scaledAvatar = avatar.getDrawingCache();
 
-        //设置现有的用户信息
+        // Set up current user's information
         username.setText(user.getUsername());
 //        email.setText(user.getEmail());
         if(user.getPhone() != 0) {
@@ -132,7 +132,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         locationRow1.setOnClickListener(v -> {
-            // 创建一个 Autocomplete Intent，指定返回的字段
+            // Create a Autocomplete Intent，specify the returned fields
             List<Place.Field> fields = Arrays.asList(
                     Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS,Place.Field.LAT_LNG);
             Intent intent1 = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
@@ -145,7 +145,7 @@ public class EditProfileActivity extends AppCompatActivity {
         genderMale = findViewById(R.id.gender_male);
         genderFemale = findViewById(R.id.gender_female);
 
-        //初始化性别
+        // Initialize the gender
         if(user.getGender().equals("M")) {
             selectedGender = "M";
             genderMale.setBackgroundColor(Color.parseColor("#9FE716"));
@@ -197,22 +197,22 @@ public class EditProfileActivity extends AppCompatActivity {
             user.setPhone(newPhone);
             user.setGender(selectedGender);
             myApp.setUser(user);
-            // 修改用户的邮箱地址
+            // Change user's email
 //            if (firebaseUser != null) {
 //                firebaseUser.updateEmail(newEmail)
 //                        .addOnCompleteListener(task -> {
 //                            if (task.isSuccessful()) {
-                                // 邮箱更新成功
+                                // Gmail update successfully
 //                                Log.d("FirebaseAuth", "User email address updated.");
                                 connectDatabase.updateUser(
                                         user.getFirebaseId(),
                                         updates,
                                         result -> {
-                                            //保存用户信息
+                                            // save the user information
 
                                         });
 
-        // TODO: 需要刷新页面才能够替换头像
+        // TODO: need to fresh the page to change the user photo
         if (avatarChanged) {
             connectDatabase.uploadUserAvatar(user.getFirebaseId(), scaledAvatar, uri -> {
                 Log.d("Firebase", "Avatar uploaded");
@@ -221,7 +221,7 @@ public class EditProfileActivity extends AppCompatActivity {
             });
         }
 //                            } else {
-//                                // 邮箱更新失败，处理错误
+//                                // Email update failure, deal with errors
 //                                Log.e("FirebaseAuth", "Error updating email: ", task.getException());
 //                                Toast.makeText(EditProfileActivity.this, "Failed to update email", Toast.LENGTH_SHORT).show();
 //                            }
@@ -249,7 +249,7 @@ public class EditProfileActivity extends AppCompatActivity {
             this.phone.requestFocus();
             return false;
         }
-        // 检查是否都是数字
+        // Check whether they are the number
         if (!phone.matches("[0-9]+")) {
             this.phone.setError("Phone number must be numeric.");
             this.phone.requestFocus();
@@ -297,9 +297,9 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         else if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                // 获取用户选择的地点
+                // Get user's chosen location
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                // 将完整地址显示在 EditText 中
+                // Set all location information shown on the EditText
                 locationRow1.setText(place.getAddress());
                 newAddress = place.getAddress();
                 Log.i("Places", "Place: " + place.getName() + ", " + place.getId() + ", " + place.getAddress());
@@ -311,31 +311,31 @@ public class EditProfileActivity extends AppCompatActivity {
 //                }
 
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // 处理错误
+                // deal with errors
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.i("Places", "Error: " + status.getStatusMessage());
             } else if (resultCode == RESULT_CANCELED) {
-                // 用户取消了操作
+                // user cancel the operation
                 Log.i("Places", "Autocomplete canceled");
             }
         }
     }
     /**
-     * 封装性别选择逻辑，包括背景切换和性别值的设置
-     * @param selectedView 当前点击的 ImageView（性别图标）
-     * @param otherView 另一个性别的 ImageView（需重置背景）
-     * @param genderValue 性别的值，"F" 表示男性，"M" 表示女性
-     * @param genderType 性别类型，用于切换背景的标识
+     * Encapsulate gender selection logic, including background switching and setting the gender value
+     * @param selectedView current clicked Imageview(gender icon)
+     * @param otherView another gender's ImageView（need reload the background）
+     * @param genderValue value of the gender, "F" as male, "M" as female
+     * @param genderType gender type, use to change the background
      */
     private void setGenderSelection(ImageView selectedView, ImageView otherView, String genderValue, String genderType) {
-        // 为当前点击的 ImageView 设置点击事件
+        // Set click event for current ImageView
         selectedView.setOnClickListener(v -> {
-            selectedGender = genderValue; // 设置当前选择的性别
+            selectedGender = genderValue; // Ser current selected gender
 
-            // 修改当前点击的 ImageView 背景为选中状态
+            // set current clicked ImageView as chosen
             selectedView.setBackgroundColor(Color.parseColor("#9FE716"));
 
-            // 重置另一个 ImageView 的背景为默认状态
+            // Reset another ImageView background as the default state
             otherView.setBackgroundColor(Color.TRANSPARENT);
             // System.out.println(selectedGender);
         });

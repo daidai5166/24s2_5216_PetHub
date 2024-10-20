@@ -43,7 +43,7 @@ public class BlogdetailsActivity extends AppCompatActivity {
         blogPostDate = findViewById(R.id.post_date);
         blogImageField = findViewById(R.id.pet_image);
 
-        // 左右箭头
+        // left and right arrow< >
         arrowLeft = findViewById(R.id.arrow_left);
         arrowRight = findViewById(R.id.arrow_right);
         Intent intent = getIntent();
@@ -56,7 +56,7 @@ public class BlogdetailsActivity extends AppCompatActivity {
         updatePetImageUrl(BlogID, currentImageIndex);// 初始化
 
 
-        // 左箭头点击事件
+        // use left arrow to click the event
         arrowLeft.setOnClickListener(v -> {
             if (currentImageIndex > 0) {
                 currentImageIndex--;
@@ -64,7 +64,7 @@ public class BlogdetailsActivity extends AppCompatActivity {
             }
         });
 
-        // 右箭头点击事件
+        // right arrow to click the event
         arrowRight.setOnClickListener(v -> {
             currentImageIndex++;
             updatePetImageUrl(BlogID, currentImageIndex);
