@@ -46,35 +46,35 @@ public class myBlogAdapter extends RecyclerView.Adapter<myBlogAdapter.BlogViewHo
         Blog blog = blogList.get(position);
         String urlMyBlog = "Blogs/" + blog.getBlogID() + "/image_0.jpg";
 
-        // 绑定需要显示的各个前端元素
+        // Bind the various front-end elements that need to be displayed
         holder.tvBlogTitle.setText(blog.getBlogTitle());
         holder.tvBlogContent.setText(blog.getContent());
         holder.tvPostTime.setText("Posted on " + blog.getPostTime());
 
-        // 从 Firebase 加载图片到 ImageView
+        // Loading images from Firebase to ImageView
         loadImageFromFirebaseStorageToImageView(context, holder.imageView, urlMyBlog,
                 (e) -> {
                     holder.imageView.setImageResource(R.drawable.ic_dog);
                 });
 
 
-        // 点击删除按钮逻辑
+        // Click the delete button logic
         holder.btnDeleteBlog.setOnClickListener(v -> {
             ConnectDatabase connectDatabase;
             connectDatabase = new ConnectDatabase();
             String blogID = blog.getBlogID();
             connectDatabase.deleteBlog(blogID,
                     aVoid -> {
-                        // 删除成功后执行的逻辑
-                        blogList.remove(position);  // 从列表中移除该项
-                        notifyItemRemoved(position);  // 通知适配器该项已移除
-                        notifyItemRangeChanged(position, blogList.size());  // 更新剩余项的范围
+                        // Logic executed after successful deletion
+                        blogList.remove(position);  // Remove the item from the list
+                        notifyItemRemoved(position);  // Notify adapter that this item has been removed
+                        notifyItemRangeChanged(position, blogList.size());  // Update the scope of remaining items
 
-                        // 显示成功提示
+                        // Display success prompt
                         Toast.makeText(context, "Post deleted successfully", Toast.LENGTH_SHORT).show();
                     },
                     e -> {
-                        // 删除失败后的逻辑
+                        // Logic after deletion failure
                         Log.e("myBlog_deleteError","Can't delete"+blogList);
                         Toast.makeText(context, "Failed to delete post: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -94,7 +94,7 @@ public class myBlogAdapter extends RecyclerView.Adapter<myBlogAdapter.BlogViewHo
 
         public BlogViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.blog_view);  // 绑定ImageView
+            imageView = itemView.findViewById(R.id.blog_view);  // Bind ImageView
             tvBlogTitle = itemView.findViewById(R.id.tvBlogTitle);
             tvBlogContent = itemView.findViewById(R.id.tvBlogContent);
             tvPostTime = itemView.findViewById(R.id.tvPostTime);

@@ -1,8 +1,6 @@
 package comp5216.sydney.edu.au.pethub.adapters;
 
-;
 
-import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.noCacheLoadImageFromFirebaseStorageToImageView;
 
 import android.content.Context;
@@ -28,7 +26,7 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private List<Object> imageUris; // 支持 Uri 和 String 类型
+    private List<Object> imageUris; // Supports Uri and String types
     private Context context;
 
     public ImageAdapter(Context context, List<Object> imageUris) {
@@ -39,84 +37,72 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // 动态创建 FrameLayout 作为图片框容器
+        // Dynamically create FrameLayout as a container for image frames
         FrameLayout frameLayout = new FrameLayout(context);
 
-        // 创建 ImageView 用于显示图片
+        // Create ImageView to display images
         ImageView imageView = new ImageView(context);
         ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
-                400,  // 宽度
-                400//ViewGroup.LayoutParams.MATCH_PARENT  // 高度
+                400,
+                400
         );
         layoutParams.setMargins(20, 0, 20, 0);
         imageView.setLayoutParams(layoutParams);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        // 创建删除按钮
+        // Create delete button
         ImageButton btnDelete = new ImageButton(context);
         FrameLayout.LayoutParams btnLayoutParams = new FrameLayout.LayoutParams(
                 40, 40
         );
-        btnLayoutParams.gravity = Gravity.TOP | Gravity.END;  // 将按钮放置在右上角
+        btnLayoutParams.gravity = Gravity.TOP | Gravity.END;  // Place the button in the upper right corner
         btnDelete.setLayoutParams(btnLayoutParams);
-        btnDelete.setImageResource(android.R.drawable.ic_delete);  // 设置删除图标
-        btnDelete.setBackgroundColor(Color.TRANSPARENT);  // 设置背景透明
+        btnDelete.setImageResource(android.R.drawable.ic_delete);  // Set delete icon
+        btnDelete.setBackgroundColor(Color.TRANSPARENT);  // Set background transparency
 
-        // 将 ImageView 和删除按钮添加到 FrameLayout 中
+        // Add ImageView and delete button to FrameLayout
         frameLayout.addView(imageView);
         frameLayout.addView(btnDelete);
 
         return new ImageViewHolder(frameLayout, imageView, btnDelete);
-//        // 动态创建 ImageView 而不是从 XML 加载
-//        ImageView imageView = new ImageView(context);
-//        ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
-//                400,  // 宽度
-//                ViewGroup.LayoutParams.MATCH_PARENT  // 高度
-//        );
-//
-//        // 设置外边距
-//        layoutParams.setMargins(15, 0, 15, 0);  // 左、上、右、下的外边距
-//        imageView.setLayoutParams(layoutParams);
-//        imageView.setScaleType(ImageView.ScaleType.FIT_XY);  // 设置缩放类型
-//        return new ImageViewHolder(imageView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
 //        Uri imageUri = imageUris.get(position);
-//        holder.imageView.setImageURI(imageUri);  // 设置图片
+//        holder.imageView.setImageURI(imageUri);  //Set Image
         Object imageObject = imageUris.get(position);
 
-        // 判断类型是 Uri 还是 String
+        // Determine whether the type is Uri or String
         if (imageObject instanceof Uri) {
-            // 如果是 Uri 类型，直接加载
+            // If it is Uri type, load directly
             holder.imageView.setImageURI((Uri) imageObject);
         } else if (imageObject instanceof String) {
-            // 如果是 String 类型，调用加载 Firebase Storage 图片的函数
+            // If it is a String type, call the function to load Firebase Storage images
             noCacheLoadImageFromFirebaseStorageToImageView(context, holder.imageView, (String) imageObject);
         }
 
-        // 删除按钮点击事件
+        // Delete button click event
         holder.btnDelete.setOnClickListener(v -> {
 
             if (imageObject instanceof String) {
-                // 如果是 String 类型，表示是云端的图片，删除 Firebase Storage 中的记录
+                // If it is a String type, it means it is an image in the cloud, delete the record in Firebase Storage
                 String imagePath = (String) imageObject;
 
-                // 获取 Firebase Storage 的图片引用
+                // Get image references for Firebase Storage
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
                 storageReference.delete().addOnSuccessListener(aVoid -> {
-                    // 成功删除云端图片后，删除本地的引用
+                    // After successfully deleting cloud images, delete local references
                     imageUris.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, imageUris.size());
                     Log.d("Firebase database", "Cloud image deleted successfully.");
                 }).addOnFailureListener(e -> {
-                    // 删除失败，输出错误信息
+                    // Delete failed, output error message
                     Log.e("Firebase database", "Failed to delete cloud image.", e);
                 });
             } else if (imageObject instanceof Uri) {
-                // 如果是 Uri 类型，表示是本地的图片，直接删除列表中的本地图片
+                // If it is of Uri type, it means it is a local image, and the local image in the list can be directly deleted
                 imageUris.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, imageUris.size());

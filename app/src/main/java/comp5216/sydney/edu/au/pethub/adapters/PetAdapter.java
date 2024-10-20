@@ -3,7 +3,6 @@ package comp5216.sydney.edu.au.pethub.adapters;
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,24 +35,24 @@ public class PetAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return petList.size(); // 返回GridView中项目的数量
+        return petList.size(); // Return the number of items in the GridView
     }
 
     @Override
     public Object getItem(int position) {
-        return petList.get(position); // 返回指定位置的宠物对象
+        return petList.get(position); // Return the pet object to the specified location
     }
 
     @Override
     public long getItemId(int position) {
-        return position; // 返回项的ID
+        return position; // Return the ID of the item
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            // 使用布局填充器加载 grid_item_pet.xml
+            // Load grid_item_pet.xml using layout filler
             convertView = LayoutInflater.from(context).inflate(R.layout.grid_item_pet, parent, false);
 
             holder = new ViewHolder();
@@ -63,15 +62,15 @@ public class PetAdapter extends BaseAdapter {
 
             convertView.setTag(holder);
         } else {
-            // 复用已有的 convertView
+            // Reuse existing convertView
             holder = (PetAdapter.ViewHolder) convertView.getTag();
         }
 
-        // 获取当前宠物对象
+        // Get the current pet object
         Pet pet = petList.get(position);
 
-        // 绑定数据到视图
-//        holder.petImage.findViewById(R.id.pet_image);
+        // Bind data to view
+        // holder.petImage.findViewById(R.id.pet_image);
         holder.petName.setText(pet.getPetName());
         holder.petDescription.setText(pet.getDescription());
 
@@ -82,7 +81,7 @@ public class PetAdapter extends BaseAdapter {
         return convertView;
     }
 
-    // ViewHolder 模式，用于缓存视图
+    // ViewHolder mode, used for caching views
     private static class ViewHolder {
         ImageView petImage;
         TextView petName;

@@ -3,19 +3,14 @@ package comp5216.sydney.edu.au.pethub.adapters;
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.text.ParseException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.model.Request;

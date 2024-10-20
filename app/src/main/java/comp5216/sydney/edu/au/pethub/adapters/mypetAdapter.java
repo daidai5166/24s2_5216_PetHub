@@ -1,6 +1,6 @@
 package comp5216.sydney.edu.au.pethub.adapters;
 
-import static androidx.core.content.ContextCompat.startActivity;
+
 import static comp5216.sydney.edu.au.pethub.database.ConnectDatabase.loadImageFromFirebaseStorageToImageView;
 
 import android.content.Context;
@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import comp5216.sydney.edu.au.pethub.R;
-import comp5216.sydney.edu.au.pethub.activity.MypetsActivity;
 import comp5216.sydney.edu.au.pethub.activity.PostpetActivity;
 import comp5216.sydney.edu.au.pethub.model.Pet;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
@@ -36,7 +35,7 @@ public class mypetAdapter extends RecyclerView.Adapter<mypetAdapter.PetViewHolde
     @NonNull
     @Override
     public PetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // 使用你提供的新的布局文件
+        // Use the new layout file you provided
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mypet_card, parent, false);
         return new PetViewHolder(view);
     }
@@ -45,20 +44,20 @@ public class mypetAdapter extends RecyclerView.Adapter<mypetAdapter.PetViewHolde
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         Pet pet = petList.get(position);
         String UrlMypet = "Pets/" + pet.getPetID() + "/image_0.jpg";
-        // 绑定Pet的各个属性到对应的视图元素
+        // Bind the various attributes of Pet to the corresponding view elements
         holder.name.setText(pet.getPetName());
         holder.age.setText(pet.getAge() + " Years");
         holder.address.setText(pet.getAddress());
 
-        // 从 Firebase 加载图片到 ImageView
+        // Loading images from Firebase to ImageView
         loadImageFromFirebaseStorageToImageView(context, holder.imageView, UrlMypet,
                 e -> {
                     holder.imageView.setImageResource(R.drawable.ic_dog);
         });
 
-        // 设置编辑按钮和删除按钮的点击事件
+        // Set the click events for the edit button and delete button
         holder.editButton.setOnClickListener(v -> {
-            // 编辑逻辑
+            // Edit Logic
             Intent intent = new Intent(context, PostpetActivity.class);
             intent.putExtra("selectedPet",pet);
             context.startActivity(intent);
@@ -66,22 +65,22 @@ public class mypetAdapter extends RecyclerView.Adapter<mypetAdapter.PetViewHolde
         });
 
         holder.deleteButton.setOnClickListener(v -> {
-            // 删除逻辑
+            // Delete Logic
             ConnectDatabase connectDatabase;
             connectDatabase = new ConnectDatabase();
             String petID = pet.getPetID();
             connectDatabase.deletePetAdoptionPost(petID,
                     aVoid -> {
-                        // 删除成功后执行的逻辑
-                        petList.remove(position);  // 从列表中移除该项
-                        notifyItemRemoved(position);  // 通知适配器该项已移除
-                        notifyItemRangeChanged(position, petList.size());  // 更新剩余项的范围
+                        // Logic executed after successful deletion
+                        petList.remove(position);  // Remove the item from the list
+                        notifyItemRemoved(position);  // Notify adapter that this item has been removed
+                        notifyItemRangeChanged(position, petList.size());  // Notify adapter that this item has been deleted
 
-                        // 显示成功提示
+                        // Display success prompt
                         Toast.makeText(context, "Post deleted successfully", Toast.LENGTH_SHORT).show();
                     },
                     e -> {
-                        // 删除失败后的逻辑
+                        // Logic after deletion failure
                         Log.e("mypet_deleteError","Can't delete"+petID);
                         Toast.makeText(context, "Failed to delete post: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -102,8 +101,8 @@ public class mypetAdapter extends RecyclerView.Adapter<mypetAdapter.PetViewHolde
 
         public PetViewHolder(View itemView) {
             super(itemView);
-            // 初始化视图
-            imageView = itemView.findViewById(R.id.pet_image);  // 绑定ImageView
+            // Initialize View
+            imageView = itemView.findViewById(R.id.pet_image);  // Bind ImageView
             name = itemView.findViewById(R.id.pet_name);
             address = itemView.findViewById(R.id.pet_address);
             age = itemView.findViewById(R.id.pet_age);

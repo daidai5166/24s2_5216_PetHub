@@ -187,7 +187,6 @@
 package comp5216.sydney.edu.au.pethub.database;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -204,7 +203,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.net.Uri;
@@ -225,7 +223,7 @@ import java.util.Map;
 
 import comp5216.sydney.edu.au.pethub.model.Blog;
 import comp5216.sydney.edu.au.pethub.model.User;
-import comp5216.sydney.edu.au.pethub.singleton.MyApp;
+
 
 public class ConnectDatabase {
     private FirebaseFirestore db;
@@ -238,7 +236,7 @@ public class ConnectDatabase {
         storage = FirebaseStorage.getInstance();
     }
 
-    // CRUD for Pet Adoption Post (宠物领养贴)
+    // CRUD for Pet Adoption Post
     public void addPetAdoptionPost(String petId,
                                    String petName,
                                    int age,
@@ -250,8 +248,8 @@ public class ConnectDatabase {
                                    double latitude,
                                    String ownerId,
                                    String adopterId,
-                                   List<String> interestedUserIds,  // 多个人可能想要领养同一个宠物
-                                   List<String> uriStringList,      // uri的string格式的list 照片路径
+                                   List<String> interestedUserIds,  // Multiple people may want to adopt the same pet
+                                   List<String> uriStringList,      // List photo path in string format for URI
                                    String uploadTime,
                                    OnSuccessListener<String> successListener,
                                    OnFailureListener failureListener) {
@@ -259,9 +257,9 @@ public class ConnectDatabase {
         Map<String, Object> pet = new HashMap<>();
         pet.put("petName", petName);
         pet.put("age", age);
-        pet.put("gender", gender);  // 0: 雌性, 1: 雄性
+        pet.put("gender", gender);  // 0: female, 1: male
         pet.put("description", description);
-        pet.put("category", category); // 狗, 猫, 鸟等
+        pet.put("category", category); // Dogs, cats, birds, etc
         pet.put("address", address);
         pet.put("longitude", longitude);
         pet.put("latitude", latitude);
@@ -271,22 +269,22 @@ public class ConnectDatabase {
         pet.put("uriStringList", uriStringList);
         pet.put("uploadTime", uploadTime);
 
-        // 判断 petId 是否为空
+        // Determine if petId is empty
         if (petId == null || petId.isEmpty()) {
-            // 如果 petId 为空，添加新记录，让 Firestore 自动生成文档 ID
+            // If petId is empty, add a new record and have Firestore automatically generate the document ID
             pets.add(pet)
                     .addOnSuccessListener(documentReference -> {
                         Log.d(TAG_FIRESTORE, "Pet Adoption Post added with ID: " + documentReference.getId());
-                        successListener.onSuccess(documentReference.getId()); // 返回生成的文档 ID
+                        successListener.onSuccess(documentReference.getId()); // Return the generated document ID
                     })
                     .addOnFailureListener(failureListener);
         } else {
-            // 如果 petId 不为空，更新现有记录
+            // If petId is not empty, update existing records
             pets.document(petId)
                     .set(pet)
                     .addOnSuccessListener(aVoid -> {
                         Log.d(TAG_FIRESTORE, "Pet Adoption Post updated with ID: " + petId);
-                        successListener.onSuccess(petId); // 返回更新的文档 ID
+                        successListener.onSuccess(petId); // Return the updated document ID
                     })
                     .addOnFailureListener(failureListener);
         }
@@ -331,13 +329,13 @@ public class ConnectDatabase {
     public void getPetAdoptionPostsByFilter(String category, boolean gender, String location, OnSuccessListener<List<DocumentSnapshot>> successListener, OnFailureListener failureListener) {
         // 构建初始查询，包含 category 和 gender 的筛选
         Query query = db.collection("PetAdoptionPost")
-                .whereEqualTo("category", category)  // 完全匹配 category 字段
-                .whereEqualTo("gender", gender);  // 匹配 gender 为 true 或 false
+                .whereEqualTo("category", category)  // Perfectly match the category field
+                .whereEqualTo("gender", gender);  // Match gender as true or false
 
-        // 执行查询
+        // EXECUTE
         query.get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    // 如果 location 不是空字符串，进行客户端过滤
+                    // If the location is not an empty string, perform client-side filtering
                     List<DocumentSnapshot> filteredDocs = new ArrayList<>();
                     if (location != null && !location.isEmpty()) {
                         for (DocumentSnapshot doc : queryDocumentSnapshots) {
@@ -347,7 +345,7 @@ public class ConnectDatabase {
                             }
                         }
                     } else {
-                        // 如果 location 为空，使用所有文档
+                        // If location is empty, use all documents
                         filteredDocs.addAll(queryDocumentSnapshots.getDocuments());
                     }
 
@@ -358,7 +356,7 @@ public class ConnectDatabase {
     }
 
 
-    // CRUD for User (用户)
+    // CRUD for User
     public void addUser(String userName,
                         String gender,
                         String email,
@@ -391,7 +389,7 @@ public class ConnectDatabase {
                     if (!querySnapshot.isEmpty()) {
                         DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
 
-                        // 按需提取字段
+                        // Extract fields as needed
                         String firebaseId = documentSnapshot.getId();
                         String username = documentSnapshot.getString("userName");
                         String emailFromDb = documentSnapshot.getString("email");
@@ -400,13 +398,13 @@ public class ConnectDatabase {
                         String address = documentSnapshot.getString("address");
                         String avatarPath = documentSnapshot.getString("avatarPath");
 
-                        // 创建 User 对象
+                        // Create User Object
                         User user = new User(firebaseId, username, emailFromDb, gender, phone, address, avatarPath);
 
-                        // 调用回调函数传递 User 对象
+                        // Call callback function to pass User object
                         successListener.onSuccess(user);
                     } else {
-                        successListener.onSuccess(null);  // 查询结果为空时
+                        successListener.onSuccess(null);  // When the query result is empty
                     }
                 })
                 .addOnFailureListener(failureListener);
@@ -414,7 +412,7 @@ public class ConnectDatabase {
 
     public void getUserById(String userId, OnSuccessListener<User> successListener, OnFailureListener failureListener) {
         db.collection("Users")
-                .document(userId)  // 使用 documentId 查询
+                .document(userId)  // Query using documentId
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -427,13 +425,13 @@ public class ConnectDatabase {
                         String address = documentSnapshot.getString("address");
                         String avatarPath = documentSnapshot.getString("avatarPath");
 
-                        // 创建 User 对象
+                        // Create User Object
                         User user = new User(firebaseId, username, emailFromDb, gender, phone, address, avatarPath);
 
-                        // 调用回调函数传递 User 对象
+                        // Call callback function to pass User object
                         successListener.onSuccess(user);
                     } else {
-                        successListener.onSuccess(null);  // 如果没有找到该 document
+                        successListener.onSuccess(null);  // If the document cannot be found
                     }
                 })
                 .addOnFailureListener(failureListener);
@@ -460,7 +458,7 @@ public class ConnectDatabase {
                 .addOnSuccessListener(successListener);
     }
 
-    // CRUD for Blog (博客)
+    // CRUD for Blog
     public void addBlog(String blogTitle,
                         String content,
                         String petName,
@@ -468,7 +466,7 @@ public class ConnectDatabase {
                         String postTime,
                         String ownerId,
                         String petID,
-                        OnSuccessListener<String> successListener, //从宠物领养贴找到 blogTitle.
+                        OnSuccessListener<String> successListener, //Find the blog title from the pet adoption post
                         OnFailureListener failureListener) {
         CollectionReference blogs = db.collection("Blogs");
         Map<String, Object> blog = new HashMap<>();
@@ -478,7 +476,7 @@ public class ConnectDatabase {
         blog.put("petName", petName);
         blog.put("category", category);
         blog.put("postTime", postTime);
-        blog.put("userEmail", ownerId); // 唯独Blog的userEmail填入的是ownerId
+        blog.put("userEmail", ownerId); // Only the userEmail on the blog is filled with the ownerId
         blog.put("petID", petID);
         blog.put("likedUsers", likedUsers);
 
@@ -515,11 +513,11 @@ public class ConnectDatabase {
     }
 
     public void getBlogsByFilter(String ownerID, OnSuccessListener<List<Blog>> successListener, OnFailureListener failureListener) {
-        // 构建初始查询，包含 ownerID 的筛选
+        // Build initial query, including filtering of ownerID
         Query query = db.collection("Blogs")
                 .whereEqualTo("userEmail", ownerID);
 
-        // 执行查询
+        // EXECUTE
         query.get()
                 .addOnSuccessListener(querySnapshot -> {
                     if (!querySnapshot.isEmpty()) {
@@ -552,7 +550,7 @@ public class ConnectDatabase {
                             successListener.onSuccess(filteredBlogs);
                         } catch (Exception e) {
                             Log.e("Blog Fetch Error", "Error parsing documents", e);
-                            failureListener.onFailure(e);  // 处理文档解析错误
+                            failureListener.onFailure(e);  // Handling document parsing errors
                         }
                     } else {
                         successListener.onSuccess(new ArrayList<>());
@@ -561,25 +559,25 @@ public class ConnectDatabase {
                 .addOnFailureListener(failureListener);
     }
 
-    // 获取博客 - 通过博客标题 (blogTitle) 获取
+    // Get Blog - Obtain through Blog Title
     public void getBlogsByTitle(String blogTitle, OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
         db.collection("Blog")
-                .whereEqualTo("blogTitle", blogTitle)  // 按标题查询
+                .whereEqualTo("blogTitle", blogTitle)  // Search by title
                 .get()
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
     }
 
-    // 获取博客 - 通过宠物名字 (petName) 获取
+    // Get Blog - Get by Pet Name
     public void getBlogsByPetName(String petName, OnSuccessListener<QuerySnapshot> successListener, OnFailureListener failureListener) {
         db.collection("Blog")
-                .whereEqualTo("petName", petName)  // 按宠物名字查询
+                .whereEqualTo("petName", petName)  // Search by pet name
                 .get()
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
     }
 
-    // CRUD for Request (请求)
+    // CRUD for Request
     public void addRequest(String petID,
                            String userId,
                            String userName,
@@ -593,13 +591,13 @@ public class ConnectDatabase {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String currentDate = sdf.format(new Date());
 
-        // 1. 先查询是否存在相同的 petID 和 userId
+        // 1. First, check if there are identical petIDs and userIDs
         requests.whereEqualTo("petID", petID)
                 .whereEqualTo("userId", userId)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots.isEmpty()) {
-                        // 2. 如果没有匹配记录，添加新请求
+                        // 2. If there are no matching records, add a new request
                         Map<String, Object> request = new HashMap<>();
                         request.put("petID", petID);
                         request.put("userId", userId);
@@ -615,7 +613,7 @@ public class ConnectDatabase {
                             successListener.onSuccess(documentReference.getId());
                         }).addOnFailureListener(failureListener);
                     } else {
-                        // 3. 如果已经存在匹配记录，更新现有记录
+                        // 3. If there are already matching records, update the existing records
                         DocumentReference existingRequest = queryDocumentSnapshots.getDocuments().get(0).getReference();
                         Log.i(TAG_FIRESTORE, "Request already exists, updating existing request: " + existingRequest.getId());
                         existingRequest.update("userName", userName,
@@ -647,7 +645,7 @@ public class ConnectDatabase {
                 .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Request deleted successfully"));
     }
 
-    // 上传用户头像
+    // Upload user profile picture
     public void uploadUserAvatar(String userId, Bitmap avatarBitmap, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         StorageReference storageRef = storage.getReference();
         StorageReference avatarRef = storageRef.child("Users/" + userId + "/avatar.jpg");
@@ -663,22 +661,22 @@ public class ConnectDatabase {
         }).addOnFailureListener(failureListener);
     }
 
-    // 上传宠物图片
+    // Upload pet pictures
     public void uploadPetImage(Context context, String petName, Uri petImageUri, String photoName, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         try {
-            // 从Uri获取Bitmap
+            // Retrieve bitmap from Uri
             Bitmap bitmap = getBitmapFromUri(context, petImageUri);
 
-            // 压缩Bitmap
+            // Compress bitmap
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);  // 设置压缩质量为75%，根据需要调整
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);  // Set the compression quality to 75% and adjust as needed
             byte[] data = baos.toByteArray();
 
-            // 获取存储引用
+            // Retrieve storage reference
             StorageReference storageRef = storage.getReference();
             StorageReference petImageRef = storageRef.child("Pets/" + petName + "/" + photoName);
 
-            // 上传压缩后的字节数组
+            // Upload compressed byte array
             UploadTask uploadTask = petImageRef.putBytes(data);
             uploadTask.addOnSuccessListener(taskSnapshot -> {
                 petImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
@@ -686,26 +684,26 @@ public class ConnectDatabase {
             }).addOnFailureListener(failureListener);
         } catch (IOException e) {
             e.printStackTrace();
-            failureListener.onFailure(e);  // 处理异常
+            failureListener.onFailure(e);  // Handling Exceptions
         }
     }
 
-    // 上传博客图片
+    // Upload blog images
     public void uploadBlogImage(Context context, String blogID, Uri blogImageUri, String imageName, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
         try {
-            // 从Uri获取Bitmap
+            // Retrieve bitmap from Uri
             Bitmap bitmap = getBitmapFromUri(context, blogImageUri);
 
-            // 压缩Bitmap
+            // Compress bitmap
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);  // 设置压缩质量为75%，根据需要调整
             byte[] data = baos.toByteArray();
 
-            // 获取存储引用
+            // Retrieve storage reference
             StorageReference storageRef = storage.getReference();
             StorageReference blogImageRef = storageRef.child("Blogs/" + blogID + "/" + imageName);
 
-            // 上传压缩后的字节数组
+            // Upload compressed byte array
             UploadTask uploadTask = blogImageRef.putBytes(data);
             uploadTask.addOnSuccessListener(taskSnapshot -> {
                 blogImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
@@ -713,13 +711,13 @@ public class ConnectDatabase {
             }).addOnFailureListener(failureListener);
         } catch (IOException e) {
             e.printStackTrace();
-            failureListener.onFailure(e);  // 处理异常
+            failureListener.onFailure(e);  // Handling Exceptions
         }
     }
 
 
-    // 从Firebase Storage加载图片到ImageView 参数: this, imageView, 路径
-    // 例如: loadImageFromFirebaseStorageToImageView(this, imageView, "Users/user123/avatar.jpg");
+    //Loading images from Firebase Storage to ImageView Parameters: this, imageView, path
+    //For example: loadImageFromFirebaseStorageToImageView (this, imageView, "Users/user123/avatar. jpg");
     public static void loadImageFromFirebaseStorageToImageView(
             Context context,
             ImageView imageView,
@@ -738,7 +736,7 @@ public class ConnectDatabase {
         }
     }
 
-    // 添加了OnFailureListener的版本
+    // Added version of OnFailed Listener
     public static void loadImageFromFirebaseStorageToImageView(
             Context context,
             ImageView imageView,
@@ -759,8 +757,8 @@ public class ConnectDatabase {
         }
     }
 
-    // 不使用cache加载图片到ImageView 参数: this, imageView, 路径
-    // 会清除Glide的内存缓存
+    //Do not use cache to load images to ImageView parameters: this, imageView, path
+    //Will clear Glide's memory cache
     public static void noCacheLoadImageFromFirebaseStorageToImageView(
             Context context,
             ImageView imageView,
@@ -769,11 +767,11 @@ public class ConnectDatabase {
         Log.i("Load Image", "Loading image from " + imagePath + " from storage");
 
         if (imagePath != null && !imagePath.isEmpty()) {
-            // 获取 Firebase Storage 图片的下载 URL
+            // Get the download URL for Firebase Storage images
             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(imagePath);
             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
                 Log.i("Firebase Storage", "Image found in storage");
-                // 使用 HttpURLConnection 下载图片并加载到 ImageView
+                // Download images using HttpURLConnection and load them into ImageView
                 new Thread(() -> {
                     try {
                         URL url = new URL(uri.toString());
@@ -783,7 +781,7 @@ public class ConnectDatabase {
                         InputStream input = connection.getInputStream();
                         Bitmap bitmap = BitmapFactory.decodeStream(input);
 
-                        // 更新 UI 要在主线程中执行
+                        // Updating the UI needs to be executed in the main thread
                         ((Activity) context).runOnUiThread(() -> {
                             imageView.setImageBitmap(bitmap);
 //                            imageView.setBackground(new BitmapDrawable());
@@ -799,7 +797,7 @@ public class ConnectDatabase {
         }
     }
     /**
-     * 通过Uri获取Bitmap
+     * Retrieve bitmap through Uri
      */
     private Bitmap getBitmapFromUri(Context context, Uri uri) throws IOException {
         return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);

@@ -15,7 +15,7 @@ import java.util.List;
 
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.model.Blog;
-import comp5216.sydney.edu.au.pethub.model.Pet;
+
 
 public class BlogAdapter extends BaseAdapter {
     private Context context;
@@ -34,25 +34,25 @@ public class BlogAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return blogList.size(); // 返回博客的数量
+        return blogList.size(); // Return the number of blogs
     }
 
     @Override
     public Object getItem(int position) {
-        return blogList.get(position); // 返回当前位置的博客标题
+        return blogList.get(position); // Return the blog title of the current location
     }
 
     @Override
     public long getItemId(int position) {
-        return position; // 返回当前位置的 ID
+        return position; // Return the ID of the current location
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // 使用 ViewHolder 模式来优化性能
+        // Use ViewHolder mode to optimize performance
         ViewHolder holder;
         if (convertView == null) {
-            // 如果 convertView 为空，说明需要初始化
+            // If convertView is empty, it means initialization is required
             convertView = LayoutInflater.from(context).inflate(R.layout.grid_item_blog, parent, false);
 
             holder = new ViewHolder();
@@ -62,15 +62,15 @@ public class BlogAdapter extends BaseAdapter {
 
             convertView.setTag(holder);
         } else {
-            // 复用已有的 convertView
+            // Reuse existing convertView
             holder = (ViewHolder) convertView.getTag();
         }
 
-        // 获取当前宠物对象
+        // Get the current pet object
         Blog blog = blogList.get(position);
 
-        // 设置博客的图片、标题和描述
-//        holder.imageView.findViewById(R.id.blog_image);
+        // Set blog images, titles, and descriptions
+        //  holder.imageView.findViewById(R.id.blog_image);
         holder.titleView.setText(blog.getBlogTitle());
         holder.descriptionView.setText(blog.getContent());
 
@@ -81,7 +81,7 @@ public class BlogAdapter extends BaseAdapter {
         return convertView;
     }
 
-    // ViewHolder 模式，用于缓存视图
+    // ViewHolder mode, used for caching views
     private static class ViewHolder {
         ImageView imageView;
         TextView titleView;
