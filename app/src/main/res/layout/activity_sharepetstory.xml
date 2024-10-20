@@ -24,7 +24,7 @@
             android:src="@drawable/ic_back"
             android:background="@android:color/transparent"
             android:contentDescription="Back"
-            android:layout_gravity="start" />
+            android:layout_gravity="center" />
         <!-- android:src="@drawable/ic_back"-->
         <!-- Page Title -->
         <TextView
