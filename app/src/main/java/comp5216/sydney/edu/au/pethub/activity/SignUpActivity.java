@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.drawable.BitmapDrawable;
 
@@ -24,7 +23,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -48,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
     private FrameLayout ivPreview;
     private ImageView genderMale, genderFemale;
 
-    private String selectedGender = "" ; // 用来存储选择的性别
+    private String selectedGender = "" ; // Used to store the selected gender
     private String firstName;
     private String lastName;
     private String email;
@@ -101,21 +99,21 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     /**
-     * 封装性别选择逻辑，包括背景切换和性别值的设置
-     * @param selectedView 当前点击的 ImageView（性别图标）
-     * @param otherView 另一个性别的 ImageView（需重置背景）
-     * @param genderValue 性别的值，"F" 表示男性，"M" 表示女性
-     * @param genderType 性别类型，用于切换背景的标识
+     *Encapsulate gender selection logic, including background switching and setting gender values
+     *@ paramselectedView The currently clicked ImageView (gender icon)
+     *@ paramotherView ImageView of another gender (background reset required)
+     *@ paramgenderValue is the value of gender, where "F" represents male and "M" represents female
+     *@ paramgenderType gender type, used to switch the identification of the background
      */
     private void setGenderSelection(ImageView selectedView, ImageView otherView, String genderValue, String genderType) {
-        // 为当前点击的 ImageView 设置点击事件
+        // Set click events for the currently clicked ImageView
         selectedView.setOnClickListener(v -> {
-            selectedGender = genderValue; // 设置当前选择的性别
+            selectedGender = genderValue; // Set the currently selected gender
 
-            // 修改当前点击的 ImageView 背景为选中状态
+            // Modify the background of the currently clicked ImageView to the selected state
             selectedView.setBackgroundColor(Color.parseColor("#9FE716"));
 
-            // 重置另一个 ImageView 的背景为默认状态
+            // Reset the background of another ImageView to its default state
             otherView.setBackgroundColor(Color.TRANSPARENT);
             // System.out.println(selectedGender);
         });
@@ -163,7 +161,7 @@ public class SignUpActivity extends AppCompatActivity {
                             0,
                             "",
                             "", id -> {
-                                // 使用返回的ID作为文件名上传
+                                // Upload using the returned ID as the file name
                                 connectDatabase.uploadUserAvatar(id, scaledAvatar, uri -> {
                                         Log.d("Firebase", "Avatar uploaded");
                                     }, e -> {

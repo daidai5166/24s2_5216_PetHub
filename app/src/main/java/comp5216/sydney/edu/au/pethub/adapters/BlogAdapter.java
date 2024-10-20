@@ -22,7 +22,7 @@ public class BlogAdapter extends BaseAdapter {
     private String urlBlog;
     private List<Blog> blogList;
 
-    // 构造函数，接收 Context 和数据
+    // Constructor, receives Context and data
     public BlogAdapter(Context context, List<Blog> blogList) {
         this.context = context;
         if (blogList != null) {

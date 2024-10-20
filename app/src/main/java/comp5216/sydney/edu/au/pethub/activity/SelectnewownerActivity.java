@@ -60,7 +60,7 @@ public class SelectnewownerActivity extends AppCompatActivity {
         user = myApp.getUser();
 
 
-        // 获取 Intent 并提取数据
+        // Obtain Intent and Extract Data
         Intent intent = getIntent();
         request = intent.getParcelableExtra("request");
         petID = request.getPetID();

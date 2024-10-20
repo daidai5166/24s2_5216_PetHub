@@ -76,16 +76,16 @@ public class SendtoownerActivity extends AppCompatActivity {
         userPhoneField.setText(user.getPhone() + "");
         userEmailField.setText(user.getEmail());
 
-        // 获取 Intent 并提取数据
+        // Obtain Intent and Extract Data
         Intent intent = getIntent();
         petID = intent.getStringExtra("petID");
 
         loadImageFromFirebaseStorageToImageView(this, userImageField, "Users/" + user.getFirebaseId() + "/avatar.jpg");
 
         sendButton = findViewById(R.id.send_to_owner_button);
-        // 初始化 地址补全
+        // Initialize address completion
         userAddressField.setOnClickListener(v -> {
-            // 创建一个 Autocomplete Intent，指定返回的字段
+            // Create an Autocomplete Intent and specify the fields to be returned
             List<Place.Field> fields = Arrays.asList(
                     Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS,Place.Field.LAT_LNG);
             Intent intent1 = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)

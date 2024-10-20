@@ -79,12 +79,12 @@ public class SharepetstoryActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // 获取用户
+        // Get users
         myApp = (MyApp) getApplication();
         myUser = myApp.getUser();
-        // 初始化数据库
+        // Initialize Database
         connectDatabase = new ConnectDatabase();
-        // 初始化 RecyclerView 和 Adapter
+        // Initialize RecyclerView and Adapter
         recyclerView = findViewById(R.id.share_recyclerViewImages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         imageAdapter = new ImageAdapter(this, imageUris);
@@ -99,72 +99,72 @@ public class SharepetstoryActivity extends AppCompatActivity {
 
         uploadPetImageClickListener(blogImageUpload);
 
-        //读取用户的宠物数据，++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //Read the user's pet data++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         selectPetSpinner = findViewById(R.id.select_pet_spinner);
         List<String> petNames = new ArrayList<>();
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, petNames);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectPetSpinner.setAdapter(spinnerAdapter);
 
-        // 获取当前用户的 Firebase ID
+        // Get the Firebase ID of the current user
         String userId = myUser.getFirebaseId();
 
-        // 从 Firebase Firestore 中获取该用户的宠物信息
+        // Retrieve the pet information of the user from Firebase Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("PetAdoptionPost")
-                .whereEqualTo("ownerId", userId)  // 根据用户 ID 过滤宠物数据
+                .whereEqualTo("ownerId", userId)  // Filter pet data based on user ID
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
-                    petNames.clear();  // 清空之前的数据
+                    petNames.clear();  // Clear previous data
                     for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                        String petName = document.getString("petName");  // 获取宠物的名字
+                        String petName = document.getString("petName");  // Obtain the name of the pet
                         petNames.add(petName);  // 添加到宠物名字的列表
                     }
-                    spinnerAdapter.notifyDataSetChanged();  // 更新 Spinner 中的数据显示
+                    spinnerAdapter.notifyDataSetChanged();  // Update data display in Spinner
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(SharepetstoryActivity.this, "Failed to load pets.", Toast.LENGTH_SHORT).show();
                 });
 
-        // 设置 Spinner 的监听器
+        // Set up Spinner's listener
         selectPetSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // 获取用户选中的宠物名称
+                // Retrieve the pet name selected by the user
                 String selectedPetName = parent.getItemAtPosition(position).toString();
-                // 在这里可以使用 selectedPetName，或者存储为全局变量
+                // Here, you can use selectedPetName or store it as a global variable
                 Log.d("SelectedPet", "用户选择了宠物: " + selectedPetName);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // 当没有选择任何项目时的处理
+                // Handling when no item is selected
             }
         });
 
         findViewById(R.id.post_blog_back_button).setOnClickListener(v -> {
-            // 清空用户输入的内容
-            mblogNameField.setText("");  // 清空博客标题输入
-            mblogDescriptionField.setText("");  // 清空博客内容输入
+            // Clear user input content
+            mblogNameField.setText("");  // Clear blog title input
+            mblogDescriptionField.setText("");  // Clear blog title input
 
-            // 清空图片列表并刷新 RecyclerView
+            // Clear the image list and refresh RecyclerView
             imageUris.clear();
             imageAdapter.notifyDataSetChanged();
 
             Intent intent = new Intent(SharepetstoryActivity.this, MyBlogsActivity.class);
             startActivity(intent);
 
-            // 结束当前活动，防止回退到该界面时数据仍然存在
+            // End the current activity to prevent data from still being present when reverting back to this interface
             finish();
         });
     }
 
-    //  绑定上传按钮的点击事件
+    //  Click event for binding upload button
     private void uploadPetImageClickListener(FrameLayout frameLayout) {
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 点击上传按钮时执行的操作
+                // The operation performed when clicking the upload button
                 showBottomSheetDialog();
             }
         });
@@ -173,10 +173,10 @@ public class SharepetstoryActivity extends AppCompatActivity {
     private void showBottomSheetDialog() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialog);
 
-        // 为 BottomSheetDialog 加载自定义布局
+        // Load custom layout for BottomSheetDialog
         View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
 
-        // 处理拍照按钮点击事件
+        // Handling photo button click events
         bottomSheetView.findViewById(R.id.take_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +185,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
             }
         });
 
-        // 处理上传按钮点击事件
+        // Process upload button click event
         bottomSheetView.findViewById(R.id.upload_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,7 +194,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
             }
         });
 
-        // 处理取消按钮点击事件
+        // Process cancel button click event
         bottomSheetView.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,19 +202,19 @@ public class SharepetstoryActivity extends AppCompatActivity {
             }
         });
 
-        // 设置自定义视图并显示
+        // Set custom views and display them
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
     }
 
-    // 打开相机拍照
+    // Open the camera and take a photo
     private void openCamera() {
         if (!marshmallowPermission.checkPermissionForCamera()) {
             marshmallowPermission.requestPermissionForCamera();}
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String photoFileName = "IMG_" + timeStamp + ".jpg";
 
-        photo_uri = getFileUri(photoFileName); // 生成路径
+        photo_uri = getFileUri(photoFileName); // Generate Path
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photo_uri);
 
@@ -223,11 +223,11 @@ public class SharepetstoryActivity extends AppCompatActivity {
         }
     }
 
-    // 从相册选择图片
+    // Select pictures from the album
     private void selectImagesFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);  // 允许多选
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);  // Allows Multiple Selection
         startActivityForResult(intent, PICK_IMAGES);
     }
 
@@ -240,24 +240,24 @@ public class SharepetstoryActivity extends AppCompatActivity {
 
                 // System.out.println(photo_uri);
                 scanFile(file.getAbsolutePath());
-                imageUris.add(photo_uri);  // 添加到图片列表
+                imageUris.add(photo_uri);  // Add to image list
 
-                imageAdapter.notifyDataSetChanged();  // 更新 RecyclerView
+                imageAdapter.notifyDataSetChanged();  // Update RecyclerView
             } else if (requestCode == PICK_IMAGES && data != null) {
-                // 从相册返回的结果
+                // The results returned from the album
                 if (data.getClipData() != null) {
                     // 用户选择了多张图片
                     int count = data.getClipData().getItemCount();
                     for (int i = 0; i < count; i++) {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                        imageUris.add(imageUri);  // 添加到图片列表
+                        imageUris.add(imageUri);  // Add to image list
                     }
                 } else if (data.getData() != null) {
                     // 用户只选择了一张图片
                     Uri imageUri = data.getData();
-                    imageUris.add(imageUri);  // 添加到图片列表
+                    imageUris.add(imageUri);  // Add to image list
                 }
-                imageAdapter.notifyDataSetChanged();  // 更新 RecyclerView
+                imageAdapter.notifyDataSetChanged();  // Update RecyclerView
             }
             System.out.println(imageUris);
         }
@@ -306,19 +306,19 @@ public class SharepetstoryActivity extends AppCompatActivity {
     public boolean checkNameInput(String title) {
 
         if (title.isEmpty()) {
-            mblogNameField.setError("This field is required."); // 设置错误消息
-            mblogNameField.requestFocus(); // 聚焦到该输入框
+            mblogNameField.setError("This field is required.");
+            mblogNameField.requestFocus(); // Focus on this input box
             return false;
         }
         return true;
     }
 
     public boolean checkDescriptionInput(String description) {
-        // 忽略大小写进行判断
+        // Ignore capitalization for judgment
         if (description.isEmpty()) {
-            // 设置错误提示
+            // Set error prompt
             mblogDescriptionField.setError("Please enter Description for blog.");
-            mblogDescriptionField.requestFocus(); // 将焦点设置到性别输入框
+            mblogDescriptionField.requestFocus(); // Set the focus to the gender input box
             return false;
         }
         return  true;
@@ -331,23 +331,23 @@ public class SharepetstoryActivity extends AppCompatActivity {
         //Use selectedPetName in your blog post creation logic
         String selectedPetName = selectPetSpinner.getSelectedItem().toString();
 
-        // 获取当前用户的 ID
+        // Get the current user's ID
         String ownerId = myUser.getFirebaseId();
 
-        // 获取当前时间作为 postTime
+        // Get the current time as postTime
         String postTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        // 检查title
+        // Check the title
         if (!checkNameInput(blogTitle)){
             return;
         }
 
-        // 检查Description 也就是 content
+        // Check the description, which is the content
         if (!checkDescriptionInput(mblogDescription)){
             return;
         }
 
-        // 从数据库中获取选中宠物的详细信息
+        // Retrieve detailed information of the selected pet from the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("PetAdoptionPost")
                 .whereEqualTo("ownerId", ownerId)
@@ -359,7 +359,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
                         String petID = petDocument.getId();
                         String category = petDocument.getString("category");
 
-                        // 调用 addBlog 方法
+                        // Call the addBlog method
                         connectDatabase.addBlog(
                                 blogTitle,
                                 mblogDescription,
@@ -369,7 +369,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
                                 ownerId,
                                 petID,
                                 documentId -> {
-                                    // 博客添加成功后，上传图片
+                                    // After successfully adding the blog, upload images
                                     List<String> imageNames = new ArrayList<>();
                                     for (int i = 0; i < imageUris.size(); i++) {
                                         String imageName = "/image_" + i + ".jpg";
@@ -404,7 +404,7 @@ public class SharepetstoryActivity extends AppCompatActivity {
                                 }
                         );
                     } else {
-                        // 未找到匹配的宠物
+                        // No matching pet found
                         Toast.makeText(SharepetstoryActivity.this, "Pet not found.", Toast.LENGTH_SHORT).show();
                     }
                 })

@@ -1,6 +1,5 @@
 package comp5216.sydney.edu.au.pethub.activity;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -139,7 +137,7 @@ public class PostpetActivity extends AppCompatActivity {
 
         // 初始化 地址补全
         mpetAddressField.setOnClickListener(v -> {
-            // 创建一个 Autocomplete Intent，指定返回的字段
+            // Create an Autocomplete Intent and specify the fields to be returned
             List<Place.Field> fields = Arrays.asList(
                     Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS,Place.Field.LAT_LNG);
             Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
@@ -203,13 +201,7 @@ public class PostpetActivity extends AppCompatActivity {
 
 
     }
-    /**
-     * 封装性别选择逻辑，包括背景切换和性别值的设置
-     * @param selectedView 当前点击的 ImageView（性别图标）
-     * @param otherView 另一个性别的 ImageView（需重置背景）
-     * @param genderValue 性别的值，"F" 表示男性，"M" 表示女性
-     * @param genderType 性别类型，用于切换背景的标识
-     */
+
     private void setGenderSelection(ImageView selectedView, ImageView otherView, String genderValue, String genderType) {
         // 为当前点击的 ImageView 设置点击事件
         selectedView.setOnClickListener(v -> {
@@ -250,18 +242,18 @@ public class PostpetActivity extends AppCompatActivity {
 
     // 重置所有按钮的背景到默认状态
     private void resetAllButtonsBackground() {
-        dogs_icons.setBackgroundResource(0);  // 恢复默认背景
-        cats_icons.setBackgroundResource(0);  // 恢复默认背景
-        birds_icons.setBackgroundResource(0);  // 恢复默认背景
-        others_icons.setBackgroundResource(0);  // 恢复默认背景
+        dogs_icons.setBackgroundResource(0);  // Restore default background
+        cats_icons.setBackgroundResource(0);  // Restore default background
+        birds_icons.setBackgroundResource(0);  // Restore default background
+        others_icons.setBackgroundResource(0);  // Restore default background
     }
 
-    //  绑定上传按钮的点击事件
+    //  Click event for binding upload button
     private void uploadPetImageClickListener(FrameLayout frameLayout) {
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 点击上传按钮时执行的操作
+                // The operation performed when clicking the upload button
                 showBottomSheetDialog();
             }
         });
@@ -270,10 +262,10 @@ public class PostpetActivity extends AppCompatActivity {
     private void showBottomSheetDialog() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialog);
 
-        // 为 BottomSheetDialog 加载自定义布局
+        // Load custom layout for BottomSheetDialog
         View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
 
-        // 处理拍照按钮点击事件
+
         bottomSheetView.findViewById(R.id.take_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,7 +274,7 @@ public class PostpetActivity extends AppCompatActivity {
             }
         });
 
-        // 处理上传按钮点击事件
+
         bottomSheetView.findViewById(R.id.upload_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -291,7 +283,7 @@ public class PostpetActivity extends AppCompatActivity {
             }
         });
 
-        // 处理取消按钮点击事件
+
         bottomSheetView.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,14 +291,14 @@ public class PostpetActivity extends AppCompatActivity {
             }
         });
 
-        // 设置自定义视图并显示
+
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
     }
 
 
 
-    // 打开相机拍照
+
     private void openCamera() {
         if (!marshmallowPermission.checkPermissionForCamera()) {
             marshmallowPermission.requestPermissionForCamera();}
@@ -322,7 +314,7 @@ public class PostpetActivity extends AppCompatActivity {
         }
     }
 
-    // 从相册选择图片
+
     private void selectImagesFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
@@ -339,9 +331,9 @@ public class PostpetActivity extends AppCompatActivity {
 
                 // System.out.println(photo_uri);
                 scanFile(file.getAbsolutePath());
-                imageUris.add(photo_uri);  // 添加到图片列表
+                imageUris.add(photo_uri);
 
-                imageAdapter.notifyDataSetChanged();  // 更新 RecyclerView
+                imageAdapter.notifyDataSetChanged();
             } else if (requestCode == PICK_IMAGES && data != null) {
                 // 从相册返回的结果
                 if (data.getClipData() != null) {
@@ -349,14 +341,13 @@ public class PostpetActivity extends AppCompatActivity {
                     int count = data.getClipData().getItemCount();
                     for (int i = 0; i < count; i++) {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                        imageUris.add(imageUri);  // 添加到图片列表
+                        imageUris.add(imageUri);
                     }
                 } else if (data.getData() != null) {
-                    // 用户只选择了一张图片
                     Uri imageUri = data.getData();
-                    imageUris.add(imageUri);  // 添加到图片列表
+                    imageUris.add(imageUri);
                 }
-                imageAdapter.notifyDataSetChanged();  // 更新 RecyclerView
+                imageAdapter.notifyDataSetChanged();
             }
             System.out.println(imageUris);
         }

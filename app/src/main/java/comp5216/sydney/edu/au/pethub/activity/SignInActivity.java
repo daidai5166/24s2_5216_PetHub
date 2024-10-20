@@ -70,7 +70,7 @@ public class SignInActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // 设置全局User对象
+                        // Set global User object
                         MyApp app = (MyApp) getApplication();
 
                         connectDatabase.getUserByEmail(email, user -> {
