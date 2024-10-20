@@ -26,10 +26,10 @@
         <ImageView
             android:layout_width="22dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:contentDescription="Back"
             android:onClick="goBack"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"
+            android:layout_gravity="center"/>
 
         <!-- Title -->
         <TextView
