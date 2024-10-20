@@ -53,6 +53,7 @@ public class SignInActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         connectDatabase = new ConnectDatabase();
 
+        mForgotPassword.setOnClickListener(this::onForgotPasswordClick);
     }
 
     public void onSignInClick(View v) {

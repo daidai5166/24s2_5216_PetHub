@@ -205,6 +205,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.net.Uri;
 import android.widget.ImageView;
@@ -312,6 +313,8 @@ public class ConnectDatabase {
                 .addOnFailureListener(failureListener);
     }
 
+
+
     public void updatePetAdoptionPost(String postId, Map<String, Object> updates) {
         db.collection("PetAdoptionPost").document(postId)
                 .update(updates)
@@ -339,7 +342,7 @@ public class ConnectDatabase {
                     if (location != null && !location.isEmpty()) {
                         for (DocumentSnapshot doc : queryDocumentSnapshots) {
                             String docLocation = doc.getString("address");
-                            if (docLocation != null && docLocation.contains(location)) {
+                            if (docLocation != null && docLocation.toLowerCase().contains(location.toLowerCase())) {
                                 filteredDocs.add(doc);
                             }
                         }
@@ -487,10 +490,15 @@ public class ConnectDatabase {
                 ).addOnFailureListener(failureListener);
     }
 
-    public void deleteBlog(String blogId) {
+    public void deleteBlog(String blogId, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
         db.collection("Blogs").document(blogId)
                 .delete()
-                .addOnSuccessListener(aVoid -> Log.d(TAG_FIRESTORE, "Blog deleted successfully"));
+                .addOnSuccessListener(aVoid -> {
+                    successListener.onSuccess(aVoid);
+                    Log.d(TAG_FIRESTORE, "Pet Adoption Post deleted successfully");
+
+                })
+                .addOnFailureListener(failureListener);
     }
 
     public void updateBlog(String blogId, Map<String, Object> updates) {
@@ -656,27 +664,57 @@ public class ConnectDatabase {
     }
 
     // 上传宠物图片
-    public void uploadPetImage(String petName, Uri petImageUri, String photoName ,OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
-        StorageReference storageRef = storage.getReference();
-        StorageReference petImageRef = storageRef.child("Pets/" + petName + photoName);
+    public void uploadPetImage(Context context, String petName, Uri petImageUri, String photoName, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+        try {
+            // 从Uri获取Bitmap
+            Bitmap bitmap = getBitmapFromUri(context, petImageUri);
 
-        UploadTask uploadTask = petImageRef.putFile(petImageUri);
-        uploadTask.addOnSuccessListener(taskSnapshot -> {
-            petImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
-            Log.d(TAG_STORAGE, "Pet image uploaded for: " + petName);
-        }).addOnFailureListener(failureListener);
+            // 压缩Bitmap
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos);  // 设置压缩质量为75%，根据需要调整
+            byte[] data = baos.toByteArray();
+
+            // 获取存储引用
+            StorageReference storageRef = storage.getReference();
+            StorageReference petImageRef = storageRef.child("Pets/" + petName + "/" + photoName);
+
+            // 上传压缩后的字节数组
+            UploadTask uploadTask = petImageRef.putBytes(data);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                petImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
+                Log.d(TAG_STORAGE, "Pet image uploaded for: " + petName);
+            }).addOnFailureListener(failureListener);
+        } catch (IOException e) {
+            e.printStackTrace();
+            failureListener.onFailure(e);  // 处理异常
+        }
     }
 
     // 上传博客图片
-    public void uploadBlogImage(String blogID, Uri blogImageUri, String imageName, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
-        StorageReference storageRef = storage.getReference();
-        StorageReference blogImageRef = storageRef.child("Blogs/" + blogID + imageName);
+    public void uploadBlogImage(Context context, String blogID, Uri blogImageUri, String imageName, OnSuccessListener<Uri> successListener, OnFailureListener failureListener) {
+        try {
+            // 从Uri获取Bitmap
+            Bitmap bitmap = getBitmapFromUri(context, blogImageUri);
 
-        UploadTask uploadTask = blogImageRef.putFile(blogImageUri);
-        uploadTask.addOnSuccessListener(taskSnapshot -> {
-            blogImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
-            Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogID);
-        }).addOnFailureListener(failureListener);
+            // 压缩Bitmap
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos);  // 设置压缩质量为75%，根据需要调整
+            byte[] data = baos.toByteArray();
+
+            // 获取存储引用
+            StorageReference storageRef = storage.getReference();
+            StorageReference blogImageRef = storageRef.child("Blogs/" + blogID + "/" + imageName);
+
+            // 上传压缩后的字节数组
+            UploadTask uploadTask = blogImageRef.putBytes(data);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                blogImageRef.getDownloadUrl().addOnSuccessListener(successListener).addOnFailureListener(failureListener);
+                Log.d(TAG_STORAGE, "Blog image uploaded for: " + blogID);
+            }).addOnFailureListener(failureListener);
+        } catch (IOException e) {
+            e.printStackTrace();
+            failureListener.onFailure(e);  // 处理异常
+        }
     }
 
 
@@ -759,5 +797,11 @@ public class ConnectDatabase {
                 Log.e("Load Image", "Failed to load image from storage", e);
             });
         }
+    }
+    /**
+     * 通过Uri获取Bitmap
+     */
+    private Bitmap getBitmapFromUri(Context context, Uri uri) throws IOException {
+        return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
     }
 }

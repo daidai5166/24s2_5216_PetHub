@@ -46,7 +46,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         ImageView imageView = new ImageView(context);
         ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                 400,  // 宽度
-                ViewGroup.LayoutParams.MATCH_PARENT  // 高度
+                400//ViewGroup.LayoutParams.MATCH_PARENT  // 高度
         );
         layoutParams.setMargins(20, 0, 20, 0);
         imageView.setLayoutParams(layoutParams);

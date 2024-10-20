@@ -51,28 +51,42 @@ public class PetAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
             // 使用布局填充器加载 grid_item_pet.xml
             convertView = LayoutInflater.from(context).inflate(R.layout.grid_item_pet, parent, false);
+
+            holder = new ViewHolder();
+            holder.petImage = convertView.findViewById(R.id.pet_image);
+            holder.petName = convertView.findViewById(R.id.pet_name);
+            holder.petDescription = convertView.findViewById(R.id.pet_description);
+
+            convertView.setTag(holder);
+        } else {
+            // 复用已有的 convertView
+            holder = (PetAdapter.ViewHolder) convertView.getTag();
         }
 
         // 获取当前宠物对象
         Pet pet = petList.get(position);
 
         // 绑定数据到视图
-        ImageView petImage = convertView.findViewById(R.id.pet_image);
-        TextView petName = convertView.findViewById(R.id.pet_name);
-        TextView petDescription = convertView.findViewById(R.id.pet_description);
-
-        // 设置宠物名称和描述
-        petName.setText(pet.getPetName());
-        petDescription.setText(pet.getDescription());
+//        holder.petImage.findViewById(R.id.pet_image);
+        holder.petName.setText(pet.getPetName());
+        holder.petDescription.setText(pet.getDescription());
 
         URL = "Pets/" + pet.getPetID() + "/image_0.jpg";
 
-        loadImageFromFirebaseStorageToImageView(context, petImage, URL);
+        loadImageFromFirebaseStorageToImageView(context, holder.petImage, URL);
 
         return convertView;
+    }
+
+    // ViewHolder 模式，用于缓存视图
+    private static class ViewHolder {
+        ImageView petImage;
+        TextView petName;
+        TextView petDescription;
     }
 
     public void updatePets(List<Pet> newPets) {

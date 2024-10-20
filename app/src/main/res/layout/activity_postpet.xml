@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#ECEBEB"
-    tools:context=".activity.PostpetActivity">
+    tools:context=".activity.PostpetActivity" >
 
     <!-- Top Bar with Back Button and Title -->
     <LinearLayout
@@ -26,10 +28,10 @@
         <ImageView
             android:layout_width="22dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:contentDescription="Back"
             android:onClick="goBack"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"
+            android:layout_gravity="center"/>
 
         <!-- Title -->
         <TextView
@@ -42,237 +44,233 @@
             android:gravity="center" />
     </LinearLayout>
 
-    <!-- Select Category Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select Category"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp" />
+    <!-- Scrollable Section -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- Dog Category -->
-            <LinearLayout
-                android:id="@+id/dogs_icon"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
-                    android:src="@drawable/ic_dog_category"
-                    android:contentDescription="Dog" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dogs"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Cat Category -->
-            <LinearLayout
-                android:id="@+id/cats_icon"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_cat_category"
-                    android:contentDescription="Cat" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cats"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Bird Category -->
-            <LinearLayout
-                android:id="@+id/birds_icon"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_bird_category"
-                    android:contentDescription="Bird" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Birds"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Other Category -->
-            <LinearLayout
-                android:id="@+id/others_icon"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_others_category"
-                    android:contentDescription="Others" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Others"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Form Fields for Pet Details -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Pet Name -->
-        <EditText
-            android:id="@+id/pet_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Pet Name"
-            android:backgroundTint="#d4d8aa"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Gender -->
-        <EditText
-            android:id="@+id/pet_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Gender(Male or Female)"
-            android:backgroundTint="#d4d8aa"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Age -->
-        <EditText
-            android:id="@+id/pet_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Age"
-            android:backgroundTint="#d4d8aa"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:layout_marginBottom="16dp" />
-
-<!--        &lt;!&ndash; Animal Breed Dropdown &ndash;&gt;-->
-<!--        <Spinner-->
-<!--            android:id="@+id/breed_spinner"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="16dp" />-->
-
-        <!-- Address -->
-        <EditText
-            android:id="@+id/pet_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Address"
-            android:backgroundTint="#d4d8aa"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:layout_marginBottom="16dp"
-            android:focusableInTouchMode="false"
-            android:clickable="true"/>
-
-<!--        <TextView-->
-<!--            android:id="@+id/inputAddressHint"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/inputAddress"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="#000000"-->
-<!--            android:padding="8dp"/>-->
-<!--        <fragment android:id="@+id/autocomplete_fragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
-<!--            android:layout_marginBottom="22dp"-->
-<!--            />-->
-
-        <!-- Description -->
-        <EditText
-            android:id="@+id/pet_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description"
-            android:backgroundTint="#d4d8aa"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Image Upload Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:orientation="horizontal">
-
-
-            <FrameLayout
-                android:id="@+id/pet_image_upload"
+            <!-- Select Category Section -->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/gray_square">
+                android:text="Select Category"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="8dp" />
 
-                <!-- upload icon -->
-                <ImageView
-                    android:id="@+id/upload_icon"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="Upload Icon"
-                    android:src="@drawable/ic_upload" />
-
-            </FrameLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewImages"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scrollbars="horizontal"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                />
+                android:gravity="center">
+
+                <!-- Dog Category -->
+                <LinearLayout
+                    android:id="@+id/dogs_icon"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:src="@drawable/ic_dog_category"
+                        android:contentDescription="Dog" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dogs"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Cat Category -->
+                <LinearLayout
+                    android:id="@+id/cats_icon"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/ic_cat_category"
+                        android:contentDescription="Cat" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cats"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Bird Category -->
+                <LinearLayout
+                    android:id="@+id/birds_icon"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/ic_bird_category"
+                        android:contentDescription="Bird" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Birds"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Other Category -->
+                <LinearLayout
+                    android:id="@+id/others_icon"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/ic_others_category"
+                        android:contentDescription="Others" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Others"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Form Fields for Pet Details -->
+            <EditText
+                android:id="@+id/pet_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pet Name"
+                android:backgroundTint="#d4d8aa"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Gender -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Male Gender -->
+                    <ImageView
+                        android:id="@+id/gender_male"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_gender_male"
+                        android:contentDescription="Male" />
+
+                    <!-- Female Gender -->
+                    <ImageView
+                        android:id="@+id/gender_female"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_gender_female"
+                        android:contentDescription="Female"
+                        android:layout_marginStart="16dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/pet_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Age"
+                android:backgroundTint="#d4d8aa"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <EditText
+                android:id="@+id/pet_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address"
+                android:backgroundTint="#d4d8aa"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp"
+                android:focusableInTouchMode="false"
+                android:clickable="true"/>
+
+            <EditText
+                android:id="@+id/pet_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:backgroundTint="#d4d8aa"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Image Upload Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/pet_image_upload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gray_square">
+
+                    <ImageView
+                        android:id="@+id/upload_icon"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Upload Icon"
+                        android:src="@drawable/ic_upload" />
+
+                </FrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewImages"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scrollbars="horizontal" />
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
+
 
     <!-- Post Pet Button -->
     <Button
@@ -284,7 +282,6 @@
         android:textColor="#ffffff"
         android:textAllCaps="false"
         android:padding="16dp"
-        android:layout_marginTop="16dp"
         android:layout_gravity="center"
         android:onClick="onPostPetClick"
         android:enabled="true"/>

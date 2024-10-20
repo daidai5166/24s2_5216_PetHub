@@ -151,7 +151,7 @@
                 <EditText
                     android:id="@+id/spinner_location"
                     android:layout_width="match_parent"
-                    android:hint="Enter your pet's location info"
+                    android:hint="Enter location info"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
