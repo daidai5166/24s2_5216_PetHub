@@ -176,6 +176,8 @@ public class PostpetActivity extends AppCompatActivity {
             mpetAddressField.setText(pet.getAddress());
             mpetDescriptionField.setText(pet.getDescription());
             pet_id = pet.getPetID();
+            petLat = pet.getLatitude();
+            petLng = pet.getLongitude();
             // 根据 pet 的类别设置图标背景
             pet_category = pet.getCategory(); // 假设 Pet 对象中有 getCategory() 方法
             if (pet_category != null) {

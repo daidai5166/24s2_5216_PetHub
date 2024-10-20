@@ -179,11 +179,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Sign up successfully, " +
                                     "please sign in your account.",
                             Toast.LENGTH_SHORT).show();
-                    try {
-                        Thread.sleep(2000); // 等待2秒 (2000毫秒)让用户读完提示信息
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
                     mSignUpButton.setEnabled(true);
                     Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                     startActivity(intent);
