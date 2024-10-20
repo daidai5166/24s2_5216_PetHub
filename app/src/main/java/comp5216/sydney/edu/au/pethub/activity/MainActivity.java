@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         getLastKnownLocation();
 
         if (!marshmallowPermission.checkPermissionForCamera()) {
-            marshmallowPermission.requestPermissionForCamera();}
+            marshmallowPermission.requestPermissionForCamera();
+        }
 
         btnDogs = findViewById(R.id.btn_dogs);
         btnCats = findViewById(R.id.btn_cats);
