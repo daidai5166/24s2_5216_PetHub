@@ -39,7 +39,7 @@
             android:text="Blog Content"
             android:textColor="#888888"
             android:textSize="14sp"
-            android:maxLines="2"
+            android:maxLines="3"
             android:ellipsize="end" />
 
         <TextView
