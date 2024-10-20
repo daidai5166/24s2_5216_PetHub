@@ -335,7 +335,7 @@ public class PostpetActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == CAPTURE_IMAGE && data != null) {
+            if (requestCode == CAPTURE_IMAGE) {
 
                 // System.out.println(photo_uri);
                 scanFile(file.getAbsolutePath());
