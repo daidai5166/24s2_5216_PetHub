@@ -30,7 +30,6 @@ import comp5216.sydney.edu.au.pethub.model.Blog;
 
 public class PetblogActivity extends AppCompatActivity {
 
-    private ConnectDatabase databaseConnection = new ConnectDatabase();  // ConnectDatabase 类实例
     private List<Blog> blogList = new ArrayList<>();  // 用于存储博客的列表
 
     private BlogAdapter blogAdapter;  // 用于绑定 GridView 的自定义适配器
@@ -210,7 +209,6 @@ public class PetblogActivity extends AppCompatActivity {
                             Log.e("BlogPost", "Error parsing document", e);
                         }
                     }
-
 
                     blogList.clear();
                     blogList.addAll(newBlogList);
