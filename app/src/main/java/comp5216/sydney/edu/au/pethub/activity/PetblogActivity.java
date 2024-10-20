@@ -31,6 +31,7 @@ import comp5216.sydney.edu.au.pethub.model.Blog;
 public class PetblogActivity extends AppCompatActivity {
 
     private List<Blog> blogList = new ArrayList<>();  // 用于存储博客的列表
+    private List<Blog> displayedBlogs = new ArrayList<>();  //用于存储展示的博客列表
 
     private BlogAdapter blogAdapter;  // 用于绑定 GridView 的自定义适配器
 
@@ -64,7 +65,7 @@ public class PetblogActivity extends AppCompatActivity {
 
         // 初始化 GridView 并设置适配器
         GridView gridViewBlogs = findViewById(R.id.blog_grid_view);
-        blogAdapter = new BlogAdapter(this, blogList);
+        blogAdapter = new BlogAdapter(this, displayedBlogs);
         gridViewBlogs.setAdapter(blogAdapter);
 
         // 为标签设置点击事件
@@ -73,7 +74,7 @@ public class PetblogActivity extends AppCompatActivity {
         // GridView 项目点击事件
         gridViewBlogs.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(PetblogActivity.this, BlogdetailsActivity.class);
-            Blog selectedBlog = blogList.get(position);
+            Blog selectedBlog = displayedBlogs.get(position);
             intent.putExtra("selectedBlog", selectedBlog);
             startActivity(intent);
         });
@@ -151,21 +152,19 @@ public class PetblogActivity extends AppCompatActivity {
 
         List<Blog> filteredBlogs;
 
-        // 如果传入种类为Latest，则按照原有list的时间顺序排列
-        if (!category.equals("Latest")) {
+        // 如果点击的是 "Latest" 标签，直接使用原始 blogList 数据
+        if (category.equals("Latest")) {
+            filteredBlogs = new ArrayList<>(blogList);
+        } else {
             filteredBlogs = categorizedBlogs.get(category.toLowerCase());
             if (filteredBlogs == null) {
                 filteredBlogs = new ArrayList<>();
             }
-
-            sortBlogsByTime(filteredBlogs);
-            blogAdapter.updateBlogs(filteredBlogs);
-        } else {
-
-            filteredBlogs = new ArrayList<>(blogList);
-            sortBlogsByTime(filteredBlogs);
-            blogAdapter.updateBlogs(filteredBlogs);
         }
+
+        // 无论是否为 Latest，都对当前的列表按时间排序
+        sortBlogsByTime(filteredBlogs);
+        blogAdapter.updateBlogs(filteredBlogs);
     }
 
     // 封装获取博客帖子的函数
@@ -212,6 +211,7 @@ public class PetblogActivity extends AppCompatActivity {
 
                     blogList.clear();
                     blogList.addAll(newBlogList);
+                    displayedBlogs.addAll(newBlogList);
 
                     // 对博客进行分类或其他处理
                     categorizeBlogs();
