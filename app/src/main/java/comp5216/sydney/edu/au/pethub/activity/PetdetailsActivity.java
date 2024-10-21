@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import androidx.core.view.WindowInsetsCompat;
 import comp5216.sydney.edu.au.pethub.R;
 import comp5216.sydney.edu.au.pethub.database.ConnectDatabase;
 import comp5216.sydney.edu.au.pethub.model.Pet;
+import comp5216.sydney.edu.au.pethub.model.User;
+import comp5216.sydney.edu.au.pethub.singleton.MyApp;
 
 public class PetdetailsActivity extends AppCompatActivity {
     TextView petNameField;
@@ -34,6 +37,9 @@ public class PetdetailsActivity extends AppCompatActivity {
 
     TextView ownerNameField;
     TextView postDateField;
+
+    private User myUser;
+    private MyApp myApp;
 
     Button adoptButton;
     ImageView backButton;
@@ -51,7 +57,8 @@ public class PetdetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-
+        myApp = (MyApp) this.getApplication();
+        myUser = myApp.getUser();
 
         petNameField = findViewById(R.id.pet_name);
         petTypeField = findViewById(R.id.pet_type);
@@ -155,8 +162,14 @@ public class PetdetailsActivity extends AppCompatActivity {
     }
 
     public void onAdoptButton(View view) {
-        Intent intent = new Intent(this, SendtoownerActivity.class);
-        intent.putExtra("petID", pet.getPetID());
+        Intent intent;
+        if (myUser == null) {
+            intent = new Intent(this, SignInActivity.class);
+            Toast.makeText(this, "Please log in to have a complete experience.", Toast.LENGTH_SHORT).show();
+        } else {
+            intent = new Intent(this, SendtoownerActivity.class);
+            intent.putExtra("petID", pet.getPetID());
+        }
         startActivity(intent);
     }
 
